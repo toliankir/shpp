@@ -1,0 +1,25 @@
+
+#Task3 ul {
+	line-height: 10%;
+}
+
+#Task3 ul li {
+	list-style: none;
+	display: inline;
+}
+
+.Task8__canvas {
+word-spacing: -4px;
+line-height: 0;
+}
+
+.Task8__item{
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	background-color: red;
+}
+
+.Task8__marked{
+	background-color: black;
+}
