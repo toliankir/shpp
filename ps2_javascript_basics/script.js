@@ -134,6 +134,9 @@ function task5(){
 	addChild(parent,"span", age + " " + str);
 }
 
+/**
+Function for Task 7.
+*/
 function task6(){
 	console.log("Run task 6");
 	const dateFirst = new Date($("Task6FirstDate").value);
