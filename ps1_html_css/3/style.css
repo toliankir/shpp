@@ -106,7 +106,7 @@ html, body {
 	margin: 2rem 1rem 2rem 1rem;
 }
 
-.menu_item menulogo {
+.menu_item .menulogo {
 	color: white;
 	background-color: #22a6b3;
 	width: 4rem;
@@ -117,7 +117,7 @@ html, body {
 	font-size: 2rem;
 }
 
-.menu_item menutitle {
+.menu_item .menutitle {
 	font-family: sans-serif;
 	font-size: 0.9rem;
 	color: black;
@@ -125,9 +125,9 @@ html, body {
 	line-height: 3rem;
 }
 
-.menu_item menutext {
+.menu_item .menutext {
 	font-family: sans-serif;
-	font-size: 0.8rem;
+	font-size: 0.75rem;
 	color: black;	
 }
 
