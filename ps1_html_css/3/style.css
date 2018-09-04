@@ -23,7 +23,7 @@ html, body {
 	padding: 0rem 3rem 0rem 3rem;
 }
 
-.topperlogo {
+.topperLogo {
 	display: table-cell;
 	width: 20%;
 	vertical-align: middle;
@@ -32,22 +32,22 @@ html, body {
 	font-size: 3rem;
 }
 
-.logoletter {
+.logoLetter {
 	letter-spacing: -0.5rem;
 }
 
-.logoplus{
+.logoPlus{
 	color: #22a6b3;
 }
 
-.toppermenu{
+.topperMenu{
 	display: table-cell;
 	text-align: right;
 	vertical-align: middle;
 }
 
 
-.toppermenu a {
+.topperMenu a {
 	display: inline-block;
 	font-family: sans-serif;
 	border-bottom: 2px solid white;
@@ -59,7 +59,7 @@ html, body {
 	color: #353535;
 }
 
-.toppermenu a:hover {
+.topperMenu a:hover {
 	display: inline-block;
 	font-family: sans-serif;
 	border-bottom: 2px solid #22a6b3;
@@ -78,7 +78,7 @@ html, body {
 	
 }
 
-.contentleft {
+.contentLeft {
 	display: table-cell;
 	text-align: right;
 	width: 50%;
@@ -86,7 +86,7 @@ html, body {
 	padding-right: 5rem;
 }
 
-.contentright {
+.contentRight {
 	display: table-cell;
 	vertical-align: middle;
 	color:white;
@@ -99,14 +99,14 @@ html, body {
 	flex-direction: row;
 	margin: 1rem 1rem 1rem 1rem;
 }
-.menu_item {
+.menuItem {
 	background-color: white;
 	flex: 1;
 	text-align: center;
 	margin: 2rem 1rem 2rem 1rem;
 }
 
-.menu_item .menulogo {
+.menuItem .menuLogo {
 	color: white;
 	background-color: #22a6b3;
 	width: 4rem;
@@ -117,7 +117,7 @@ html, body {
 	font-size: 2rem;
 }
 
-.menu_item .menutitle {
+.menuItem .menuTitle {
 	font-family: sans-serif;
 	font-size: 0.9rem;
 	color: black;
@@ -125,7 +125,7 @@ html, body {
 	line-height: 3rem;
 }
 
-.menu_item .menutext {
+.menuItem .menuText {
 	font-family: sans-serif;
 	font-size: 0.75rem;
 	color: black;	
@@ -139,14 +139,14 @@ html, body {
 	padding: 3rem 0rem 2rem 0rem;
 }
 
-.inputtext {
+.inputText {
 	width: 50%;
 	margin-bottom: 0.5rem;
 	padding: 0.2rem;
 	color: grey;
 }
 
-.inputsubmit {
+.inputSubmit {
 	width: 25%;
 	margin-top: 1.5rem;
 	background-color: rgba(0,0,0,0);
@@ -166,12 +166,12 @@ html, body {
 	color: grey;
 }
 
-.bigfont {
+.bigFont {
 	font-size: 1.5rem;
 	font-family: sans-serif;
 }
 
-.simplefont {
+.simpleFont {
 	font-family: sans-serif;
 	font-size: 0.9rem;
 }
