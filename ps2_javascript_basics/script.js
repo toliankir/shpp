@@ -335,10 +335,10 @@ function task9(){
 	const room = Number($("Task9Room").value);
 	const rooms = Number($("Task9Rooms").value);
 	const floors = Number($("Task9Floors").value);
-	const entrance = Math.round(room / (rooms * floors));
-	const floor =  Math.round((room - (entrance * rooms)) / floors);
+	const entrance = Math.trunc(room / (rooms * floors));
+	const floor =  Math.trunc((room - ((entrance-1) * rooms * floors)) / rooms);
 	addChild(parent, "br", null);
-	addChild(parent, "span", "Entrance: " + entrance + ", floor: " + floor);
+	addChild(parent, "span", `Entrance: ${entrance}, floor: ${floor}`);
 }
 
 /**
