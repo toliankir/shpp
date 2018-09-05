@@ -11,8 +11,25 @@ Add child element to parent node with HTML value.
 function addChild(parent, element, value) {
 	console.log("Add element " + element + " with value:" + value)
 	let el = document.createElement(element);
-	if (value != null) el.innerHTML = value;
+	if (value != null) el.innerText = value;
 	parent.appendChild(el);
+}
+
+function ckeckNumber(element) {
+	if (Math.round(element.value) != element.value) {
+		console.log(`Wrong input data: ${element.value}`);
+		element.value = Math.round(element.value);
+	}
+}
+
+function checkByRegexp(element, reg) {
+	const regResult = element.value.toString().match(reg) != null;
+	console.log(`Checking ${element.value} for regexp ${reg.toString()} = ${regResult}`);
+	if (!regResult) {
+		element.value = "Wrong input data.";
+	}
+	
+	return regResult;
 }
 
 /**
@@ -81,7 +98,7 @@ function task3(){
 		const listNode = document.createElement("ul");
 		for (i2 = 0; i2 < i; i2++) {
 			const listItem = document.createElement("li");
-			listItem.innerHTML = "*";
+			listItem.innerText = "*";
 			listNode.appendChild(listItem);
 		}
 		drawElement.appendChild(listNode);
@@ -348,15 +365,16 @@ function task11(){
 	console.log("Run task 11");
 	const parent = $("Task11");
 	let text = $("Task11Text").value;
-	while (text.indexOf("http") != -1) {
-		text = text.replace("https://","").replace("http://","");
-	}
-	let links = text.split(",").sort();
+	// while (text.indexOf("http") != -1) {
+	// 	text = text.replace("https://","").replace("http://","");
+	// }
+	let links = text.split(",").sort().map(item => item.replace(/^https?:\/\//i, ""));
+
 
 	const list = document.createElement("ul");
 	for (let i=0; i< links.length; i++) {
 		const listItem = document.createElement("li");
-		listItem.innerHTML = links[i];
+		listItem.innerText = links[i];
 		list.appendChild(listItem);
 	}
 	parent.appendChild(list);
