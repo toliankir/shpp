@@ -1,77 +1,78 @@
 html, body {
-	background-color: #22a6b3;
-	padding: 0px;
-	margin: 0px;
+    background-color: #22a6b3;
+    padding: 0;
+    margin: 0;
 }
 
 #Task3 ul {
-	line-height: 10%;
+    line-height: 10%;
 }
 
 #Task3 ul li {
-	list-style: none;
-	display: inline;
+    list-style: none;
+    display: inline;
 }
 
 .Task8__canvas {
-word-spacing: -4px;
-line-height: 0;
+    word-spacing: -4px;
+    line-height: 0;
 }
 
-.Task8__item{
-	display: inline-block;
-	width: 50px;
-	height: 50px;
-	background-color: red;
+.Task8__item {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: red;
 }
 
-.Task8__marked{
-	background-color: black;
+.Task8__marked {
+    background-color: black;
 }
 
 .Task {
-	padding: 1rem;
+    padding: 1rem;
 }
 
 .Task:nth-child(2n) {
-	background-color: #1d95a1;
+    background-color: #1d95a1;
 }
 
-.Task span {
-	font-family: sans-serif;
-	font-size: 0.8rem;
-	font-weight: bold;
+span, p {
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
 }
 
 .Task h3 {
-	font-family: sans-serif;
-	font-size: 1.3rem;
-	font-weight: bold;	
-	color: #DDD;
-	line-height: 0rem;
+    font-family: sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #DDD;
+    line-height: 0;
 }
 
 .Task input {
-	font-family: sans-serif;
-	font-size: 0.8rem;
-	border-radius: 5px;
-	color: #DDD;
-	background-color: #1d95a1;
-	border: 2px solid #22a6b3;
-	padding: 6px;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    color: #DDD;
+    background-color: #1d95a1;
+    border: 2px solid #22a6b3;
+    padding: 6px;
+    width: 10rem;
 }
 
 .Task:nth-child(2n+1) input {
-	background-color: #22a6b3;
-	border: 2px solid #1d95a1;
+    background-color: #22a6b3;
+    border: 2px solid #1d95a1;
 }
 
 .Task textarea {
-	font-family: sans-serif;
-	font-size: 0.8rem;
-	border-radius: 5px;
-	color: #DDD;
-	background-color: #22a6b3;
-	border: 2px solid #1d95a1;
-	padding: 6px;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    color: #DDD;
+    background-color: #22a6b3;
+    border: 2px solid #1d95a1;
+    padding: 6px;
 }

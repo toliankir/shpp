@@ -1,104 +1,126 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>JavaScript Basics</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="style.css">
-	</head>
-	<body>
-		<div class="Task" id="Task1">
-			<h3>Task 1</h3>
-			<span>посчитать сумму чисел от -1000 до 1000</span><br>
-			<span>First number:</span>
-			<input title="First number" type="number" id="Task1Sum1" value="-1000" onchange="ckeckNumber(this);">
-			<span>Second number:</span>
-			<input title="Second number" type="number" id="Task1Sum2" value="1000" onchange="ckeckNumber(this);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task1();">
-		</div>
-		<div class="Task" id="Task2">
-			<h3>Task 2</h3>
-			<span>посчитать сумму чисел от -1000 до 1000, суммируя только числа которые заканчиваются на 2,3, и 7</span><br>
-			<span>First number:</span>
-			<input title="First number" type="number" id="Task2Sum1" value="-1000" onchange="ckeckNumber(this);">
-			<span>Second number:</span>
-			<input title="Second number" type="number" id="Task2Sum2" value="1000" onchange="ckeckNumber(this);">
-			<span>Last numbers to calculate:</span>
-			<input title="Last numeral of number" type="text" id="Task2Numbers" value="2,3,7" onchange="checkByRegexp(this,/^[0-9,]*$/);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task2();">
-		</div>
-		<div class="Task" id="Task3">
-			<h3>Task 3</h3>
-			<span>вывести на страницу список из 50 элементов вида:</span><br>
-			<input title="Rows count" type="number" step="1" min="0" id="Task3RowsCol" value="50" onchange="ckeckNumber(this);">
-			<input type="button" title="Draw" value="Draw" onclick="task3();">
-		</div>
-		<div class="Task" id="Task4">
-			<h3>Task 4</h3>
-			<span>Пользователь вводит время в секундах. Вывести в формате: hh:mm:ss (01:05:20)</span><br>
-			<input title="Seconds" type="number" id="Task4Seconds" value="3790" onchange="ckeckNumber(this);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task4();">
-		</div>
-		<div class="Task" id="Task5">
-			<h3>Task 5</h3>
-			<span>Для указанного возраста студента вывести фразу вида "22 года" ( 1 год, 20 лет....)</span><br>
-			<input title="Age" type="number" id="Task5Age" value="22" onchange="ckeckNumber(this);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task5();">
-		</div>
-		<div class="Task" id="Task6">
-			<h3>Task 6</h3>
-			<span>
+<head>
+    <title>JavaScript Basics</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="Task" id="Task1">
+    <h3>Task 1</h3>
+    <p>Посчитать сумму чисел от -1000 до 1000</p>
+    <span>First number:</span>
+    <form>
+    <input title="First number" type="number" id="Task1Sum1" value="-1000" min="-1000" readonly
+           onchange="checkNumber(this);">
+    <span>Second number:</span>
+    <input title="Second number" type="number" id="Task1Sum2" value="1000" readonly onchange="checkNumber(this);">
+    <input type="button" title="Calculate" value="Calculate" onclick="task1();">
+    </form>
+</div>
+<div class="Task" id="Task2">
+    <h3>Task 2</h3>
+    <p>Посчитать сумму чисел от -1000 до 1000, суммируя только числа которые заканчиваются на 2,3, и 7</p>
+    <form>
+    <span>First number:</span>
+    <input title="First number" type="number" id="Task2Sum1" value="-1000" onchange="checkNumber(this);">
+    <span>Second number:</span>
+    <input title="Second number" type="number" id="Task2Sum2" value="1000" onchange="checkNumber(this);">
+    <span>Last numbers to calculate:</span>
+    <input title="Last numeral of number" type="text" id="Task2Numbers" value="2,3,7"
+           onchange="checkByRegexp(this,/^[0-9,]*$/);">
+    <input type="button" title="Calculate" value="Calculate" onclick="task2();">
+    </form>
+</div>
+<div class="Task" id="Task3">
+    <h3>Task 3</h3>
+    <p>Вывести на страницу список из 50 элементов вида:</p>
+    <form>
+    <input title="Rows count" type="number" step="1" min="0" id="Task3RowsCol" value="50" onchange="checkNumber(this);">
+    <input type="button" title="Draw" value="Draw" onclick="task3();">
+    </form>
+</div>
+<div class="Task" id="Task4">
+    <h3>Task 4</h3>
+    <p>Пользователь вводит время в секундах. Вывести в формате: hh:mm:ss (01:05:20)</p>
+    <form>
+    <input title="Seconds" type="number" id="Task4Seconds" value="3790" onchange="checkNumber(this);">
+    <input type="button" title="Calculate" value="Calculate" onclick="task4();">
+    </form>
+</div>
+<div class="Task" id="Task5">
+    <h3>Task 5</h3>
+    <p>Для указанного возраста студента вывести фразу вида "22 года" ( 1 год, 20 лет....)</p>
+    <form>
+    <input title="Age" type="number" id="Task5Age" value="22" onchange="checkNumber(this);">
+    <input type="button" title="Calculate" value="Calculate" onclick="task5();">
+    </form>
+</div>
+<div class="Task" id="Task6">
+    <h3>Task 6</h3>
+    <p>
 				Вычислить промежуток времени<br>
 				Пользователь вводит две даты (в формате "October 13, 2014 11:13:00"). Вычислить промежуток времени прошедший между датами и получить массив, в котором будут года (365 дней), месяца (30 дней), дни, часы, минуты, секунды.<br>
 				Вывести пользователю (например): между датами прошло 2 года, 1 месяц, 3 дня, 5 часов, 10 минут, 15 секунд
-			</span><br>
-			<input title="First date" type="datetime" id="Task6FirstDate" value="1984-11-15 00:00:00" onchange="checkByRegexp(this, /^\d{4,4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}$/);">
-			<input title="Second date" type="datetime" id="Task6SecondDate" value="2018-09-04 00:00:00" onchange="checkByRegexp(this, /^\d{4,4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}$/);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task6();">
-		</div>
-		<div class="Task" id="Task7">
-			<h3>Task 7</h3>
-			<span>
+			</p>
+    <form>
+    <input title="First date" type="text" id="Task6FirstDate" value="1984-11-15, 00:00:00">
+    <input title="Second date" type="text" id="Task6SecondDate" value="2018-09-04, 00:00:00">
+    <input type="button" title="Calculate" value="Calculate" onclick="task6();">
+    </form>
+</div>
+<div class="Task" id="Task7">
+    <h3>Task 7</h3>
+    <p>
 				Знаки зодиака<br>
 				Пользователь вводит дату в формате 2014-12-31, а получает знак зодиака в этот день (с картинкой).
-			</span><br>
-			<input title="Birthday" type="text" id="Task7Birthday" value="1984-11-15" onchange="checkByRegexp(this, /^\d{4,4}-\d{1,2}-\d{1,2}$/);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task7();">
-		</div>
-		<div class="Task" id="Task8">
-			<h3>Task 8</h3>
-			<span>
+			</p>
+    <form>
+    <input title="Birthday" type="text" id="Task7Birthday" value="1984-11-15"
+           onchange="checkByRegexp(this, /^\d{4}-\d{1,2}-\d{1,2}$/);">
+    <input type="button" title="Calculate" value="Calculate" onclick="task7();">
+    </form>
+</div>
+<div class="Task" id="Task8">
+    <h3>Task 8</h3>
+    <p>
 				Шахматная доска<br>
 				Пользователь вводит габариты доски (в формате ‘8x8’). Вывести шахматную доску.
-			</span><br>
-			<input title="Board Size" type="text" id="Task8boardSize" value="8x8" onchange="checkByRegexp(this,/^[0-9]{1,}x[0-9]{1,}$/);">
-			<input type="button" title="Draw" value="Draw" onclick="task8();">
-		</div>
-		<div class="Task" id="Task9">
-			<h3>Task 9</h3>
-			<span>
-				Определить номер подъезда и этаж по номеру квартиры.<br>
-
-Количество подъездов, квартир на пролете, количество этажей дома также задает пользователь в инпутах.
-			</span><br>
-			<span>Room: </span><input title="Room number" type="number" id="Task9Room" value="30" onchange="ckeckNumber(this);">
-			<span>Rooms: </span><input title="Rooms" type="number" id="Task9Rooms" value="3" onchange="ckeckNumber(this);">
-			<span>Floors</span><input title="Floors" type="number" id="Task9Floors" value="5" onchange="ckeckNumber(this);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task9();">
-		</div>
-		<div class="Task" id="Task10">
-			<h3>Task 10</h3>
-			<span>Найти сумму цифр введённого числа.</span><br>
-			<input title="Input" type="number" id="Task10Input" value="12345" onchange="ckeckNumber(this);">
-			<input type="button" title="Calculate" value="Calculate" onclick="task10();">
-		</div>
-		<div class="Task" id="Task11">
-			<h3>Task 11</h3>
-			<span>
-				Дан некий textarea, в который пользователь вводит ссылки через запятую. Когда textarea станет неактивным удалить http:// и https:// из ссылок и вывести их отсортированным по алфавиту списком ссылок.
-			</span><br>
-			<textarea onblur="task11();" id="Task11Text" rows=5 cols=80>https://www.google.com/,https://www.ixbt.com/,https://programming.kr.ua/ru
-			</textarea><br>
-		</div>
-	</body>
-	<script type="text/javascript" src="script.js"></script>
+			</p>
+    <form>
+    <input title="Board Size" type="text" id="Task8boardSize" value="8x8"
+           onchange="checkByRegexp(this,/^[0-9]{1+}x[0-9]{1+}$/);">
+    <input type="button" title="Draw" value="Draw" onclick="task8();">
+    </form>
+</div>
+<div class="Task" id="Task9">
+    <h3>Task 9</h3>
+    <p>Определить номер подъезда и этаж по номеру квартиры.<br>
+    Количество подъездов, квартир на пролете, количество этажей дома также задает пользователь в инпутах.
+			</p>
+    <form>
+    <span>Room: </span><input title="Room number" type="number" id="Task9Room" value="30" onchange="checkNumber(this);">
+    <span>Rooms: </span><input title="Rooms" type="number" id="Task9Rooms" value="3" onchange="checkNumber(this);">
+    <span>Floors</span><input title="Floors" type="number" id="Task9Floors" value="5" onchange="checkNumber(this);">
+    <span>Entrances: </span><input title="Room number" type="number" id="Task9Entrances" value="6" onchange="checkNumber(this);">
+    <input type="button" title="Calculate" value="Calculate" onclick="task9();">
+    </form>
+</div>
+<div class="Task" id="Task10">
+    <h3>Task 10</h3>
+    <p>Найти сумму цифр введённого числа.</p>
+    <form>
+    <input title="Input" type="number" id="Task10Input" value="12345" onchange="checkByRegexp(this,/^[0-9.,-]*$/);">
+    <input type="button" title="Calculate" value="Calculate" onclick="task10();">
+    </form>
+</div>
+<div class="Task" id="Task11">
+    <h3>Task 11</h3>
+    <p>Дан некий textarea, в который пользователь вводит ссылки через запятую. Когда textarea станет неактивным удалить http:// и https:// из ссылок и вывести их отсортированным по алфавиту списком ссылок.</p>
+    <form>
+        <textarea title="Type urls" onblur="task11();" id="Task11Text" rows=5 cols=80>https://www.google.com/,https://www.ixbt.com/,https://programming.kr.ua/ru</textarea>
+    </form>
+</div>
+</body>
+<script type="text/javascript" src="script.js"></script>
 </html>

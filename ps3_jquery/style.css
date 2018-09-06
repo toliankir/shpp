@@ -10,18 +10,7 @@
 .customSelectClicked {
 	border-radius: 6px 6px 0 0;
 	border: 1px solid #22a6b3;
-	border-bottom: 1px solid #bebebe;
-	width: 200px;
-	color: #bebebe;
-	word-spacing: -0.3rem;
-	display: flex;
 }
-
-.customSelect:hover > .customSelect__Right{
-	background-color: #bebebe;
-	border-radius: 0 5px 5px 0;
-}
-
 
 
 .customSelect__Left, .customSelect__Right {
@@ -51,8 +40,6 @@
 .customSelect__Right {
 	width: 30px;
 	text-align: center;
-	background-color: #eee;
-	border-left: 1px solid #bebebe;
 	border-radius: 0 6px 6px 0;
 	color:black;
 }
