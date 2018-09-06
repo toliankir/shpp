@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ps3_jquery</title>
+		<script
+		src="https://code.jquery.com/jquery-3.3.1.js"
+		integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+		crossorigin="anonymous"></script>
+	</head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<body>
+		<div class="customSelect">
+			<div class="customSelect__Left"><span>Select something.</span></div>
+			<div class="customSelect__Right">v</div>
+			<div id="Items" class="Select__Container">
+				<div class="Item"><img class="Item__Image" src="img/1.png"><span class="Item__Text">Test 2</span></div>
+				<div class="Item"><img class="Item__Image" src="img/2.png"><span class="Item__Text">Test 2</span></div>
+				<div class="Item"><img class="Item__Image" src="img/3.png"><span class="Item__Text">Test 3</span></div>
+			</div>
+		</div>
+		<br><br><br><br><br><br><br><br>
+		<div class="customSelect">
+			<div class="customSelect__Left">
+				<img src="img/3.png">
+				<span>Test 3</span>
+			</div>
+			<div class="customSelect__Right">v</div>
+			<div id="Items" class="Select__Container">
+				<div class="Item"><img class="Item__Image" src="img/4.png"><span class="Item__Text">Test 2</span></div>
+				<div class="Item"><img class="Item__Image" src="img/5.png"><span class="Item__Text">Test 2</span></div>
+				<div class="Item"><img class="Item__Image" src="img/6.png"><span class="Item__Text">Test 3</span></div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$("div.customSelect").click((event) => {
+			if ($(event.target).parent().attr("class") == "customSelect"){
+				$(event.target).parent().removeClass("customSelect");
+				$(event.target).parent().addClass("customSelectClicked");
+
+				$($(event.target).parent()).find(".Select__Container").css("top",
+					$(event.target).parent().position().top + $(event.target).parent().height()+2);
+				$(event.target).parent().find(".Select__Container").css("left",
+					$(event.target).parent().position().left);
+				$(event.target).parent().find(".Select__Container").css("display", "block");
+
+			} else if ($(event.target).parent().attr("class") == "customSelectClicked"){
+				$(event.target).parent().removeClass("customSelectClicked");
+				$(event.target).parent().addClass("customSelect");
+
+				$($(event.target).parent()).find(".Select__Container").css("display", "none");
+			}
+	
+		});
+
+		$(".Item").click((event) => {
+			
+			let itemHtml = $(event.target).html();
+			console.log(itemHtml);
+			$(event.target).parent().parent().find(".customSelect__Left").html("TEST");
+		});
+	
+
+	</script>
+</html>
