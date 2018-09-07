@@ -1,78 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Test page</title>
-  <style media="screen">
-    body {
-      margin: 0;
-    }
-    
-    * {
-      box-sizing: border-box;
-    }
-    
-    .column {
-      font-size: 4rem;
-      color: white;
-      font-weight: bold;
-      font-family: Helvetica;
-      text-align: center;
-      padding: 1rem;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test page</title>
+    <style media="screen">
+        body {
+            margin: 0;
+        }
 
-    .floats {
-      overflow: hidden;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    .floats .column {
-      float: left;
-      width: 33.33%;
-    }
-    
-    .blocks {
-      word-spacing: -0.25rem;
-    }
-    .blocks .column {
-      display: inline-block;
-      width: 33.33%;
-    }
+        .column {
+            font-size: 4rem;
+            color: white;
+            font-weight: bold;
+            font-family: Helvetica;
+            text-align: center;
+            padding: 1rem;
+        }
 
-    .flexbox {
-      display: flex;
-    }
-    .flexbox .column {
-      flex: 1;
-    }
+        .floats {
+            overflow: hidden;
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-  </style>
+        .floats .column {
+            float: left;
+            width: 33.33%;
+        }
+
+        .blocks {
+            word-spacing: -0.25rem;
+        }
+
+        .blocks .column {
+            display: inline-block;
+            width: 33.33%;
+        }
+
+        .flexbox {
+            display: flex;
+        }
+
+        .flexbox .column {
+            flex: 1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    </style>
 </head>
 <body>
-  <section class="floats">
+<section class="floats">
     <div class="column" style="background-color: #1abc9c">1</div>
     <div class="column" style="background-color: #2ecc71">2</div>
-    <div class="column" style="background-color: #3498db">3</div>    
-  </section>
-  <section class="blocks">
+    <div class="column" style="background-color: #3498db">3</div>
+</section>
+<section class="blocks">
     <div class="column" style="background-color: #f39c12">1</div>
     <div class="column" style="background-color: #d35400">2</div>
     <div class="column" style="background-color: #c0392b">3</div>
-  </section>
-  <section class="flexbox">
+</section>
+<section class="flexbox">
     <div class="column" style="background-color: #16a085">1</div>
     <div class="column" style="background-color: #27ae60">2</div>
     <div class="column" style="background-color: #2980b9">3</div>
-  </section>
-  <section class="grid">
+</section>
+<section class="grid">
     <div class="column" style="background-color: #f1c40f">1</div>
     <div class="column" style="background-color: #e67e22">2</div>
     <div class="column" style="background-color: #e74c3c">3</div>
-  </section>
+</section>
 </body>
 </html>
