@@ -20,6 +20,9 @@ function addChild(parent, element, value = null, id = null) {
     parent.appendChild(el);
 }
 
+/**
+ Checks number in input element
+ */
 function checkNumber(element) {
     if (element && Math.round(element.value) != element.value) {
         console.log(`Wrong input data: ${element.value}`);
@@ -27,6 +30,9 @@ function checkNumber(element) {
     }
 }
 
+/**
+ *Checks input element value by regExp
+ */
 function checkByRegexp(element, reg) {
     const regResult = reg.test(element.value.toString());
     console.log(`Checking ${element.value} for regexp ${reg.toString()} = ${regResult}`);
@@ -36,6 +42,7 @@ function checkByRegexp(element, reg) {
     return regResult;
 }
 
+//Creates div object or clear it is if exist.
 function createOrResetDivElement(id) {
     let element = $(id);
     if (element) {
@@ -46,6 +53,20 @@ function createOrResetDivElement(id) {
     }
     return element;
 }
+
+//Gets the correct word for the plural
+function getWordForNumber(zero, one, two, inputNumber) {
+    if (/^\d*0$/.test(inputNumber.toString()) ||
+        /^\d*1[1-9]$/.test(inputNumber.toString()) ||
+        /^\d*[5-9]$/.test(inputNumber.toString())) {
+        return zero;
+    } else if (/^\d*1$/.test(inputNumber.toString())) {
+        return one;
+    } else if (/^\d*[2-4]$/.test(inputNumber.toString())) {
+        return two;
+    }
+}
+
 
 /**
  Function for Task 1.
@@ -62,7 +83,9 @@ function task1() {
         result += i;
     }
 
-    resultElement.innerHTML = `<span>${result}</span>`;
+    addChild(resultElement, "span", result.toString());
+    console.log(resultElement);
+    // resultElement.innerHTML = `<span>${result}</span>`;
     parent.appendChild(resultElement);
     console.log(`Task 1: first input value = ${startNumber}, second input value = ${endNumber}, result = ${result}`);
 }
@@ -86,8 +109,7 @@ function task2() {
                 result += i;
             }
         }
-
-        resultElement.innerHTML = `<span>${result}</span>`;
+        addChild(resultElement, "span", result.toString());
         parent.appendChild(resultElement);
         console.log(`Tusk 2: first input value = ${startNumber}, second input value = ${endNumber}, result = ${result}`);
     } else {
@@ -135,7 +157,7 @@ function task4() {
     const m = Math.round((seconds - (h * 60 * 60)) / 60).toString().padStart(2, "0");
     const s = seconds - (h * 60 * 60) - (m * 60).toString().padStart(2, "0");
 
-    resultElement.innerHTML = `<span>${h}:${m}:${s}</span>`;
+    addChild(resultElement, "span", `${h}:${m}:${s}`);
     parent.appendChild(resultElement);
 }
 
@@ -144,75 +166,61 @@ function task4() {
  */
 function task5() {
     console.log("Run task 5");
-    const ar1 = ["лет", 0, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-    const ar2 = ["год", 1,];
-    const ar3 = ["года", 2, 3, 4];
     const parent = $("Task5");
+    const resultElement = createOrResetDivElement("task5ResultElement");
     const age = Number($("Task5Age").value);
-    const lastNumeral = Number(age.toString()[age.toString().length - 1]);
-    let str = "";
-
-    if (ar1.indexOf(age) != -1 || ar1.indexOf(lastNumeral) != -1) {
-        str = ar1[0];
-    }
-    if (ar2.indexOf(age) != -1 || ar2.indexOf(lastNumeral) != -1) {
-        str = ar2[0];
-    }
-    if (ar3.indexOf(age) != -1 || ar3.indexOf(lastNumeral) != -1) {
-        str = ar3[0];
-    }
-
-    addChild(parent, "br", null);
-    addChild(parent, "span", age + " " + str);
+    addChild(resultElement, "span", `${age} ${getWordForNumber("лет", "год", "года", age)}`);
+    parent.appendChild(resultElement);
 }
 
 /**
  Function for Task 6.
  */
+
 function checkDate(inDate) {
-    const calcDate = new Date(inDate.toString().replace(", ", "T"));
-    console.log(inDate.toString().replace(", ", "T"));
-    const dateArray = inDate.toString().match(/[0-9]{1,4}/g);
-    console.log(dateArray);
-    // console.log(dateArray[1].toString() + "/" + (calcDate.getMonth() + 1).toString());
-    if (!isNaN(calcDate) &&
-        Number(dateArray[0]) === Number(calcDate.getFullYear()) &&
-        Number(dateArray[1]) === Number(calcDate.getMonth() + 1) &&
-        dateArray[2].toString() === calcDate.getDate().toString()) {
+    const calcDate = new Date(inDate.toString());
+    if (!isNaN(calcDate)) {
+        console.log(1234);
         return true;
     } else {
         return false;
     }
-
 }
 
 function task6() {
     console.log("Run task 6");
-    const dateFirst = new Date($("Task6FirstDate").value);
-    const dateSecond = new Date($("Task6SecondDate").value);
-    const parent = $("Task6");
-    const resultElement = createOrResetDivElement("task6ResultElement");
+    if (checkDate($("Task6FirstDate").value) && checkDate($("Task6SecondDate").value)) {
+        const dateFirst = new Date($("Task6FirstDate").value);
+        const dateSecond = new Date($("Task6SecondDate").value);
+        if (dateFirst.getTime() < dateSecond.getTime()) {
+            const parent = $("Task6");
+            const resultElement = createOrResetDivElement("task6ResultElement");
 
-    if (checkDate($("Task6FirstDate").value)) {
-        let diffSec = (dateSecond.getTime() - dateFirst.getTime()) / 1000;
-        const year = Math.floor(diffSec / (365 * 24 * 60 * 60));
-        diffSec = diffSec - year * 365 * 24 * 60 * 60;
-        const month = Math.floor(diffSec / (31 * 24 * 60 * 60));
-        diffSec = diffSec - month * 31 * 24 * 60 * 60;
-        const days = Math.floor(diffSec / (24 * 60 * 60));
-        diffSec = diffSec - days * 24 * 60 * 60;
-        const hour = Math.floor(diffSec / (60 * 60));
-        diffSec = diffSec - hour * 60 * 60;
-        const minutes = Math.floor(diffSec / (60));
-        diffSec = diffSec - minutes * 60;
-        const seconds = diffSec;
+            let diff = (dateSecond.getTime() - dateFirst.getTime()) / 1000;
+            const year = Math.floor(diff / (365 * 24 * 60 * 60));
+            diff -= year * 365 * 24 * 60 * 60;
+            const month = Math.floor(diff / (30 * 24 * 60 * 60));
+            diff -= month * 30 * 24 * 60 * 60;
+            const days = Math.floor(diff / (24 * 60 * 60));
+            diff -= days * 24 * 60 * 60;
+            const hours = Math.floor(diff / (60 * 60));
+            diff -= hours * 60 * 60;
+            const minutes = Math.floor(diff / (60));
+            diff -= minutes * 60;
+            const seconds = diff;
 
-        diff = [year, month, days, hour, minutes, seconds];
-        addChild(parent, "br", null);
-        addChild(parent, "span", "между датами прошло " + year + " года, " + month +
-            " месяц, " + days + " дня, " + hour + " часов, " + minutes + " минут, " + seconds + " секунд");;
+            addChild(resultElement, "span", `между датами прошло ${year} ${getWordForNumber("лет", "год", "года", year)}, ` +
+                `${month} ${getWordForNumber("месяцев", "месяц", "месяца", month)}, ` +
+                `${days} ${getWordForNumber("дней", "день", "дня", days)}, ` +
+                `${hours} ${getWordForNumber("часов", "час", "часа", hours)}, ` +
+                `${minutes} ${getWordForNumber("минут", "минута", "минут", minutes)}, ` +
+                `${seconds} ${getWordForNumber("секунд", "секунда", "секунд", seconds)}`);
+            parent.appendChild(resultElement);
+        } else {
+            alert("Wrong time interval.");
+        }
     } else {
-        alert("Wrong date format!");
+        alert("Wrong date format.");
     }
 }
 
@@ -309,14 +317,12 @@ function task7() {
 
     for (let i = 0; i < dates.length; i++) {
         if (dates[i].start <= dayOfTheYear && dates[i].end >= dayOfTheYear) {
-            const result = document.createElement("p");
-            resultElement.innerText = dates[i].title;
-            resultElement.appendChild(result);
+            addChild(resultElement, "p", dates[i].title);
 
             const elImg = document.createElement("img");
             elImg.setAttribute("src", "img/" + dates[i].link);
-
             resultElement.appendChild(elImg);
+
             parent.appendChild(resultElement);
         }
     }
@@ -327,15 +333,8 @@ function task7() {
  */
 function task8() {
     console.log("Run task 8");
-    let drawElement;
-    //If div exist, reset content
-    if (drawElement = $("boardConvas")) {
-        drawElement.innerHTML = "";
-    } else {
-        drawElement = document.createElement("div");
-        drawElement.setAttribute("id", "boardConvas");
-        drawElement.setAttribute("class", "Task8__canvas");
-    }
+    let drawElement = createOrResetDivElement("boardConvas");
+    drawElement.setAttribute("class", "Task8__canvas");
 
     const parent = $("Task8")
     const size = $("Task8boardSize").value.split("x");
@@ -381,7 +380,7 @@ function task9() {
     if (room > 0 && room <= entrances * floors * rooms && rooms > 0 && floors > 0 && entrances > 0) {
         const entrance = Math.trunc((room - 1) / (rooms * floors));
         const floor = Math.trunc((room - (entrance * floors * rooms)) / rooms);
-        resultElement.innerHTML = `<span>Entrance: ${entrance + 1}, floor: ${floor === 0 ? 1 : floor}</span>`;
+        addChild(resultElement, "span", `Entrance: ${entrance + 1}, floor: ${floor === 0 ? 1 : floor}`);
         parent.appendChild(resultElement);
     } else {
         alert("Input date is out of range");
@@ -405,7 +404,7 @@ function task10() {
             result += numeral;
         }
 
-        resultElement.innerHTML = `<span>${result}</span>`;
+        addChild(resultElement, "span", result);
         parent.appendChild(resultElement);
     } else {
         alert("Input correct data.");
