@@ -1,8 +1,9 @@
 $(".vote__input").click((event) => {
-    if ($(".vote input[name='question']:checked")[0]) {
+    const question = $(".vote input[name='question']:checked")[0];
+    if (question) {
         if (localStorage.getItem("voted") !== "true") {
             localStorage.setItem("voted", "true");
-            window.location.replace(`make_vote.php?question=${$(".vote input[name='question']:checked")[0].value}`);
+            window.location.replace(`make_vote.php?question='${question.value}'`);
         } else {
             alert("You already voted.");
         }
@@ -18,11 +19,10 @@ $("#resetVote").click((event) => {
 
 function initVote() {
     if (localStorage.getItem("voted") === "true") {
-        console.log($("#resetVote"));
         $("#resetVote").css("visibility", "visible");
     }
 }
 
-$(document).ready(() => {
+$(document).ready((event) => {
     initVote();
 });

@@ -1,7 +1,7 @@
 <?php
 require("vote.php");
 $vote = new Vote("vote.dat");
-if (!empty($_GET["question"])) {
+if (isset($_GET["question"])) {
     $vote->makeVote($_GET["question"]);
 }
 ?><!DOCTYPE html>
@@ -57,7 +57,7 @@ if (!empty($_GET["question"])) {
 <body>
 <?php
 
-if (!empty($_GET["question"])) {
+if (isset($_GET["question"])) {
     if ($vote->getQuestionById($_GET["question"])) {
         echo "<h3>You vote for " . $vote->getQuestionById($_GET["question"]) . "</h3>";
     } else {

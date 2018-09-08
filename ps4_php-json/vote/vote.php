@@ -57,10 +57,10 @@ class Vote
      */
     public function makeVote($id)
     {
-        if (array_key_exists($id, $this->voteData["results"])) {
-            $this->voteData["results"][$id]++;
+//        if ($id > 0 && $id < sizeof($this->voteData)) {
+            $this->voteData["results"][((int)$id)]++;
             $this->saveVoteFile();
-        }
+//        }
     }
 
     /**
