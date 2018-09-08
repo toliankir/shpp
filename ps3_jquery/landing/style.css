@@ -1,0 +1,175 @@
+html, body {
+    background-color: white;
+    margin: 0;
+    height: 100%;
+}
+
+.container {
+    background-color: white;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr minmax(850px, 6fr) 1fr;
+    grid-template-rows: 4rem 1fr 1fr 1fr;
+    grid-template-areas: ". topper ." ". content ." ". menu ." ". contact .";
+}
+
+.header {
+    background-color: white;
+    grid-area: topper;
+    display: table;
+    height: 4rem;
+    padding: 0 3rem 0 3rem;
+}
+
+.headerLogo {
+    display: table-cell;
+    width: 20%;
+    vertical-align: middle;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.headerLogo__logoLetter {
+    letter-spacing: -0.5rem;
+}
+
+.headerLogo__logoPlus {
+    color: #22a6b3;
+}
+
+.headerMenu {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.headerMenu a {
+    display: inline-block;
+    font-family: sans-serif;
+    border-bottom: 2px solid white;
+    font-weight: bold;
+    width: 10rem;
+    text-align: center;
+    font-size: 0.9rem;
+    margin: 0;
+    color: #353535;
+}
+
+.headerMenu a:hover {
+    display: inline-block;
+    font-family: sans-serif;
+    border-bottom: 2px solid #22a6b3;
+    font-weight: bold;
+    width: 10rem;
+    text-align: center;
+    margin: 0;
+    color: #353535;
+}
+
+.content {
+    background-color: #22a6b3;
+    grid-area: content;
+    display: table;
+}
+
+.contentLeft {
+    display: table-cell;
+    padding: 2rem 0 2rem 5rem;
+    text-align: right;
+    width: 50%;
+    vertical-align: middle;
+    padding-right: 5rem;
+}
+
+.contentRight {
+    display: table-cell;
+    padding: 2rem 5rem 2rem 0;
+    vertical-align: middle;
+    color: white;
+}
+
+.menu {
+    background-color: white;
+    grid-area: menu;
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 1rem 1rem 1rem;
+}
+
+.menuItem {
+    background-color: white;
+    flex: 1;
+    text-align: center;
+    margin: 2rem 1rem 2rem 1rem;
+}
+
+.menuItem__menuLogo {
+    color: white;
+    background-color: #22a6b3;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 2rem;
+    display: inline-block;
+    line-height: 4rem;
+    font-size: 2rem;
+}
+
+.menuItem__menuTitle {
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    color: black;
+    font-weight: bold;
+    line-height: 3rem;
+}
+
+.menuItem__menuText {
+    font-family: sans-serif;
+    font-size: 0.75rem;
+    color: black;
+}
+
+.contact {
+    background-color: #1d95a1;
+    grid-area: contact;
+    color: white;
+    text-align: center;
+    padding: 3rem 0 2rem 0;
+}
+
+.inputText {
+    width: 50%;
+    margin-bottom: 0.5rem;
+    padding: 0.2rem;
+    color: grey;
+}
+
+.inputSubmit {
+    width: 25%;
+    margin-top: 1.5rem;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 0.4rem;
+    border: 1px solid white;
+    border-radius: 3px;
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.contact textarea {
+    width: 50%;
+    height: 4rem;
+    margin-bottom: 0.5rem;
+    padding: 0.2rem;
+    color: grey;
+}
+
+.bigFont {
+    font-size: 1.5rem;
+    font-family: sans-serif;
+}
+
+.simpleFont {
+    font-family: sans-serif;
+    font-size: 0.9rem;
+}
