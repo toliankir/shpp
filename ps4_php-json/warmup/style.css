@@ -1,0 +1,77 @@
+html, body {
+    background-color: #22a6b3;
+    padding: 0;
+    margin: 0;
+}
+
+.Task {
+    padding: 1rem;
+}
+
+.Task:nth-child(2n) {
+    background-color: #1d95a1;
+}
+
+span, p {
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.Task h3 {
+    font-family: sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #DDD;
+    line-height: 0;
+}
+
+.Task input {
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    color: #DDD;
+    background-color: #1d95a1;
+    border: 2px solid #22a6b3;
+    padding: 6px;
+    width: 10rem;
+}
+
+.Task:nth-child(2n+1) input {
+    background-color: #22a6b3;
+    border: 2px solid #1d95a1;
+}
+
+.Task textarea {
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    color: #DDD;
+    background-color: #22a6b3;
+    border: 2px solid #1d95a1;
+    padding: 6px;
+}
+
+.Task3 ul {
+    list-style: none;
+}
+
+.Task3 ul li {
+    line-height: 1rem;
+}
+
+.Task4__canvas {
+    word-spacing: -4px;
+    line-height: 0;
+}
+
+.Task4__item {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+}
+
+.Task4__marked {
+    background-color: black;
+}
