@@ -52,6 +52,14 @@ if (isset($_GET["question"])) {
             margin-left: auto;
             margin-right: auto;
         }
+
+        a{
+            text-decoration: underline;
+            font-family: sans-serif;
+            font-size: 1rem;
+            color: #eee;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +75,6 @@ if (isset($_GET["question"])) {
 }
 ?>
 <div id="piechart" style="width: 900px; height: 500px;"></div>
-
+<a href="index.php">Go back.</a>
 </body>
 </html>

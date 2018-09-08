@@ -57,8 +57,9 @@ class Vote
      */
     public function makeVote($id)
     {
+        echo ($id);
 //        if ($id > 0 && $id < sizeof($this->voteData)) {
-            $this->voteData["results"][((int)$id)]++;
+            $this->voteData["results"][$id]++;
             $this->saveVoteFile();
 //        }
     }

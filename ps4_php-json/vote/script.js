@@ -3,7 +3,7 @@ $(".vote__input").click((event) => {
     if (question) {
         if (localStorage.getItem("voted") !== "true") {
             localStorage.setItem("voted", "true");
-            window.location.replace(`make_vote.php?question='${question.value}'`);
+            window.location.replace(`make_vote.php?question=${question.value}`);
         } else {
             alert("You already voted.");
         }
