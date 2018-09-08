@@ -5,6 +5,7 @@ class Vote
     private $voteFile;
     private $voteData;
 
+
     /**
      * Vote constructor.
      * @param $voteFile file name of vote json file;
@@ -20,7 +21,8 @@ class Vote
      */
     private function readVoteFile()
     {
-        $this->voteData = json_decode(file_get_contents($this->voteFile), true);
+             $this->voteData = json_decode(file_get_contents($this->voteFile), true);
+
     }
 
     /**
@@ -44,10 +46,14 @@ class Vote
      */
     public function printQuestions()
     {
-        foreach ($this->voteData["questions"] as $key => $value) {
-            echo("<li><input title=\"" . $value .
-                "\" type=\"radio\" name=\"question\" value=\"" . $key .
-                "\">" . $value . "</li>\n");
+        try {
+            foreach ($this->voteData["questions"] as $key => $value) {
+                echo("<li><input title=\"" . $value .
+                    "\" type=\"radio\" name=\"question\" value=\"" . $key .
+                    "\">" . $value . "</li>\n");
+            }
+        } catch (Exception $e) {
+            echo "1233";
         }
     }
 
@@ -57,11 +63,12 @@ class Vote
      */
     public function makeVote($id)
     {
-        echo ($id);
-//        if ($id > 0 && $id < sizeof($this->voteData)) {
+        if ($id > 0 && $id < sizeof($this->voteData)) {
             $this->voteData["results"][$id]++;
             $this->saveVoteFile();
-//        }
+        } else {
+            echo "Incorrect question number.";
+        }
     }
 
     /**
