@@ -129,7 +129,7 @@ html, body {
     color: black;
 }
 
-.contact {
+.footer {
     background-color: #1d95a1;
     grid-area: contact;
     color: white;
@@ -156,7 +156,7 @@ html, body {
     text-align: center;
 }
 
-.contact textarea {
+.footer textarea {
     width: 50%;
     height: 4rem;
     margin-bottom: 0.5rem;
