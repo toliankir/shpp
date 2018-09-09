@@ -1,6 +1,52 @@
 <?php
+class VoteServer
+{
+    private $voteFile;
+    private $voteData;
 
-class Vote
+    /**
+     * Vote constructor.
+     * @param $voteFile file name of vote json file;
+     */
+    public function __construct($voteFile)
+    {
+        $this->voteFile = $voteFile;
+        $this->readVoteFile();
+    }
+
+    /**
+     * Read json file and save json data in local object variable.
+     */
+    private function readVoteFile()
+    {
+        $this->voteData = json_decode(file_get_contents($this->voteFile), true);
+
+    }
+
+    /**
+     * Save vote results to file in json format.
+     */
+    private function saveVoteFile()
+    {
+        file_put_contents($this->voteFile, json_encode($this->voteData));
+    }
+
+    /**
+     * Increment question counter.
+     * @param $id Id of question
+     */
+    public function makeVote($id)
+    {
+        if ($id > 0 && $id < sizeof($this->voteData["results"])) {
+            $this->voteData["results"][$id]++;
+            $this->saveVoteFile();
+        } else {
+            echo "Incorrect question number.";
+        }
+    }
+}
+
+class VoteClient
 {
     private $voteFile;
     private $voteData;
@@ -21,16 +67,8 @@ class Vote
      */
     private function readVoteFile()
     {
-             $this->voteData = json_decode(file_get_contents($this->voteFile), true);
+        $this->voteData = json_decode(file_get_contents($this->voteFile), true);
 
-    }
-
-    /**
-     * Save vote results to file in json format.
-     */
-    private function saveVoteFile()
-    {
-        file_put_contents($this->voteFile, json_encode($this->voteData));
     }
 
     /**
@@ -54,20 +92,6 @@ class Vote
             }
         } catch (Exception $e) {
             echo "1233";
-        }
-    }
-
-    /**
-     * Increment question counter.
-     * @param $id Id of question
-     */
-    public function makeVote($id)
-    {
-        if ($id > 0 && $id < sizeof($this->voteData)) {
-            $this->voteData["results"][$id]++;
-            $this->saveVoteFile();
-        } else {
-            echo "Incorrect question number.";
         }
     }
 

@@ -23,6 +23,6 @@ function initVote() {
     }
 }
 
-$(document).ready((event) => {
+$(document).ready(() => {
     initVote();
 });

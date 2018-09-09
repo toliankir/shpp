@@ -1,41 +1,16 @@
 <?php
 require("vote.php");
-$vote = new Vote("vote.dat");
+const VOTE_FILE = "vote.dat";
+$voteServer = new VoteServer(VOTE_FILE);
 if (isset($_GET["question"])) {
-    $vote->makeVote($_GET["question"]);
+    $voteServer->makeVote($_GET["question"]);
 }
 ?><!DOCTYPE html>
 <html>
 <head>
-    <title>Vote result.</title>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {'packages': ['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-                <?php $vote->printResult(); ?>
-            ]);
-
-            var options = {
-                title: 'Result: <?php $vote->printTitle(); ?>',
-                backgroundColor: '#22a6b3',
-                titleTextStyle: {
-                    color: '#eee',
-                    fontName: 'sans-serif',
-                    fontSize: 20,
-                    bold: true,
-                    italic: false
-                }
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-            chart.draw(data, options);
-        }
-    </script>
+    <title>Send vote.</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <style>
         body {
             background-color: #22a6b3;
@@ -47,34 +22,13 @@ if (isset($_GET["question"])) {
             font-family: sans-serif;
             font-size: 20px;
         }
-
-        #piechart {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        a{
-            text-decoration: underline;
-            font-family: sans-serif;
-            font-size: 1rem;
-            color: #eee;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
-<?php
-
-if (isset($_GET["question"])) {
-    if ($vote->getQuestionById($_GET["question"])) {
-        echo "<h3>You vote for " . $vote->getQuestionById($_GET["question"]) . "</h3>";
-    } else {
-        echo "<h3>Something went wrong.</h3>";
-    }
-
-}
-?>
-<div id="piechart" style="width: 900px; height: 500px;"></div>
-<a href="index.php">Go back.</a>
 </body>
+<script>
+$(document).ready(() => {
+    window.location.replace("result.php");
+});
+</script>
 </html>
