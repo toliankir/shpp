@@ -373,7 +373,7 @@ function task9() {
     if (room > 0 && room <= entrances * floors * rooms && rooms > 0 && floors > 0 && entrances > 0) {
         const entrance = Math.trunc((room - 1) / (rooms * floors));
         const floor = Math.trunc((room - (entrance * floors * rooms)) / rooms);
-        addChild(resultElement, "span", `Entrance: ${entrance + 1}, floor: ${floor === 0 ? 1 : floor}`);
+        addChild(resultElement, "span", `Entrance: ${entrance + 1}, floor: ${floor + 1}`);
         parent.appendChild(resultElement);
     } else {
         alert("Input date is out of range");
