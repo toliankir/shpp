@@ -366,14 +366,15 @@ function task8() {
  */
 function task9() {
     const parent = document.getElementById("Task9");
-    const room = Number(document.getElementById("Task9Room").value);
+    let room = Number(document.getElementById("Task9Room").value);
     const rooms = Number(document.getElementById("Task9Rooms").value);
     const floors = Number(document.getElementById("Task9Floors").value);
     const entrances = Number(document.getElementById("Task9Entrances").value);
     const resultElement = createOrResetDivElement("task9ResultElement");
 
     if (room > 0 && room <= entrances * floors * rooms && rooms > 0 && floors > 0 && entrances > 0) {
-        const entrance = Math.trunc((room - 1) / (rooms * floors));
+        room--;
+        const entrance = Math.trunc((room) / (rooms * floors));
         const floor = Math.trunc((room - (entrance * floors * rooms)) / rooms);
         addChild(resultElement, "span", `Entrance: ${entrance + 1}, floor: ${floor + 1}`);
         parent.appendChild(resultElement);
