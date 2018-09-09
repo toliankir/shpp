@@ -15,7 +15,7 @@
                onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
         <span>Second number:</span>
         <input title="Second number" type="number" id="Task1Sum2" value="1000"
-               onchange="checkByRegexp(this, /^-[0-9,.]+$/);">
+               onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
         <input type="button" title="Calculate" value="Calculate" onclick="task1();">
     </form>
 </div>
@@ -25,13 +25,13 @@
     <form>
         <span>First number:</span>
         <input title="First number" type="number" id="Task2Sum1" value="-1000"
-               onchange="checkByRegexp(this, /^-[0-9,.]+$/);">
+               onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
         <span>Second number:</span>
         <input title="Second number" type="number" id="Task2Sum2" value="1000"
-               onchange="checkByRegexp(this, /^-[0-9,.]+$/);">
+               onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
         <span>Last numbers to calculate:</span>
         <input title="Last numeral of number" type="text" id="Task2Numbers" value="2,3,7"
-               onchange="checkByRegexp(this,/^-[0-9,.]+$/);">
+               onchange="checkByRegexp(this,/^-?[0-9,.]+$/);">
         <input type="button" title="Calculate" value="Calculate" onclick="task2();">
     </form>
 </div>
