@@ -12,10 +12,10 @@
     <form>
         <span>First number:</span>
         <input title="First number" type="number" id="Task1Sum1" value="-1000" min="-1000"
-               onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
+               onchange="checkByRegexp(this, /^[-+]?[0-9]+[,.]?.*$/);">
         <span>Second number:</span>
         <input title="Second number" type="number" id="Task1Sum2" value="1000"
-               onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
+               onchange="checkByRegexp(this, /^[-+]?[0-9]+[,.]?.*$/);">
         <input type="button" title="Calculate" value="Calculate" onclick="task1();">
     </form>
 </div>
@@ -25,13 +25,13 @@
     <form>
         <span>First number:</span>
         <input title="First number" type="number" id="Task2Sum1" value="-1000"
-               onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
+               onchange="checkByRegexp(this, /^[-+]?[0-9]+[,.]?.*$/);">
         <span>Second number:</span>
         <input title="Second number" type="number" id="Task2Sum2" value="1000"
-               onchange="checkByRegexp(this, /^-?[0-9,.]+$/);">
+               onchange="checkByRegexp(this, /^[-+]?[0-9]+[,.]?.*$/);">
         <span>Last numbers to calculate:</span>
         <input title="Last numeral of number" type="text" id="Task2Numbers" value="2,3,7"
-               onchange="checkByRegexp(this,/^-?[0-9,.]+$/);">
+               onchange="checkByRegexp(this,/^([0-9],?)*$/);">
         <input type="button" title="Calculate" value="Calculate" onclick="task2();">
     </form>
 </div>
@@ -70,8 +70,10 @@
         Вывести пользователю (например): между датами прошло 2 года, 1 месяц, 3 дня, 5 часов, 10 минут, 15 секунд
     </p>
     <form>
-        <input title="First date" type="text" id="Task6FirstDate" value="February 13, 2014 11:13:00">
-        <input title="Second date" type="text" id="Task6SecondDate" value="September 07, 2018 12:14:00">
+        <input title="First date" type="text" id="Task6FirstDate" value="February 13, 2014 11:13:00"
+               onchange="checkByRegexp(this, /^[a-zA-Z]+ \d{1,2}, \d{4} \d{1,2}:\d{1,2}:\d{1,2}$/i);">
+        <input title="Second date" type="text" id="Task6SecondDate" value="September 07, 2018 12:14:00"
+               onchange="checkByRegexp(this, /^[a-zA-Z]+ \d{1,2}, \d{4} \d{1,2}:\d{1,2}:\d{1,2}$/i);">
         <input type="button" title="Calculate" value="Calculate" onclick="task6();">
     </form>
 </div>
@@ -106,8 +108,10 @@
     <form>
         <span>Room: </span><input title="Room number" type="number" id="Task9Room" value="30"
                                   onchange="checkByRegexp(this, /^[0-9]+$/);">
-        <span>Rooms: </span><input title="Rooms" type="number" id="Task9Rooms" value="3" onchange="checkByRegexp(this, /^[0-9]+$/);">
-        <span>Floors</span><input title="Floors" type="number" id="Task9Floors" value="5" onchange="checkByRegexp(this, /^[0-9]+$/);">
+        <span>Rooms: </span><input title="Rooms" type="number" id="Task9Rooms" value="3"
+                                   onchange="checkByRegexp(this, /^[0-9]+$/);">
+        <span>Floors</span><input title="Floors" type="number" id="Task9Floors" value="5"
+                                  onchange="checkByRegexp(this, /^[0-9]+$/);">
         <span>Entrances: </span><input title="Room number" type="number" id="Task9Entrances" value="6"
                                        onchange="checkByRegexp(this, /^[0-9]+$/);">
         <input type="button" title="Calculate" value="Calculate" onclick="task9();">
@@ -117,7 +121,8 @@
     <h3>Task 10</h3>
     <p>Найти сумму цифр введённого числа.</p>
     <form>
-        <input title="Input" type="number" id="Task10Input" value="12345" onchange="checkByRegexp(this,/^[0-9,.-]+$/);">
+        <input title="Input" type="number" id="Task10Input" value="12345"
+               onchange="checkByRegexp(this,/^[-+]*\d+[.,]?\d*$/);">
         <input type="button" title="Calculate" value="Calculate" onclick="task10();">
     </form>
 </div>

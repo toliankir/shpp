@@ -37,13 +37,15 @@ function createOrResetDivElement(id) {
 
 //Gets the correct word for the plural
 function getWordForNumber(zero, one, two, inputNumber) {
-    if (/^\d*0$/.test(inputNumber.toString()) ||
-        /^\d*1[1-9]$/.test(inputNumber.toString()) ||
-        /^\d*[5-9]$/.test(inputNumber.toString())) {
+    lastOne = inputNumber % 10;
+    lastTwo = inputNumber % 100;
+    if ((lastTwo >= 10 && lastTwo <= 19) || lastOne == 0 || (lastOne >= 5 && lastOne <= 9)) {
         return zero;
-    } else if (/^\d*1$/.test(inputNumber.toString())) {
+    }
+    if (lastOne == 1) {
         return one;
-    } else if (/^\d*[2-4]$/.test(inputNumber.toString())) {
+    }
+    if (lastOne >= 2 && lastOne <= 4) {
         return two;
     }
 }
