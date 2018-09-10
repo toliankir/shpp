@@ -54,6 +54,7 @@ html, body {
     font-size: 0.9rem;
     margin: 0;
     color: #353535;
+    cursor: pointer;
 }
 
 .headerMenu a:hover {
