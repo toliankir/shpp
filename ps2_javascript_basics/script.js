@@ -37,6 +37,10 @@ function createOrResetDivElement(id) {
 
 //Gets the correct word for the plural
 function getWordForNumber(zero, one, two, inputNumber) {
+    while (inputNumber.toString().length > 3) {1234567890
+        inputNumber = inputNumber.toString().substr(3, inputNumber.toString().length);
+    }
+    console.log(inputNumber);
     lastOne = inputNumber % 10;
     lastTwo = inputNumber % 100;
     if ((lastTwo >= 10 && lastTwo <= 19) || lastOne == 0 || (lastOne >= 5 && lastOne <= 9)) {
@@ -48,6 +52,7 @@ function getWordForNumber(zero, one, two, inputNumber) {
     if (lastOne >= 2 && lastOne <= 4) {
         return two;
     }
+
 }
 
 /**
@@ -142,9 +147,9 @@ function task4() {
     let seconds = Number(document.getElementById("Task4Seconds").value);
     const parent = document.getElementById("Task4");
     const resultElement = createOrResetDivElement("task4ResultElement");
-    const h = Math.round(seconds / 60 / 60).toString().padStart(2, "0");
+    const h = Math.floor(seconds / 60 / 60).toString().padStart(2, "0");
     seconds -= (h * 60 * 60);
-    const m = Math.round(seconds / 60).toString().padStart(2, "0");
+    const m = Math.floor(seconds / 60).toString().padStart(2, "0");
     const s = (seconds - (m * 60)).toString().padStart(2, "0");
 
     addChild(resultElement, "span", `${h}:${m}:${s}`);
@@ -189,7 +194,8 @@ function task6() {
             ["секунд", "секунда", "секунд"]
         ];
         const monthSize = [31, (dateFirst.getFullYear() % 4 === 0 ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        const firstDateMaxSize = [60, 60, 24, monthSize[dateFirst.getMonth()], 12, 0];
+        // const firstDateMaxSize = [60, 60, 24, monthSize[dateFirst.getMonth()], 12, 0];
+        const firstDateMaxSize = [0, 12, monthSize[dateFirst.getMonth()], 24, 60, 60];
 
         let timeDifferent = [
             dateSecond.getFullYear() - dateFirst.getFullYear(),
@@ -333,7 +339,7 @@ function task8() {
     drawElement.setAttribute("class", "Task8__canvas");
 
     const parent = document.getElementById("Task8");
-    const size = document.getElementById("Task8boardSize").value.split("x");
+    const size = document.getElementById("Task8boardSize").value.split(/[xх]/);
     const w = Number(size[0]);
     const h = Number(size[1]);
     let color = false;
