@@ -87,7 +87,7 @@ body {
     grid-area: menu;
     display: flex;
     flex-direction: row;
-    margin: 1rem 1rem 1rem 1rem;
+    padding: 0 2rem 0 2rem;
 }
 
 .menu-item {
