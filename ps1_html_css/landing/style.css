@@ -1,11 +1,10 @@
-html, body {
-    background-color: white;
-    margin: 0;
+html {
     height: 100%;
 }
 
-.container {
+body {
     background-color: white;
+    margin: 0;
     height: 100%;
     display: grid;
     grid-template-columns: 1fr minmax(850px, 6fr) 1fr;
@@ -21,7 +20,7 @@ html, body {
     padding: 0 3rem 0 3rem;
 }
 
-.headerLogo {
+.header-logo {
     display: table-cell;
     width: 20%;
     vertical-align: middle;
@@ -30,21 +29,22 @@ html, body {
     font-size: 3rem;
 }
 
-.headerLogo__logoLetter {
+.header-logo__letter {
     letter-spacing: -0.5rem;
 }
 
-.headerLogo__logoPlus {
+.header-logo__plus {
     color: #22a6b3;
 }
 
-.headerMenu {
+.header-menu {
     display: table-cell;
     text-align: right;
     vertical-align: middle;
+    font-size: 0;
 }
 
-.headerMenu a {
+.header-menu__link {
     display: inline-block;
     font-family: sans-serif;
     border-bottom: 2px solid white;
@@ -57,7 +57,7 @@ html, body {
     cursor: pointer;
 }
 
-.headerMenu a:hover {
+.header-menu__link:hover {
     border-bottom: 2px solid #22a6b3;
 }
 
@@ -67,7 +67,7 @@ html, body {
     display: table;
 }
 
-.contentLeft {
+.content-left {
     display: table-cell;
     padding: 2rem 0 2rem 5rem;
     text-align: right;
@@ -75,7 +75,7 @@ html, body {
     vertical-align: middle;
 }
 
-.contentRight {
+.content-right {
     display: table-cell;
     padding: 2rem 5rem 2rem 0;
     vertical-align: middle;
@@ -90,14 +90,14 @@ html, body {
     margin: 1rem 1rem 1rem 1rem;
 }
 
-.menuItem {
+.menu-item {
     background-color: white;
     flex: 1;
     text-align: center;
     margin: 2rem 1rem 2rem 1rem;
 }
 
-.menuItem__menuLogo {
+.menu-item__logo {
     color: white;
     background-color: #22a6b3;
     width: 4rem;
@@ -108,7 +108,7 @@ html, body {
     font-size: 2rem;
 }
 
-.menuItem__menuTitle {
+.menu-item__title {
     font-family: sans-serif;
     font-size: 0.9rem;
     color: black;
@@ -116,7 +116,7 @@ html, body {
     line-height: 3rem;
 }
 
-.menuItem__menuText {
+.menu-item__text {
     font-family: sans-serif;
     font-size: 0.75rem;
     color: black;
@@ -130,14 +130,14 @@ html, body {
     padding: 3rem 0 2rem 0;
 }
 
-.inputText {
+.input-text {
     width: 50%;
     margin-bottom: 0.5rem;
     padding: 0.2rem;
     color: grey;
 }
 
-.inputSubmit {
+.input-submit {
     width: 25%;
     margin-top: 1.5rem;
     background-color: rgba(0, 0, 0, 0);
@@ -150,7 +150,7 @@ html, body {
     cursor: pointer;
 }
 
-.footer textarea {
+.input-textarea {
     width: 50%;
     height: 4rem;
     margin-bottom: 0.5rem;
@@ -158,12 +158,12 @@ html, body {
     color: grey;
 }
 
-.bigFont {
+.big-font {
     font-size: 1.5rem;
     font-family: sans-serif;
 }
 
-.simpleFont {
+.simple-font {
     font-family: sans-serif;
     font-size: 0.9rem;
 }

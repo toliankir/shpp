@@ -6,92 +6,85 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.js"
-            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-            crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container">
     <div class="header">
-        <div class="headerLogo">
-            <span class="headerLogo__logoLetter">N</span>
-            <span class="headerLogo__logoPlus">++</span>
+        <div class="header-logo">
+            <span class="header-logo__letter">N</span>
+            <span class="header-logo__plus">++</span>
         </div>
-        <div class="headerMenu">
-            <a onclick="scrollToClass('.content');">PRODUCTS</a>
-            <a onclick="scrollToClass('.menu');">ABOUT US</a>
-            <a onclick="scrollToClass('.contact');">CONTACT US</a>
+        <div class="header-menu">
+            <a class="header-menu__link">PRODUCTS</a>
+            <a class="header-menu__link">ABOUT US</a>
+            <a class="header-menu__link">CONTACT US</a>
         </div>
     </div>
     <div class="content">
-        <div class="contentLeft">
+        <div class="content-left">
             <img src="phone.png"/>
         </div>
-        <div class="contentRight">
-            <p class="bigFont">Contact us!</p>
-            <p class="simpleFont">Apollo 7 was an October 1968 human spaceflight mission carried out by the United
-                States. It was the irst mission in the United States' Apollo program to carry a crew into space. It was
-                also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November 1966.</p>
-            <input type="Submit" class="inputSubmit" value="Buy now!">
+        <div class="content-right">
+            <p class="big-font">Contact us!</p>
+            <p class="simple-font">Apollo 7 was an October 1968 human spaceflight mission carried out by the United
+                States. It was the first mission in the United States' Apollo program to carry a crew into space. It was
+                also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November 1966.</p>
+            <input title="Submit" type="submit" class="input-submit" value="Buy now!">
         </div>
     </div>
     <div class="menu">
-        <div class="menuItem">
-            <div class="menuItem__menuLogo"><i class="fas fa-chart-pie"></i></div>
-            <div class="menuItem__menuTitle">Web development</div>
-            <div class="menuItem__menuText">Apollo 7 was an October 1968 human spaceflight mission carried out by the
-                United States. It was the irst mission in the United States' Apollo program to carry a crew into space.
-                It was also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November
+        <div class="menu-item">
+            <div class="menu-item__logo"><i class="fas fa-chart-pie"></i></div>
+            <div class="menu-item__title">Web development</div>
+            <div class="menu-item__text">Apollo 7 was an October 1968 human spaceflight mission carried out by the
+                United States. It was the first mission in the United States' Apollo program to carry a crew into space.
+                It was also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November
                 1966.
             </div>
         </div>
-        <div class="menuItem">
-            <div class="menuItem__menuLogo"><i class="fab fa-android"></i></div>
-            <div class="menuItem__menuTitle">Web development</div>
-            <div class="menuItem__menuText">Apollo 7 was an October 1968 human spaceflight mission carried out by the
-                United States. It was the irst mission in the United States' Apollo program to carry a crew into space.
-                It was also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November
+        <div class="menu-item">
+            <div class="menu-item__logo"><i class="fab fa-android"></i></div>
+            <div class="menu-item__title">Web development</div>
+            <div class="menu-item__text">Apollo 7 was an October 1968 human spaceflight mission carried out by the
+                United States. It was the first mission in the United States' Apollo program to carry a crew into space.
+                It was also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November
                 1966.
             </div>
         </div>
-        <div class="menuItem">
-            <div class="menuItem__menuLogo"><i class="fas fa-cloud"></i></div>
-            <div class="menuItem__menuTitle">Web development</div>
-            <div class="menuItem__menuText">Apollo 7 was an October 1968 human spaceflight mission carried out by the
-                United States. It was the irst mission in the United States' Apollo program to carry a crew into space.
-                It was also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November
+        <div class="menu-item">
+            <div class="menu-item__logo"><i class="fas fa-cloud"></i></div>
+            <div class="menu-item__title">Web development</div>
+            <div class="menu-item__text">Apollo 7 was an October 1968 human spaceflight mission carried out by the
+                United States. It was the first mission in the United States' Apollo program to carry a crew into space.
+                It was also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November
                 1966.
             </div>
         </div>
 
     </div>
     <div class="footer">
-        <span class="bigFont">Contact us!<br></span><br>
+        <span class="big-font">Contact us!<br></span><br>
         <form>
-            <input title="name" class="inputText" type="text" value="Type your name, please"><br>
-            <input title="email" class="inputText" type="text" value="Type your email, please"><br>
-            <input title="phone" class="inputText" type="text" value="Type your phone, please"><br>
-            <textarea title="Text information"></textarea><br>
+            <input title="name" class="input-text" type="text" value="Type your name, please"><br>
+            <input title="email" class="input-text" type="text" value="Type your email, please"><br>
+            <input title="phone" class="input-text" type="text" value="Type your phone, please"><br>
+            <textarea class="input-textarea" title="Text information"></textarea><br>
             <input title="Radio box" type="radio" name="radio_test"><span class="simpleFont">Radio 1</span><br>
             <input title="Radio box" type="radio" name="radio_test" checked><span class="simpleFont">Radio 2</span><br>
             <input title="Radio box" type="radio" name="radio_test"><span class="simpleFont">Radio 3</span><br>
             <input title="checkbox" type="checkbox" name="cb"><span class="simpleFont">Checkbox 1</span><br>
             <input title="checkbox" type="checkbox" name="cb" checked=""><span class="simpleFont">Checkbox 2</span><br>
-            <input title="password" class="inputText" type="password"><br>
-            <input title="Submit" class="inputSubmit" type="button" value="Simple button"><br>
+            <input title="password" class="input-text" type="password"><br>
+            <input title="Submit" class="input-submit" type="button" value="Simple button"><br>
             <input title="Color" type="color"><br>
             <input title="Date" type="date"><br>
-            <input title="EMail" class="inputText" type="email" name="email"><br>
-            <input title="File" class="inputSubmit" type="file"><br>
-            <input title="Number" class="inputText" type="number" min="1" max="5"><br>
-            <input title="Week" class="inputText" type="week"><br>
-            <input title="Range" class="inputSubmit" type="range" name="points" min="0" max="10"><br>
-            <input title="Reset" class="inputSubmit" type="reset"><br>
-            <input title="Submit" class="inputSubmit" type="submit" value="Send email!">
+            <input title="EMail" class="input-text" type="email" name="email"><br>
+            <input title="File" class="input-submit" type="file"><br>
+            <input title="Number" class="input-text" type="number" min="1" max="5"><br>
+            <input title="Week" class="input-text" type="week"><br>
+            <input title="Range" class="input-submit" type="range" name="points" min="0" max="10"><br>
+            <input title="Reset" class="input-submit" type="reset"><br>
+            <input title="Submit" class="input-submit" type="submit" value="Send email!">
         </form>
     </div>
-</div>
 </body>
-
 </html>
