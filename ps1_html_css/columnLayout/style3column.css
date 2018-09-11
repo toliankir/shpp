@@ -1,0 +1,45 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.header {
+    background-color: grey;
+    flex: 1;
+    min-height: 150px;
+}
+
+.main {
+    background-color: yellow;
+    flex: 6;
+    display: flex;
+    min-height: 300px;
+}
+
+.footer {
+    background-color: red;
+    min-height: 150px;
+}
+
+.menu {
+    background-color: green;
+    min-width: 200px;
+    flex: 2;
+}
+
+.content {
+    background-color: orange;
+    flex: 8;
+}
+
+.rightColumn {
+    background-color: pink;
+    min-width: 100px;
+    flex: 2;
+}

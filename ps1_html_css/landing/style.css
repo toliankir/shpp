@@ -7,9 +7,9 @@ body {
     margin: 0;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr minmax(850px, 6fr) 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 4rem 1fr 1fr 1fr;
-    grid-template-areas: ". topper ." ". content ." ". menu ." ". contact .";
+    grid-template-areas: "topper" "content" "menu" "contact";
 }
 
 .header {
@@ -135,6 +135,7 @@ body {
     margin-bottom: 0.5rem;
     padding: 0.2rem;
     color: grey;
+    float: none;
 }
 
 .input-submit {
@@ -148,6 +149,7 @@ body {
     font-size: 1rem;
     text-align: center;
     cursor: pointer;
+    float: none;
 }
 
 .input-textarea {
