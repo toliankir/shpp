@@ -1,37 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Lesson 3, Task 3</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
-<div class="header">
+
+<header class="header">
     <div class="header-logo">
         <span class="header-logo__letter">N</span>
         <span class="header-logo__plus">++</span>
     </div>
-    <div class="header-menu">
+    <nav class="header-menu">
         <a class="header-menu__link">PRODUCTS</a>
         <a class="header-menu__link">ABOUT US</a>
         <a class="header-menu__link">CONTACT US</a>
+    </nav>
+</header>
+
+<section class="content">
+    <div class="content__left-part">
+        <img src="phone.png">
     </div>
-</div>
-<div class="content">
-    <div class="content-left">
-        <img src="phone.png"/>
-    </div>
-    <div class="content-right">
-        <p class="big-font">Contact us!</p>
-        <p class="simple-font">Apollo 7 was an October 1968 human spaceflight mission carried out by the United
+    <div class="content__right-part">
+        <h3>Our awesome app is ready to use!</h3>
+        <p>Apollo 7 was an October 1968 human spaceflight mission carried out by the United
             States. It was the first mission in the United States' Apollo program to carry a crew into space. It was
             also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November 1966.</p>
-        <input title="Submit" type="submit" class="input-submit" value="Buy now!">
+        <form>
+            <input title="Buy now!" type="button" class="input input-button-header" value="Buy now!">
+        </form>
     </div>
-</div>
-<div class="menu">
+</section>
+
+<nav class="directions">
     <div class="menu-item">
         <div class="menu-item__logo"><i class="fas fa-chart-pie"></i></div>
         <div class="menu-item__title">Web development</div>
@@ -59,32 +66,40 @@
             1966.
         </div>
     </div>
+</nav>
 
-</div>
-<div class="footer">
-    <span class="big-font">Contact us!</span>
-    <form>
-        <input title="name" class="input-text" type="text" value="Type your name, please">
-        <input title="email" class="input-text" type="text" value="Type your email, please">
-        <input title="phone" class="input-text" type="text" value="Type your phone, please">
-        <textarea class="input-textarea" title="Text information"></textarea>
-        <input title="Radio box" type="radio" name="radio_test"><span class="simple-font">Radio 1</span>
-        <input title="Radio box" type="radio" name="radio_test" checked><span class="simple-font">Radio 2</span>
-        <input title="Radio box" type="radio" name="radio_test"><span class="simple-font">Radio 3</span>
-        <input title="checkbox" type="checkbox" name="cb"><span class="simple-font">Checkbox 1</span>
-        <input title="checkbox" type="checkbox" name="cb" checked=""><span class="simple-font">Checkbox 2</span>
-        <input title="password" class="input-text" type="password">
-        <input title="Submit" class="input-submit" type="button" value="Simple button">
-        <input title="Color" class="input-text" type="color">
-        <input title="Date" class="input-text" type="date">
-        <input title="EMail" class="input-text" type="email" name="email">
-        <input title="File" class="input-submit" type="file">
-        <input title="Number" class="input-text" type="number" min="1" max="5">
-        <input title="Week" class="input-text" type="week">
-        <input title="Range" class="input-submit" type="range" name="points" min="0" max="10">
-        <input title="Reset" class="input-submit" type="reset">
-        <input title="Submit" class="input-submit" type="submit" value="Send email!">
+<footer class="footer">
+    <h3>Contact us!</h3>
+    <form action="#">
+        <input title="name" class="input input-text-footer" id="name" type="text" placeholder="Type your name, please">
+        <input title="email" class="input input-text-footer" type="text" placeholder="Type your email, please">
+        <input title="phone" class="input input-text-footer" type="text" placeholder="Type your phone, please">
+        <textarea class="input input-text-footer" title="Text information"></textarea>
+        <input title="Submit" class="input input-button-footer" type="submit" value="Send email!">
     </form>
-</div>
+    <form action="#">
+        <ul class="form-list">
+            <li><input title="Radio box" type="radio" id="r1" name="radio_test"><label for="r1">Radio 1</label></li>
+            <li><input title="Radio box" type="radio" id="r2" name="radio_test" checked><label for="r2">Radio 2</label>
+            </li>
+            <li><input title="Radio box" type="radio" id="r3" name="radio_test"><label for="r3">Radio 3</label></li>
+        </ul>
+        <ul class="form-list">
+            <li><input title="checkbox" type="checkbox" id="cb1" name="cb"><label for="cb1">Checkbox 1</label></li>
+            <li><input title="checkbox" type="checkbox" id="cb2" name="cb" checked=""><label for="cb2">Checkbox
+                2</label></li>
+        </ul>
+        <input title="password" class="input input-text-footer" type="password">
+        <input title="Submit" class="input input-button-footer" type="button" value="Simple button">
+        <input title="Color" class="input input-text-footer" type="color">
+        <input title="Date" class="input input-text-footer" type="date">
+        <input title="EMail" class="input input-text-footer" type="email" name="email">
+        <input title="File" class="input input-button-footer" type="file">
+        <input title="Number" class="input input-text-footer" type="number" min="1" max="5">
+        <input title="Week" class="input input-text-footer" type="week">
+        <input title="Range" class="input input-button-footer" type="range" name="points" min="0" max="10">
+        <input title="Reset" class="input input-button-footer" type="reset">
+    </form>
+</footer>
 </body>
 </html>

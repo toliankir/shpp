@@ -1,14 +1,14 @@
-html, body {
-    margin: 0;
+html{
     height: 100%;
 }
 
-.container {
+body {
+    margin: 0;
+    height: 100%;
     display: grid;
     grid-template-columns: 1fr 5fr;
     grid-template-rows: 1fr 7fr 1fr;
     grid-template-areas: "header header" "menu cont" "footer footer";
-    height: 100%;
 }
 
 .header {

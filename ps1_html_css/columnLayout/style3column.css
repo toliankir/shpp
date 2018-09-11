@@ -1,12 +1,12 @@
-html, body {
-    margin: 0;
+html {
     height: 100%;
 }
 
-.container {
+body {
+    margin: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    height: 100%;
 }
 
 .header {
@@ -38,7 +38,7 @@ html, body {
     flex: 8;
 }
 
-.rightColumn {
+.right-column {
     background-color: pink;
     min-width: 100px;
     flex: 2;
