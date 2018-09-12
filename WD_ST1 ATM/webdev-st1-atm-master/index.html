@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ATM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+</head>
+<body>
+<form id="loginForm" class="form-atm" action="#">
+    <label for="number">id:</label><input type="text" id="number" value="0025">
+    <label for="pin">pass:</label><input type="text" id="pin" value="123">
+    <input title="login" id="login" type="button" value="Login">
+</form>
+
+<form id="logOutForm" class="form-atm" action="#">
+    <ul class="form-atm__list">
+        <li><input title="Get debet" id="getDebet" type="button" value="Get debet"></li>
+        <li><input title="LogOut" id="logOut" type="button" value="LogOut"></li>
+        <li>
+            <label for="amount">Amount:</label><input id="amount" type="number" value="0">
+        </li>
+        <li>
+            <input title="Put" id="put" type="button" value="Put">
+            <input title="Get" id="get" type="button" value="Get">
+        </li>
+    </ul>
+</form>
+
+<script type="text/javascript" src="atm-template.js"></script>
+<script>
+    const loginForm = document.getElementById("loginForm");
+    const logOutForm = document.getElementById("logOutForm");
+
+    window.addEventListener("load", init());
+
+    function init() {
+        logOutForm.style.display = "none";
+    }
+
+    function showElements() {
+        if (ATM.is_auth === true) {
+            loginForm.style.display = "none";
+            logOutForm.style.display = "block";
+        }
+        if (ATM.is_auth === false) {
+            loginForm.style.display = "block";
+            logOutForm.style.display = "none";
+
+        }
+    }
+
+    document.getElementById("login").addEventListener("click", () => {
+        const number = document.getElementById("number").value;
+        const pin = document.getElementById("pin").value;
+        ATM.auth(number, pin);
+        showElements();
+    });
+
+    document.getElementById("logOut").addEventListener("click", () => {
+        ATM.logout();
+        showElements();
+    });
+
+    document.getElementById("getDebet").addEventListener("click", () => {
+        ATM.check();
+    });
+
+    document.getElementById("put").addEventListener("click", () => {
+        const amount = document.getElementById("amount").value;
+        ATM.loadCash(amount);
+    });
+
+    document.getElementById("get").addEventListener("click", () => {
+        const amount = document.getElementById("amount").value;
+        ATM.getCash(amount);
+    });
+</script>
+</body>
+
+</html>
