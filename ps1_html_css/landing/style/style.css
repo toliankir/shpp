@@ -100,14 +100,16 @@ body {
   color: black;
   font-weight: bold;
   line-height: 3rem;
+  margin: 0;
 }
 .menu-item__text {
   font-family: sans-serif;
   font-size: 0.75rem;
   color: black;
+  margin: 0;
 }
 .footer {
-  padding: 0 10% 0 10%;
+  padding: 2rem 10% 0 10%;
   min-width: 800px;
   background-color: #1e929e;
   text-align: center;
@@ -115,7 +117,7 @@ body {
 h3 {
   color: white;
   font-family: sans-serif;
-  margin: 3rem 0 3rem 0;
+  margin: 0 0 2rem 0;
 }
 label {
   color: white;
