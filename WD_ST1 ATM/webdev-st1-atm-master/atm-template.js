@@ -68,7 +68,6 @@ const ATM = {
                             this.msgOut(`User ${this.current_user} gets ${amount}`);
                         }
 
-
                     } else {
                         this.msgOut(`User ${this.current_user} error, amount less then 0, ${amount}`);
                     }
