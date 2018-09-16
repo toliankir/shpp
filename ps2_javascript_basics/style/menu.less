@@ -1,0 +1,124 @@
+@import "variables";
+
+.task-menu {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.task-menu-item {
+  flex: 1;
+  text-align: center;
+  font-family: @main-font;
+  color: @main-font-color;
+  font-size: 0.9rem;
+  line-height: @header-line-height;
+  cursor: pointer;
+
+  &__inner-item {
+    background-color: @main-background-color;
+  }
+
+  &--active {
+    background-color: @main-background-color;
+  }
+
+  &--active > &__inner-item {
+    background-color: @background-color-active;
+    border-radius: @menu-border-radius @menu-border-radius 0 0;
+  }
+
+  &--left-from-active {
+    background-color: @background-color-active;
+  }
+
+  &--left-from-active > &__inner-item {
+    background-color: @main-background-color;
+    border-radius: 0 0 @menu-border-radius 0;
+  }
+
+  &--right-from-active {
+    background-color: @background-color-active;
+  }
+
+  &--right-from-active > &__inner-item {
+    background-color: @main-background-color;
+    border-radius: 0 0 0 @menu-border-radius;
+  }
+
+  //Over
+  &--over {
+    background: @gradient-vertical;
+  }
+
+  &--over > &__inner-item {
+    border-radius: @menu-border-radius @menu-border-radius 0 0;
+    background-color: @background-color-over;
+  }
+
+  &--over-left-from-active {
+       background: @gradient-vertical,
+       linear-gradient(90deg, @main-background-color 0%, @main-background-color 50%, @background-color-active 51%, @background-color-active 100%);
+       background-blend-mode: unset;
+     }
+
+  &--over-left-from-active > &__inner-item {
+    border-radius: @menu-border-radius @menu-border-radius @menu-border-radius 0;
+    background-color: @background-color-over;
+  }
+
+  &--over-right-from-active {
+    background: @gradient-vertical,
+    linear-gradient(90deg, @background-color-active 0%, @background-color-active 50%, @main-background-color 51%, @main-background-color 100%);
+    background-blend-mode: unset;
+  }
+
+  &--over-right-from-active > &__inner-item {
+    border-radius: @menu-border-radius @menu-border-radius 0 @menu-border-radius;
+    background-color: @background-color-over;
+  }
+
+  &--left-from-over {
+    background: @gradient-vertical,
+    linear-gradient(90deg, @main-background-color 0%, @main-background-color 50%, @background-color-over 51%, @background-color-over 100%);
+    background-blend-mode: unset;
+  }
+
+  &--left-from-over > &__inner-item {
+    border-radius: 0 0 @menu-border-radius 0;
+    background-color: @main-background-color;
+  }
+
+  &--left-from-over-right-from-active {
+    background: @gradient-vertical,
+    linear-gradient(90deg, @background-color-active 0%, @background-color-active 50%, @background-color-over 51%, @background-color-over 100%);
+    background-blend-mode: unset;
+  }
+
+  &--left-from-over-right-from-active > &__inner-item {
+    border-radius: 0 0 @menu-border-radius @menu-border-radius;
+  }
+
+  &--right-from-over {
+    background: @gradient-vertical,
+    linear-gradient(90deg, @background-color-over 0%, @background-color-over 50%, @main-background-color 51%, @main-background-color 100%);
+    background-blend-mode: unset;
+  }
+
+  &--right-from-over > &__inner-item {
+    border-radius: 0 0 0 @menu-border-radius;
+    background-color: @main-background-color;
+  }
+
+  &--right-from-over-left-from-active {
+    background: @gradient-vertical,
+    linear-gradient(90deg, @background-color-over 0%, @background-color-over 50%, @background-color-active 51%, @background-color-active 100%);
+    background-blend-mode: unset;
+  }
+
+  &--right-from-over-left-from-active > &__inner-item {
+    border-radius: 0  0 @menu-border-radius @menu-border-radius;
+  }
+
+}
+

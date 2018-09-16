@@ -1,0 +1,132 @@
+@import "variables";
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background-color: @main-background-color;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.header {
+  height: @header-line-height;
+  padding-top: 5px;
+}
+
+@import "menu";
+
+.content {
+  background-color: @background-color-active;
+  flex-grow: 1;
+}
+
+.task {
+  display: none;
+
+  &--active {
+    padding: 5rem 3rem 3rem 3rem;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__test {
+    flex: 1;
+    background-color: @main-background-color;
+    border-radius: @menu-border-radius;
+    padding: 1rem;
+  }
+}
+
+.task8 {
+  &__canvas {
+    line-height:0;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+  }
+
+  &__marked {
+    background-color: black;
+  }
+}
+
+form {
+
+}
+
+form * {
+  display: block;
+}
+
+.input-data {
+  font-family: @main-font;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: @menu-border-radius;
+  color: @main-font-color;
+  background-color: @background-color-active;
+  border: 2px solid @main-background-color;
+  width: 100%;
+  max-width: 25rem;
+  text-indent: 0.5rem;
+  line-height: 1.8rem;
+
+  &--error {
+    border: 2px solid @error-color;
+  }
+}
+
+input[type="button"] {
+  font-family: @main-font;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: @menu-border-radius;
+  color: @main-font-color;
+  background-color: @main-background-color;
+  border: 2px solid @main-background-color;
+  line-height: 1.8rem;
+  width: 10rem;
+  margin: 1rem 0 1rem 0;
+}
+
+h3 {
+  color: @main-font-color;
+  font-family: @main-font;
+  font-size: 2rem;
+  margin: 0 0 2rem 0;
+}
+
+label {
+  display: inline-block;
+  font-family: @main-font;
+  font-size: 1rem;
+  line-height: 1.8rem;
+}
+
+p {
+  font-family: @main-font;
+  font-size: 1rem;
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+
+

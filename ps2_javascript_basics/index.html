@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="style/style.css">
+    <script language="JavaScript" src="menu.js"></script>
+    <script language="JavaScript" src="script.js"></script>
+    <script language="JavaScript" src="task.js"></script>
+</head>
+<body>
+<header class="header">
+    <nav class="task-menu"></nav>
+</header>
+<div class="content">
+    <div class="task" id="task1">
+        <div class="task__content">
+            <h3>Task 1</h3>
+            <p>Посчитать сумму чисел от -1000 до 1000</p>
+            <form action="#">
+                <label for="Task1Sum1">First number:</label>
+                <input class="input-data" type="number" id="Task1Sum1" value="-1000">
+                <label for="Task1Sum2">Second number:</label>
+                <input class="input-data" type="number" id="Task1Sum2" value="1000">
+                <input onclick="task1();" type="button" title="Calculate" value="Calculate">
+            </form>
+            <p class="result-element" id="task1ResultElement"></p>
+        </div>
+    </div>
+    <div class="task" id="task2">
+        <section class="task__content">
+            <h3>Task 2</h3>
+            <p>Посчитать сумму чисел от -1000 до 1000, суммируя только числа которые заканчиваются на 2,3, и 7</p>
+            <form action="#">
+                <label for="Task2Sum1">First number:</label>
+                <input type="number" class="input-data" id="Task2Sum1" value="-1000">
+                <label for="Task2Sum2">Second number:</label>
+                <input type="number" class="input-data" id="Task2Sum2" value="1000">
+                <label for="Task2Numbers">Last numbers to calculate:</label>
+                <input class="input-data" type="text" id="Task2Numbers" value="2,3,7">
+                <input type="button" title="Calculate" value="Calculate" onclick="task2();">
+            </form>
+            <p class="result-element" id="task2ResultElement"></p>
+        </section>
+    </div>
+    <div class="task" id="task3">
+        <section class="task__content">
+            <h3>Task 3</h3>
+            <p>Вывести на страницу список из 50 элементов вида:</p>
+            <form action="#">
+                <label for="Task3RowsCol">Rows count</label>
+                <input class="input-data" type="number" step="1" min="0" id="Task3RowsCol" value="50">
+                <input type="button" title="Draw" value="Draw" onclick="task3();">
+            </form>
+            <div class="result-element" id="task3ResultElement"></div>
+        </section>
+    </div>
+    <div class="task" id="task4">
+        <section class="task__content">
+            <h3>Task 4</h3>
+            <p>Пользователь вводит время в секундах. Вывести в формате: hh:mm:ss (01:05:20)</p>
+            <form action="#">
+                <label for="Task4Seconds">Seconds: </label>
+                <input class="input-data" type="number" id="Task4Seconds" value="3790">
+                <input type="button" title="Calculate" value="Calculate" onclick="task4();">
+            </form>
+            <p class="result-element" id="task4ResultElement"></p>
+        </section>
+    </div>
+    <div class="task" id="task5">
+        <section class="task__content">
+            <h3>Task 5</h3>
+            <p>Для указанного возраста студента вывести фразу вида "22 года" ( 1 год, 20 лет....)</p>
+            <form action="#">
+                <label for="Task5Age">Age: </label>
+                <input class="input-data" type="number" id="Task5Age" value="22">
+                <input type="button" title="Calculate" value="Calculate" onclick="task5();">
+            </form>
+            <p class="result-element" id="task5ResultElement"></p>
+        </section>
+    </div>
+    <div class="task" id="task6">
+        <section class="task__content">
+            <h3>Task 6</h3>
+            <p> Вычислить промежуток времени</p>
+            <p> Пользователь вводит две даты (в формате "October 13, 2014 11:13:00"). Вычислить промежуток времени
+                прошедший между датами и получить массив, в котором будут года (365 дней), месяца (30 дней), дни, часы,
+                минуты,
+                секунды.</p>
+            <p> Вывести пользователю (например): между датами прошло 2 года, 1 месяц, 3 дня, 5 часов, 10 минут, 15
+                секунд </p>
+            <form action="#">
+                <label for="Task6FirstDate">First date: </label>
+                <input class="input-data" type="text" id="Task6FirstDate" value="February 13, 2014 11:13:00">
+                <label for="Task6SecondDate">Second date: </label>
+                <input class="input-data" type="text" id="Task6SecondDate" value="September 07, 2018 12:14:00">
+                <input type="button" title="Calculate" value="Calculate" onclick="task6();">
+            </form>
+            <p class="result-element" id="task6ResultElement"></p>
+        </section>
+    </div>
+    <div class="task" id="task7">
+        <section class="task__content">
+            <h3>Task 7</h3>
+            <p> Знаки зодиака</p>
+            <p> Пользователь вводит дату в формате 2014-12-31, а получает знак зодиака в этот день (с картинкой). </p>
+            <form action="#">
+                <label for="Task7Birthday">Birthday: </label>
+                <input class="input-data" type="text" id="Task7Birthday" value="1984-11-15">
+                <input type="button" title="Calculate" value="Calculate" onclick="task7();">
+            </form>
+            <div class="result-element" id="task7ResultElement"></div>
+        </section>
+    </div>
+    <div class="task" id="task8">
+        <section class="task__content">
+            <h3>Task 8</h3>
+            <p> Шахматная доска </p>
+            <p> Пользователь вводит габариты доски (в формате ‘8x8’). Вывести шахматную доску.</p>
+            <form action="#">
+                <label for="Task8boardSize">Board Size</label>
+                <input class="input-data" type="text" id="Task8boardSize" value="8x8">
+                <input type="button" title="Draw" value="Draw" onclick="task8();">
+            </form>
+            <div class="result-element task8__canvas" id="task8ResultElement"></div>
+        </section>
+    </div>
+    <div class="task" id="task9">
+        <section class="task__content">
+            <h3>Task 9</h3>
+            <p>Определить номер подъезда и этаж по номеру квартиры.</p>
+            <p>Количество подъездов, квартир на пролете, количество этажей дома также задает пользователь в инпутах.</p>
+            <form action="#">
+                <label for="Task9Room">Room: </label>
+                <input class="input-data" type="number" id="Task9Room" value="30">
+                <label for="Task9Rooms">Rooms: </label>
+                <input class="input-data" type="number" id="Task9Rooms" value="3">
+                <label for="Task9Floors">Floors</label>
+                <input class="input-data" type="number" id="Task9Floors" value="5">
+                <label for="Task9Entrances">Entrances: </label>
+                <input class="input-data" type="number" id="Task9Entrances" value="6">
+                <input type="button" title="Calculate" value="Calculate" onclick="task9();">
+            </form>
+            <p class="result-element" id="task9ResultElement"></p>
+        </section>
+    </div>
+    <div class="task" id="task10">
+        <section class="task__content">
+            <h3>Task 10</h3>
+            <p>Найти сумму цифр введённого числа.</p>
+            <form action="#">
+                <label for="Task10Input">Number: </label>
+                <input class="input-data" type="number" id="Task10Input" value="12345">
+                <input type="button" title="Calculate" value="Calculate" onclick="task10();">
+            </form>
+            <p class="result-element" id="task10ResultElement"></p>
+        </section>
+    </div>
+    <div class="task" id="task11">
+        <section class="task__content">
+            <h3>Task 11</h3>
+            <p>Дан некий textarea, в который пользователь вводит ссылки через запятую. Когда textarea станет неактивным
+                удалить http:// и https:// из ссылок и вывести их отсортированным по алфавиту списком ссылок.</p>
+            <form action="#">
+                <label for="Task11Text">Urls: </label>
+                <textarea class="input-data" onblur="task11();" id="Task11Text" rows=5 cols=80>https://myawesomesite.com/?ref=https://facebook.com,https://www.google.com/,https://www.ixbt.com/,https://programming.kr.ua/ru</textarea>
+            </form>
+            <p class="result-element" id="task11ResultElement"></p>
+        </section>
+    </div>
+
+</div>
+</body>
+</html>
