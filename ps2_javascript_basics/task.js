@@ -1,30 +1,6 @@
 /**
- Add child element to parent node with HTML value.
+ * Gets the correct word for the plural
  */
-function addChild(parent, element, value = null, id = null) {
-    const el = document.createElement(element);
-    if (value) {
-        el.innerText = value;
-    }
-    if (id) {
-        el.setAttribute("id", id);
-    }
-    parent.appendChild(el);
-}
-
-//Creates div object or clear it is if exist.
-function createOrResetDivElement(id) {
-    let element = document.getElementById(id);
-    if (element) {
-        element.innerHTML = "";
-    } else {
-        element = document.createElement("div");
-        element.setAttribute("id", id);
-    }
-    return element;
-}
-
-//Gets the correct word for the plural
 function getWordForNumber(zero, one, two, inputNumber) {
     while (inputNumber.toString().length > 3) {
         inputNumber = inputNumber.toString().substr(3, inputNumber.toString().length);
@@ -43,6 +19,9 @@ function getWordForNumber(zero, one, two, inputNumber) {
     }
 }
 
+/**
+ * Remove class input-data--error from all objects of DOM.
+ */
 function resetInputErrors() {
     const allInput = document.getElementsByClassName("input-data");
     Array.from(allInput).forEach((el) => {
@@ -107,7 +86,7 @@ function task2() {
     const task2Sum2 = document.getElementById("Task2Sum2");
     const task2Numbers = document.getElementById("Task2Numbers");
     const numbers = document.getElementById("Task2Numbers").value;
-    const resultElement = createOrResetDivElement("task2ResultElement");
+    const resultElement = document.getElementById("task2ResultElement");
     let startNumber, endNumber, result = 0;
 
     if (!(/^-?[0-9]+?$/.test(task2Sum1.value))) {
@@ -153,7 +132,7 @@ function task2() {
 function task3() {
     resetInputErrors();
     const countElement = document.getElementById("Task3RowsCol");
-    const resultElement = createOrResetDivElement("task3ResultElement");
+    const resultElement = document.getElementById("task3ResultElement");
     let count;
 
     if (!(/^[0-9]+$/.test(countElement.value))) {
@@ -169,7 +148,7 @@ function task3() {
         listItem.innerText = '*'.repeat(i);
         listNode.appendChild(listItem);
     }
-
+    resultElement.innerHTML = "";
     resultElement.appendChild(listNode);
 }
 
@@ -203,7 +182,7 @@ function task4() {
 function task5() {
     resetInputErrors();
     const ageElement = document.getElementById("Task5Age");
-    const resultElement = createOrResetDivElement("task5ResultElement");
+    const resultElement = document.getElementById("task5ResultElement");
 
     if (!(/^-?[0-9]+$/.test(ageElement.value))) {
         resultElement.innerText = `Input correct data.`;
@@ -223,7 +202,7 @@ function task6() {
     const firstDate = firstDateElement.value;
     const secondDateElement = document.getElementById("Task6SecondDate");
     const secondDate = secondDateElement.value;
-    const resultElement = createOrResetDivElement("task6ResultElement");
+    const resultElement = document.getElementById("task6ResultElement");
 
     if (!checkDate(firstDate, /\d{1,2}/)) {
         resultElement.innerText = `Input correct data.`;
@@ -358,7 +337,7 @@ function task7() {
         }];
     const month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const dateElement = document.getElementById("Task7Birthday");
-    const resultElement = createOrResetDivElement("task7ResultElement");
+    const resultElement = document.getElementById("task7ResultElement");
 
     if (!checkDate(dateElement.value, /\d{1,2}$/)) {
         resultElement.innerText = `Input correct data.`;
@@ -389,7 +368,7 @@ function task7() {
  */
 function task8() {
     resetInputErrors();
-    const resultElement = createOrResetDivElement("task8ResultElement");
+    const resultElement = document.getElementById("task8ResultElement");
     const sizeElement = document.getElementById("Task8boardSize");
     if (!/^[0-9]+[xх][0-9]+$/.test(sizeElement.value)) {
         resultElement.innerText = `Input correct data.`;
@@ -404,13 +383,12 @@ function task8() {
     const steps = w * h;
 
     resultElement.style.width = `${w * elementSize}px`;
+    resultElement.innerHTML = "";
 
     for (let i = 0; i < steps; i++) {
-
         if (i % w === 0 && i !== 0) {
             resultElement.appendChild(document.createElement("br"));
         }
-
         if (i % w === 0 && w % 2 === 0) {
             color = !color;
         }
@@ -422,7 +400,6 @@ function task8() {
         } else {
             boardElement.setAttribute("class", "task8__item task8__marked");
         }
-
         resultElement.appendChild(boardElement);
     }
 
@@ -502,7 +479,7 @@ function task9() {
  */
 function task10() {
     resetInputErrors();
-    const resultElement = createOrResetDivElement("task10ResultElement");
+    const resultElement = document.getElementById("task10ResultElement");
     const numElement = document.getElementById("Task10Input");
 
     if (!/^-?[0-9]+[.,]?[0-9]*$/.test(numElement.value)) {
@@ -519,7 +496,7 @@ function task10() {
 
     resultElement.innerText = num.reduce((tmpResult, item) => {
         return tmpResult + item;
-    });
+    }).toString();
 }
 
 /**
@@ -527,7 +504,7 @@ function task10() {
  */
 function task11() {
 
-    const resultElement = createOrResetDivElement("task11ResultElement");
+    const resultElement = document.getElementById("task11ResultElement");
     const text = document.getElementById("Task11Text").value;
     const links = text.split(",").map((el) => {
         return el.trim().replace(/^https?:\/\//, "");
@@ -543,6 +520,6 @@ function task11() {
         listItem.appendChild(linkItem);
         list.appendChild(listItem);
     });
-
+    resultElement.innerHTML = "";
     resultElement.appendChild(list);
 }
