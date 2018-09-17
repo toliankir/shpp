@@ -2,12 +2,13 @@
  * Gets the correct word for the plural
  */
 function getWordForNumber(zero, one, two, inputNumber) {
-    while (inputNumber.toString().length > 3) {
+    while (inputNumber.toString().length > 4) {
         inputNumber = inputNumber.toString().substr(3, inputNumber.toString().length);
     }
 
     const lastOne = Math.abs(inputNumber % 10);
     const lastTwo = Math.abs(inputNumber % 100);
+    console.log(inputNumber);
     if ((lastTwo >= 10 && lastTwo <= 19) || lastOne === 0 || (lastOne >= 5 && lastOne <= 9)) {
         return zero;
     }
@@ -270,49 +271,61 @@ function task7() {
             title: "Козерог"
         },
         {
+            start: 20,
+            end: 49,
+            link: "11.png",
+            title: "Водолей"
+        },
+        {
+            start: 50,
+            end: 79,
+            link: "12.png",
+            title: "Рыбы"
+        },
+        {
             start: 80,
-            end: 108,
+            end: 109,
             link: "1.png",
             title: "Овен"
         },
         {
-            start: 109,
-            end: 139,
+            start: 110,
+            end: 140,
             link: "2.png",
             title: "Телец"
         },
         {
-            start: 140,
-            end: 170,
+            start: 141,
+            end: 171,
             link: "3.png",
             title: "Близнецы"
         },
         {
-            start: 171,
-            end: 202,
+            start: 172,
+            end: 203,
             link: "4.png",
             title: "Рак"
         },
         {
-            start: 203,
-            end: 233,
+            start: 204,
+            end: 234,
             link: "5.png",
             title: "Лев"
         },
         {
-            start: 234,
-            end: 264,
+            start: 235,
+            end: 265,
             link: "6.png",
             title: "Дева"
         },
         {
-            start: 264,
-            end: 294,
+            start: 266,
+            end: 295,
             link: "7.png",
             title: "Весы"
         },
         {
-            start: 295,
+            start: 296,
             end: 325,
             link: "8.png",
             title: "Скорпион"
@@ -328,12 +341,6 @@ function task7() {
             end: 365,
             link: "10.png",
             title: "Козерог"
-        },
-        {
-            start: 20,
-            end: 79,
-            link: "11.png",
-            title: "Рыбы"
         }];
     const month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const dateElement = document.getElementById("Task7Birthday");
