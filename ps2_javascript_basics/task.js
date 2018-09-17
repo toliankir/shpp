@@ -1,3 +1,6 @@
+const DATA_ERROR_CSS_CLASS = `input-data--error`;
+const DATA_ERROR_MSG = `Input correct data.`;
+
 /**
  * Gets the correct word for the plural
  */
@@ -26,7 +29,7 @@ function getWordForNumber(zero, one, two, inputNumber) {
 function resetInputErrors() {
     const allInput = document.getElementsByClassName("input-data");
     Array.from(allInput).forEach((el) => {
-        el.classList.remove("input-data--error");
+        el.classList.remove(DATA_ERROR_CSS_CLASS);
     });
 }
 
@@ -52,22 +55,22 @@ function task1() {
     let startNumber, endNumber, result = 0;
 
     if (!(/^-?[0-9]+$/.test(task1Sum1.value))) {
-        resultElement.innerText = `Input correct data.`;
-        task1Sum1.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        task1Sum1.classList.add(DATA_ERROR_CSS_CLASS);
     }
     startNumber = parseInt(task1Sum1.value, 10);
     if (!(/^-?[0-9]+$/.test(task1Sum2.value))) {
-        resultElement.innerText = `Input correct data.`;
-        task1Sum2.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        task1Sum2.classList.add(DATA_ERROR_CSS_CLASS);
     }
     endNumber = parseInt(task1Sum2.value, 10);
 
     if (startNumber > endNumber) {
-        resultElement.innerText = `Input correct data.`;
-        task1Sum1.classList.add("input-data--error");
-        task1Sum2.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        task1Sum1.classList.add(DATA_ERROR_CSS_CLASS);
+        task1Sum2.classList.add(DATA_ERROR_CSS_CLASS);
     }
-    if (document.getElementsByClassName("input-data--error").length > 0) {
+    if (document.getElementsByClassName(DATA_ERROR_CSS_CLASS).length > 0) {
         return;
     }
 
@@ -91,30 +94,30 @@ function task2() {
     let startNumber, endNumber, result = 0;
 
     if (!(/^-?[0-9]+?$/.test(task2Sum1.value))) {
-        resultElement.innerText = `Input correct data.`;
-        task2Sum1.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        task2Sum1.classList.add(DATA_ERROR_CSS_CLASS);
     }
     startNumber = parseInt(task2Sum1.value, 10);
 
     if (!(/^-?[0-9]+?$/.test(task2Sum2.value))) {
-        resultElement.innerText = `Input correct data.`;
-        task2Sum2.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        task2Sum2.classList.add(DATA_ERROR_CSS_CLASS);
     }
     endNumber = parseInt(task2Sum2.value, 10);
 
     if (startNumber > endNumber) {
-        resultElement.innerText = `Input correct data.`;
-        task2Sum1.classList.add("input-data--error");
-        task2Sum2.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        task2Sum1.classList.add(DATA_ERROR_CSS_CLASS);
+        task2Sum2.classList.add(DATA_ERROR_CSS_CLASS);
     }
 
     if (!(/^(?:[0-9]+,)*\d$/.test(numbers))) {
-        resultElement.innerText = `Input correct data.`;
-        task2Numbers.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        task2Numbers.classList.add(DATA_ERROR_CSS_CLASS);
     }
     const numbersArray = numbers.split(",");
 
-    if (document.getElementsByClassName("input-data--error").length > 0) {
+    if (document.getElementsByClassName(DATA_ERROR_CSS_CLASS).length > 0) {
         return;
     }
 
@@ -137,8 +140,8 @@ function task3() {
     let count;
 
     if (!(/^[0-9]+$/.test(countElement.value))) {
-        resultElement.innerText = `Input correct data.`;
-        countElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        countElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
     }
     count = parseInt(countElement.value, 10);
@@ -163,8 +166,8 @@ function task4() {
     let seconds;
 
     if (!(/^[0-9]+$/.test(secondsElement.value))) {
-        resultElement.innerText = `Input correct data.`;
-        secondsElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        secondsElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
     }
     seconds = parseInt(secondsElement.value, 10);
@@ -186,8 +189,8 @@ function task5() {
     const resultElement = document.getElementById("task5ResultElement");
 
     if (!(/^-?[0-9]+$/.test(ageElement.value))) {
-        resultElement.innerText = `Input correct data.`;
-        ageElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        ageElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
     }
 
@@ -206,14 +209,14 @@ function task6() {
     const resultElement = document.getElementById("task6ResultElement");
 
     if (!checkDate(firstDate, /\d{1,2}/)) {
-        resultElement.innerText = `Input correct data.`;
-        firstDateElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        firstDateElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
     if (!checkDate(secondDate, /\d{1,2}/)) {
-        resultElement.innerText = `Input correct data.`;
-        secondDateElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        secondDateElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
-    if (document.getElementsByClassName("input-data--error").length > 0) {
+    if (document.getElementsByClassName(DATA_ERROR_CSS_CLASS).length > 0) {
         return;
     }
 
@@ -347,8 +350,8 @@ function task7() {
     const resultElement = document.getElementById("task7ResultElement");
 
     if (!checkDate(dateElement.value, /\d{1,2}$/)) {
-        resultElement.innerText = `Input correct data.`;
-        dateElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        dateElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
     }
 
@@ -378,8 +381,8 @@ function task8() {
     const resultElement = document.getElementById("task8ResultElement");
     const sizeElement = document.getElementById("Task8boardSize");
     if (!/^[0-9]+[xх][0-9]+$/.test(sizeElement.value)) {
-        resultElement.innerText = `Input correct data.`;
-        sizeElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        sizeElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
     }
     const size = sizeElement.value.split(/[xх]/);
@@ -424,20 +427,20 @@ function task9() {
     const resultElement = document.getElementById("task9ResultElement");
 
     if (!/^[0-9]+$/.test(roomElement.value)) {
-        resultElement.innerText = `Input correct data.`;
-        roomElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        roomElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
     if (!/^[0-9]+$/.test(roomsElement.value)) {
-        resultElement.innerText = `Input correct data.`;
-        roomsElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        roomsElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
     if (!/^[0-9]+$/.test(floorsElement.value)) {
-        resultElement.innerText = `Input correct data.`;
-        floorsElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        floorsElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
     if (!/^[0-9]+$/.test(entrancesElement.value)) {
-        resultElement.innerText = `Input correct data.`;
-        entrancesElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        entrancesElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
 
     let room = parseInt(roomElement.value, 10);
@@ -446,31 +449,31 @@ function task9() {
     const entrance = parseInt(entrancesElement.value, 10);
 
     if (room < 1) {
-        resultElement.innerText = `Input correct data.`;
-        roomElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        roomElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
     if (rooms < 1) {
-        resultElement.innerText = `Input correct data.`;
-        roomsElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        roomsElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
     if (floors < 1) {
-        resultElement.innerText = `Input correct data.`;
-        floorsElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        floorsElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
     if (entrance < 1) {
-        resultElement.innerText = `Input correct data.`;
-        entrancesElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        entrancesElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
 
     if (room > rooms * floors * entrance) {
-        resultElement.innerText = `Input correct data.`;
-        roomElement.classList.add("input-data--error");
-        roomsElement.classList.add("input-data--error");
-        floorsElement.classList.add("input-data--error");
-        entrancesElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        roomElement.classList.add(DATA_ERROR_CSS_CLASS);
+        roomsElement.classList.add(DATA_ERROR_CSS_CLASS);
+        floorsElement.classList.add(DATA_ERROR_CSS_CLASS);
+        entrancesElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
 
-    if (document.getElementsByClassName("input-data--error").length > 0) {
+    if (document.getElementsByClassName(DATA_ERROR_CSS_CLASS).length > 0) {
         return;
     }
 
@@ -490,8 +493,8 @@ function task10() {
     const numElement = document.getElementById("Task10Input");
 
     if (!/^-?[0-9]+[.,]?[0-9]*$/.test(numElement.value)) {
-        resultElement.innerText = `Input correct data.`;
-        numElement.classList.add("input-data--error");
+        resultElement.innerText = DATA_ERROR_MSG;
+        numElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
     }
     const numStr = numElement.value.replace(/[^0-9]/g, "").split("");
