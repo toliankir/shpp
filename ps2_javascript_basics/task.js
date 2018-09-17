@@ -516,7 +516,7 @@ function task11() {
         const listItem = document.createElement("li");
         const linkItem = document.createElement("a");
         linkItem.innerText = el;
-        linkItem.setAttribute("href", `http://${el}`);
+        linkItem.setAttribute("href", `//${el}`);
         listItem.appendChild(linkItem);
         list.appendChild(listItem);
     });
