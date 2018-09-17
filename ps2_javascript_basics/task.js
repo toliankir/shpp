@@ -1,6 +1,7 @@
 const DATA_ERROR_CSS_CLASS = `input-data--error`;
 const DATA_ERROR_MSG = `Input correct data.`;
-
+const REGEXP_INTEGER = /^-?[0-9]+$/;
+const REGEXP_INTEGER_POSITIVE = /^[0-9]+$/;
 /**
  * Gets the correct word for the plural
  */
@@ -54,12 +55,12 @@ function task1() {
     const resultElement = document.getElementById("task1ResultElement");
     let startNumber, endNumber, result = 0;
 
-    if (!(/^-?[0-9]+$/.test(task1Sum1.value))) {
+    if (!(REGEXP_INTEGER.test(task1Sum1.value))) {
         resultElement.innerText = DATA_ERROR_MSG;
         task1Sum1.classList.add(DATA_ERROR_CSS_CLASS);
     }
     startNumber = parseInt(task1Sum1.value, 10);
-    if (!(/^-?[0-9]+$/.test(task1Sum2.value))) {
+    if (!(REGEXP_INTEGER.test(task1Sum2.value))) {
         resultElement.innerText = DATA_ERROR_MSG;
         task1Sum2.classList.add(DATA_ERROR_CSS_CLASS);
     }
@@ -93,13 +94,13 @@ function task2() {
     const resultElement = document.getElementById("task2ResultElement");
     let startNumber, endNumber, result = 0;
 
-    if (!(/^-?[0-9]+?$/.test(task2Sum1.value))) {
+    if (!(REGEXP_INTEGER.test(task2Sum1.value))) {
         resultElement.innerText = DATA_ERROR_MSG;
         task2Sum1.classList.add(DATA_ERROR_CSS_CLASS);
     }
     startNumber = parseInt(task2Sum1.value, 10);
 
-    if (!(/^-?[0-9]+?$/.test(task2Sum2.value))) {
+    if (!(REGEXP_INTEGER.test(task2Sum2.value))) {
         resultElement.innerText = DATA_ERROR_MSG;
         task2Sum2.classList.add(DATA_ERROR_CSS_CLASS);
     }
@@ -139,7 +140,7 @@ function task3() {
     const resultElement = document.getElementById("task3ResultElement");
     let count;
 
-    if (!(/^[0-9]+$/.test(countElement.value))) {
+    if (!(REGEXP_INTEGER_POSITIVE.test(countElement.value))) {
         resultElement.innerText = DATA_ERROR_MSG;
         countElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
@@ -165,7 +166,7 @@ function task4() {
     const resultElement = document.getElementById("task4ResultElement");
     let seconds;
 
-    if (!(/^[0-9]+$/.test(secondsElement.value))) {
+    if (!(REGEXP_INTEGER_POSITIVE.test(secondsElement.value))) {
         resultElement.innerText = DATA_ERROR_MSG;
         secondsElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
@@ -188,7 +189,7 @@ function task5() {
     const ageElement = document.getElementById("Task5Age");
     const resultElement = document.getElementById("task5ResultElement");
 
-    if (!(/^-?[0-9]+$/.test(ageElement.value))) {
+    if (!(REGEXP_INTEGER.test(ageElement.value))) {
         resultElement.innerText = DATA_ERROR_MSG;
         ageElement.classList.add(DATA_ERROR_CSS_CLASS);
         return;
@@ -426,19 +427,19 @@ function task9() {
     const entrancesElement = document.getElementById("Task9Entrances");
     const resultElement = document.getElementById("task9ResultElement");
 
-    if (!/^[0-9]+$/.test(roomElement.value)) {
+    if (!REGEXP_INTEGER_POSITIVE.test(roomElement.value)) {
         resultElement.innerText = DATA_ERROR_MSG;
         roomElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
-    if (!/^[0-9]+$/.test(roomsElement.value)) {
+    if (!REGEXP_INTEGER_POSITIVE.test(roomsElement.value)) {
         resultElement.innerText = DATA_ERROR_MSG;
         roomsElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
-    if (!/^[0-9]+$/.test(floorsElement.value)) {
+    if (!REGEXP_INTEGER_POSITIVE.test(floorsElement.value)) {
         resultElement.innerText = DATA_ERROR_MSG;
         floorsElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
-    if (!/^[0-9]+$/.test(entrancesElement.value)) {
+    if (!REGEXP_INTEGER_POSITIVE.test(entrancesElement.value)) {
         resultElement.innerText = DATA_ERROR_MSG;
         entrancesElement.classList.add(DATA_ERROR_CSS_CLASS);
     }
