@@ -3,7 +3,6 @@
 	border-radius: 6px;
 	width: 200px;
 	color: #bebebe;
-	word-spacing: -0.3rem;
 	display: flex;
 }
 
@@ -16,7 +15,6 @@
 .customSelect__Left, .customSelect__Right {
 	font-family: sans-serif;
 	font-size: 0.8rem;
-	word-spacing: 0;
 	line-height: 30px;
 	height: 30px;
 }
@@ -30,7 +28,6 @@
 	height: 80%;
 	margin-top: -2px;
 	vertical-align: middle;
-	
 }
 
 .customSelect__Left span {
@@ -48,7 +45,7 @@
 	width: 200px;
 	border-radius: 0 0 6px 6px ;
 	border: 1px solid #22a6b3;
-	border-top: 0px;
+	border-top: 0;
 	position: absolute;
 	display: none;
 }

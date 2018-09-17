@@ -14,34 +14,46 @@
     <div class="customSelect__Right">v</div>
     <div class="Select__Container">
         <div class="Item"><img class="Item__Image" src="img/1.png"><span class="Item__Text">Test a</span></div>
-        <div class="Item"><img class="Item__Image" src="img/2.png"><span class="Item__Text">Test b</span></div>
+        <div data-checked class="Item"><img class="Item__Image" src="img/2.png"><span class="Item__Text">Test b</span>
+        </div>
         <div class="Item"><img class="Item__Image" src="img/3.png"><span class="Item__Text">Test c</span></div>
     </div>
 </div>
-<br><br><br><br><br><br><br><br>
+
 <div class="customSelect">
-    <div class="customSelect__Left">
-        <img src="img/3.png">
-        <span>Test 3</span>
-    </div>
+    <div class="customSelect__Left"><span>Select something.</span></div>
     <div class="customSelect__Right">v</div>
     <div class="Select__Container">
-        <div class="Item"><img class="Item__Image" src="img/4.png"><span class="Item__Text">Test 2</span></div>
-        <div class="Item"><img class="Item__Image" src="img/5.png"><span class="Item__Text">Test 2</span></div>
+        <div class="Item"><img class="Item__Image" src="img/4.png"><span class="Item__Text">Test 1</span></div>
+        <div data-checked class="Item"><img class="Item__Image" src="img/5.png"><span class="Item__Text">Test 2</span>
+        </div>
         <div class="Item"><img class="Item__Image" src="img/6.png"><span class="Item__Text">Test 3</span></div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
+
+    const checkedItems = $("div.Item[data-checked]");
+    Array.from(checkedItems).forEach((el) => {
+        $(el).closest(".customSelect").find(".customSelect__Left").html($(el).html());
+    });
+
     $("div.customSelect").click((event) => {
         const selectObj = $(event.target).closest(".customSelect");
         $(selectObj).addClass("customSelectClicked");
-        $(selectObj).find(".Select__Container").css("display", "block");
+        const slider = $(selectObj).find(".Select__Container");
+        const sliderHeight = $(slider).height();
         //Set position
-        $(selectObj).find(".Select__Container").css("top",
-            $(selectObj).position().top + $(selectObj).height() + 2);
-        $(selectObj).find(".Select__Container").css("left",
-            $(selectObj).position().left);
+        $(slider).css("top", $(selectObj).position().top + $(selectObj).height() + 2);
+        $(slider).css("left", $(selectObj).position().left);
+        if ($(slider).css('display') === 'none') {
+            $(slider).css("height", '0');
+            $(slider).css("opacity", '0');
+        }
+        $(slider).css("display", "block");
+
+        $(slider).animate({height: sliderHeight, opacity: '1'}, 300);
+
     });
 
     $(".Item").click((event) => {

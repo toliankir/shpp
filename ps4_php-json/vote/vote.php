@@ -37,7 +37,7 @@ class VoteServer
      */
     public function makeVote($id)
     {
-        if ($id > 0 && $id < sizeof($this->voteData["results"])) {
+        if ($id >= 0 && $id < sizeof($this->voteData["results"])) {
             $this->voteData["results"][$id]++;
             $this->saveVoteFile();
         } else {

@@ -1,0 +1,39 @@
+body {
+  background-color: white;
+  margin: 0;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr minmax(850px, 6fr) 1fr;
+  grid-template-rows: 4rem 1fr 1fr 1fr;
+  grid-template-areas: ". topper ." ". content ." ". menu ." ". footer .";
+}
+
+.header {
+  background-color: white;
+  grid-area: topper;
+  display: table;
+  height: 4rem;
+  padding: 0 3rem 0 3rem;
+}
+
+.menu {
+  background-color: white;
+  grid-area: menu;
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 1rem 1rem 1rem;
+}
+
+.content {
+  background-color: #22a6b3;
+  grid-area: content;
+  display: table;
+}
+
+.footer {
+  background-color: #1d95a1;
+  grid-area: footer;
+  color: white;
+  text-align: center;
+  padding: 3rem 0 2rem 0;
+}
