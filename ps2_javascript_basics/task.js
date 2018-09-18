@@ -12,7 +12,7 @@ function getWordForNumber(zero, one, two, inputNumber) {
 
     const lastOne = Math.abs(inputNumber % 10);
     const lastTwo = Math.abs(inputNumber % 100);
-    console.log(inputNumber);
+    // console.log(inputNumber);
     if ((lastTwo >= 10 && lastTwo <= 19) || lastOne === 0 || (lastOne >= 5 && lastOne <= 9)) {
         return zero;
     }

@@ -108,6 +108,6 @@ function addNavEventListeners() {
 
 function initMenu() {
     buildNav();
-    addNavEventListeners();
+   // addNavEventListeners();
 }
 
