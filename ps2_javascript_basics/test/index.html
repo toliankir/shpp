@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="test">
+</div>
+</body>
+<script>
+    const test = document.getElementById('test');
+    const add1 = function add1() {
+        let html = '';
+        for (let i = 0; i < 1000; i++) {
+            html += `<p>abc</p>`;
+        }
+        test.innerHTML = html;
+    };
+
+    const add2 = function add2() {
+        for (let i = 0; i < 1000; i++) {
+            const newElement = document.createElement(`p`);
+            newElement.innerText = `abc`;
+            test.appendChild(newElement);
+        }
+    };
+
+    const add3 = function add3() {
+        const temp = document.createElement('div');
+        for (let i = 0; i < 1000; i++) {
+            const newElement = document.createElement(`p`);
+            newElement.innerText = `abc`;
+            temp.appendChild(newElement);
+        }
+        test.appendChild(temp);
+    };
+
+    function start(k, func) {
+        const begin = performance.now();
+        for (let i = 0; i < k; i++) {
+            func();
+        }
+        const time = performance.now() - begin;
+        test.innerHTML = ``;
+        return time;
+    }
+
+    let time1 = [0, 0, 0];
+    let time2 = [0, 0, 0];
+    let time3 = [0, 0, 0];
+    const k = 100;
+    for (let i = 0; i < k; i++) {
+
+        time1[0] += start(1, add1);
+        time1[1] += start(10, add1);
+        time1[2] += start(100, add1);
+
+        time2[0] += start(1, add2);
+        time2[1] += start(10, add2);
+        time2[2] += start(100, add2);
+
+        time3[0] += start(1, add3);
+        time3[1] += start(10, add3);
+        time3[2] += start(100, add3);
+    }
+
+    console.log('Inner HTML---------');
+    time1.forEach(el => {
+        console.log(el / k);
+    });
+    console.log('Append---------');
+    time2.forEach(el => {
+        console.log(el / k);
+    });
+    console.log('Append with temp---------');
+    time3.forEach(el => {
+        console.log(el / k);
+    });
+
+</script>
+</html>
