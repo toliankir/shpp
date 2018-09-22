@@ -1,95 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Lesson 3, Task 3</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <script
             src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
-    <script type="text/javascript" src="script.js"></script>
+    <script src="script.js"></script>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <div class="headerLogo">
-            <span class="headerLogo__logoLetter">N</span>
-            <span class="headerLogo__logoPlus">++</span>
-        </div>
-        <div class="headerMenu">
-            <a onclick="scrollToClass('.content');">PRODUCTS</a>
-            <a onclick="scrollToClass('.menu');">ABOUT US</a>
-            <a onclick="scrollToClass('.contact');">CONTACT US</a>
-        </div>
-    </div>
-    <div class="content">
-        <div class="contentLeft">
-            <img src="phone.png"/>
-        </div>
-        <div class="contentRight">
-            <p class="bigFont">Contact us!</p>
-            <p class="simpleFont">Apollo 7 was an October 1968 human spaceflight mission carried out by the United States. It was the irst mission in the United States' Apollo program to carry a crew into space. It was also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November 1966.</p>
-            <input type="Submit" class="inputSubmit" value="Buy now!">
-        </div>
-    </div>
-    <div class="menu">
-        <div class="menuItem">
-            <div class="menuItem__menuLogo"><i class="fas fa-chart-pie"></i></div>
-            <div class="menuItem__menuTitle">Web development</div>
-            <div class="menuItem__menuText">Apollo 7 was an October 1968 human spaceflight mission carried out by the
-                United States. It was the irst mission in the United States' Apollo program to carry a crew into space.
-                It was also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November
-                1966.
-            </div>
-        </div>
-        <div class="menuItem">
-            <div class="menuItem__menuLogo"><i class="fab fa-android"></i></div>
-            <div class="menuItem__menuTitle">Web development</div>
-            <div class="menuItem__menuText">Apollo 7 was an October 1968 human spaceflight mission carried out by the
-                United States. It was the irst mission in the United States' Apollo program to carry a crew into space.
-                It was also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November
-                1966.
-            </div>
-        </div>
-        <div class="menuItem">
-            <div class="menuItem__menuLogo"><i class="fas fa-cloud"></i></div>
-            <div class="menuItem__menuTitle">Web development</div>
-            <div class="menuItem__menuText">Apollo 7 was an October 1968 human spaceflight mission carried out by the
-                United States. It was the irst mission in the United States' Apollo program to carry a crew into space.
-                It was also the first U.S. spaceflight to arry astronauts since the flight of Gemini XII in November
-                1966.
-            </div>
-        </div>
-
-    </div>
-    <div class="contact">
-        <span class="bigFont">Contact us!<br></span><br>
+<header class="header">
+    <section class="header-logo">
+        <span class="header-logo__letter">N</span>
+        <span class="header-logo__plus">++</span>
+    </section>
+    <nav class="header-menu">
+        <a class="header-menu__link" onclick="scrollToClass('.content')">PRODUCTS</a>
+        <a class="header-menu__link" onclick="scrollToClass('.directions')">ABOUT US</a>
+        <a class="header-menu__link" onclick="scrollToClass('.footer')">CONTACT US</a>
+    </nav>
+</header>
+<div class="content">
+    <section class="content__left-part">
+        <img alt="Phone image" src="phone.png">
+    </section>
+    <section class="content__right-part">
+        <h3>Our awesome app is ready to use!</h3>
+        <p>Apollo 7 was an October 1968 human spaceflight mission carried out by the United
+            States. It was the first mission in the United States' Apollo program to carry a crew into space. It was
+            also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November 1966.</p>
         <form>
-            <input title="name" class="inputText" type="text" value="Type your name, please"><br>
-            <input title="email" class="inputText" type="text" value="Type your email, please"><br>
-            <input title="phone" class="inputText" type="text" value="Type your phone, please"><br>
-            <textarea title="Text inforation"></textarea><br>
-            <input title="Radio box" type="radio" name="radio_test"><span class="simpleFont">Radio 1</span><br>
-            <input title="Radio box" type="radio" name="radio_test" checked><span class="simpleFont">Radio 2</span><br>
-            <input title="Radio box" type="radio" name="radio_test"><span class="simpleFont">Radio 3</span><br>
-            <input title="checkbox" type="checkbox" name="cb"><span class="simpleFont">Checkbox 1</span><br>
-            <input title="checkbox" type="checkbox" name="cb" checked=""><span class="simpleFont">Checkbox 2</span><br>
-            <input title="password" class="inputText" type="password"><br>
-            <input title="Submit" class="inputSubmit" type="button" value="Simple button"><br>
-            <input title="Color" type="color"><br>
-            <input title="Date" type="date"><br>
-            <input title="EMail" class="inputText" type="email" name="email"><br>
-            <input title="File" class="inputSubmit" type="file"><br>
-            <input title="Number" class="inputText" type="number" min="1" max="5"><br>
-            <input title="Week" class="inputSubmit" type="week"><br>
-            <input title="Range" class="inputSubmit" type="range" name="points" min="0" max="10"><br>
-            <input title="Reset" class="inputSubmit" type="reset"><br>
-            <input title="Submit" class="inputSubmit" type="submit" value="Send email!">
+            <input title="Buy now!" type="button" class="input input-button-header" value="Buy now!">
         </form>
-    </div>
+    </section>
 </div>
+<nav class="directions">
+    <article class="menu-item">
+        <div class="menu-item__logo"><i class="fas fa-chart-pie"></i></div>
+        <p class="menu-item__title">Web development</p>
+        <p class="menu-item__text">Apollo 7 was an October 1968 human spaceflight mission carried out by the
+            United States. It was the first mission in the United States' Apollo program to carry a crew into space.
+            It was also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November
+            1966.
+        </p>
+    </article>
+    <article class="menu-item">
+        <div class="menu-item__logo"><i class="fab fa-android"></i></div>
+        <p class="menu-item__title">Web development</p>
+        <p class="menu-item__text">Apollo 7 was an October 1968 human spaceflight mission carried out by the
+            United States. It was the first mission in the United States' Apollo program to carry a crew into space.
+            It was also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November
+            1966.
+        </p>
+    </article>
+    <article class="menu-item">
+        <div class="menu-item__logo"><i class="fas fa-cloud"></i></div>
+        <p class="menu-item__title">Web development</p>
+        <p class="menu-item__text">Apollo 7 was an October 1968 human spaceflight mission carried out by the
+            United States. It was the first mission in the United States' Apollo program to carry a crew into space.
+            It was also the first U.S. spaceflight to array astronauts since the flight of Gemini XII in November
+            1966.
+        </p>
+    </article>
+</nav>
+<footer class="footer">
+    <h3>Contact us!</h3>
+    <h3 onclick="scrollToClass('.header')">Go Top!</h3>
+    <form action="#">
+        <input title="name" class="input input-text-footer" id="name" type="text" placeholder="Type your name, please">
+        <input title="email" class="input input-text-footer" type="text" placeholder="Type your email, please">
+        <input title="phone" class="input input-text-footer" type="text" placeholder="Type your phone, please">
+        <textarea class="input input-text-footer" title="Text information"></textarea>
+        <input title="Submit" class="input input-button-footer" type="submit" value="Send email!">
+    </form>
+    <form action="#">
+        <ul class="form-list">
+            <li><input title="Radio box" type="radio" id="r1" name="radio_test"><label for="r1">Radio 1</label></li>
+            <li><input title="Radio box" type="radio" id="r2" name="radio_test" checked><label for="r2">Radio 2</label>
+            </li>
+            <li><input title="Radio box" type="radio" id="r3" name="radio_test"><label for="r3">Radio 3</label></li>
+        </ul>
+        <ul class="form-list">
+            <li><input title="checkbox" type="checkbox" id="cb1" name="cb"><label for="cb1">Checkbox 1</label></li>
+            <li><input title="checkbox" type="checkbox" id="cb2" name="cb" checked=""><label for="cb2">Checkbox
+                2</label></li>
+        </ul>
+        <input title="password" class="input input-text-footer" type="password">
+        <input title="Submit" class="input input-button-footer" type="button" value="Simple button">
+        <input title="Color" class="input input-text-footer" type="color">
+        <input title="Date" class="input input-text-footer" type="date">
+        <input title="EMail" class="input input-text-footer" type="email" name="email">
+        <input title="File" class="input input-button-footer" type="file">
+        <input title="Number" class="input input-text-footer" type="number" min="1" max="5">
+        <input title="Week" class="input input-text-footer" type="week">
+        <input title="Range" class="input input-button-footer" type="range" name="points" min="0" max="10">
+        <input title="Reset" class="input input-button-footer" type="reset">
+    </form>
+</footer>
 </body>
-
 </html>
