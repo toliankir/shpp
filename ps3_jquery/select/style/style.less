@@ -1,62 +1,72 @@
 @default-font: 'sans-serif';
 @default-height: 30px;
+@default-width: 200px;
+@default-radius: 6px;
 
 .custom-select {
-  border: 1px solid #bebebe;
-  border-radius: 6px;
-  width: 200px;
+  width: @default-width;
   color: #bebebe;
   font-family: @default-font;
-  font-size: 0.8rem;
-  line-height: @default-height;
+  font-size: 0.9rem;
+  border: 1px solid #bebebe;
+  text-indent: 5px;
+  border-radius: @default-radius;
+  position: relative;
+  cursor: pointer;
 
-  &--clicked {
-    border-radius: 6px 6px 0 0;
+  &--active {
+    border-radius: @default-radius @default-radius 0 0;
     border: 1px solid #22a6b3;
   }
 
   &__content {
-    text-indent: 5px;
-    width: 100%;
     height: @default-height;
-
-    &:after {
-      padding-right: 10px;
-      color: black;
-      float: right;
-      content: 'v';
+    line-height: @default-height;
+    width: 100%;
+    &--selected {
+      color: #000;
     }
   }
-
-  &__slider {
-    width: 200px;
-    border-radius: 0 0 6px 6px;
-    border: 1px solid #22a6b3;
-    border-top: 0;
+  & i {
+    color: #000;
     position: absolute;
-    display: none;
+    line-height: @default-height;
+    right: 10px;
+  }
+  &__image {
+    height: 85%;
+    margin-top: -1px;
+    vertical-align: middle;
+    margin-right: 5px;
   }
 
 }
 
-.custom-select-image {
-  height: 82%;
-  vertical-align: middle;
-  margin-right: 5px;
-}
-
-.custom-select-item {
-  height: @default-height;
+.slider {
   line-height: @default-height;
-  padding: 3px 0 3px 5px;
+  width: @default-width;
+  font-family: @default-font;
+  color: #000;
+  font-size: 0.9rem;
+  position: absolute;
   background-color: #fff;
+  border-radius: 0 0 @default-radius @default-radius;
+  top: @default-height;
+  left: -1px;
+  border: 1px solid #22a6b3;
+  border-top: 1px solid #bebebe;
+  display: none;
 
-  &:last-child {
-    border-radius: 0 0 6px 6px;
-  }
+  &__item {
+    height: @default-height;
+    padding: 5px 0 5px 0;
 
-  &:hover {
-    background-color: #eee;
-    color: black;
+    &:last-child {
+      border-radius: 0 0 @default-radius @default-radius;
+    }
+    &:hover {
+      background-color: #eee;
+    }
   }
 }
+
