@@ -170,3 +170,19 @@ p {
   padding: 0;
   list-style-type: none;
 }
+.button-up {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 66px;
+  height: 36px;
+  border-radius: 6px;
+  line-height: 30px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #22a6b3;
+  border: 3px solid white;
+  font-family: sans-serif;
+  opacity: 0;
+  display: none;
+}
