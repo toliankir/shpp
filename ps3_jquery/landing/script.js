@@ -10,23 +10,16 @@ function scrollToClass(targetClass) {
         scrollPosition = elementTop;
     }
 
-   body.animate({scrollTop: scrollPosition}, 500);
+    body.animate({scrollTop: scrollPosition}, 500);
 }
 
-    $(document).scroll(() => {
-        const scrollUpButton = $('.button-up');
-        if ($(this).scrollTop() === 0) {
-            if (scrollUpButton.css('opacity') === '1') {
-                scrollUpButton.animate({opacity: 0}, 500, () => {
-                    scrollUpButton.css('display', 'none');
-                });
-            }
-        } else {
-            scrollUpButton.css('display', 'block');
-            if (scrollUpButton.css('opacity') === '0') {
-                scrollUpButton.animate({opacity: 1}, 500, () => {
+$(document).scroll(() => {
+    const scrollUpButton = $('.button-up');
+    const buttonActiveClass = 'button-up--active';
 
-                });
-            }
-        }
-    });
+    if ($(this).scrollTop() === 0) {
+        scrollUpButton.removeClass(buttonActiveClass);
+    } else {
+        scrollUpButton.addClass(buttonActiveClass);
+    }
+});

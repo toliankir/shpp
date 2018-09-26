@@ -219,6 +219,13 @@ p {
   background-color: @content-background-color;
   border: 3px solid white;
   font-family: @main-font;
+  visibility: hidden;
   opacity: 0;
-  display: none;
+  transition: all 0.5s ease;
+
+  &--active {
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
 }
