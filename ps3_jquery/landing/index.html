@@ -14,16 +14,16 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="button-up" onclick="scrollToClass('.header')"><i class="fas fa-angle-up"></i>Up!</div>
+<div class="button-up"><i class="fas fa-angle-up"></i>Up!</div>
 <header class="header">
     <section class="header-logo">
         <span class="header-logo__letter">N</span>
         <span class="header-logo__plus">++</span>
     </section>
     <nav class="header-menu">
-        <a class="header-menu__link" onclick="scrollToClass('.content')">PRODUCTS</a>
-        <a class="header-menu__link" onclick="scrollToClass('.directions')">ABOUT US</a>
-        <a class="header-menu__link" onclick="scrollToClass('.footer')">CONTACT US</a>
+        <a class="header-menu__link" id="gotoContent">PRODUCTS</a>
+        <a class="header-menu__link" id="gotoDirections">ABOUT US</a>
+        <a class="header-menu__link" id="gotoFooter">CONTACT US</a>
     </nav>
 </header>
 <div class="content">

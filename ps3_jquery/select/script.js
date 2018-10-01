@@ -1,8 +1,8 @@
 let animationEnd = true;
+const $select = $('.custom-select');
+const $content = $('.custom-select__content');
 const ANIMATION_DELAY = 500;
-const CUSTOM_SELECT_OBJ = $('div.custom-select');
-const CUSTOM_SELECT_CONTENT_OBJ = $('div.custom-select__content');
-const SLIDER = 'div.slider';
+const SLIDER = '.slider';
 
 const selectData = [
     {
@@ -29,17 +29,20 @@ const selectData = [
 customSelectInit(selectData);
 
 function customSelectInit(selectData) {
-    const slider = $('<div></div>');
+    const slider = $('<div class="slider">');
     selectData.forEach((selectItemData) => {
         const elementContent = `<img class="custom-select__image" src="${selectItemData.image}">${selectItemData.title}`;
-        $('<div></div>').addClass('slider__item').html(elementContent).on('click', () => {
-                $(CUSTOM_SELECT_CONTENT_OBJ).addClass('custom-select__content--selected').html(elementContent);
+        $('<div class="slider__item">')
+            .html(elementContent).on('click', () => {
+                $($content)
+                    .addClass('custom-select__content--selected')
+                    .html(elementContent);
             }
-        ).appendTo($(slider));
+        ).appendTo(slider);
     });
-    $(slider).addClass('slider').appendTo('div.custom-select');
+    slider.appendTo('.custom-select');
 
-    CUSTOM_SELECT_OBJ.on('click', () => {
+    $select.on('click', () => {
         if (animationEnd) {
             selectToggle();
         }
@@ -54,13 +57,13 @@ function customSelectInit(selectData) {
     function selectToggle() {
         const slider = $(SLIDER);
         if (slider.css('display') === 'none') {
-            CUSTOM_SELECT_OBJ.toggleClass('custom-select--active');
+            $select.toggleClass('custom-select--active');
         }
         animationEnd = false;
         slider.slideToggle(ANIMATION_DELAY, () => {
             animationEnd = true;
             if (slider.css('display') === 'none') {
-                CUSTOM_SELECT_OBJ.toggleClass('custom-select--active');
+                $select.toggleClass('custom-select--active');
             }
         });
     }
