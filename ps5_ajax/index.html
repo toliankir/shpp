@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    Easy Chat
+</header>
+<main id="login-form">
+    <form action="#">
+        <section class="login__form-section">
+            <label for="userName">Enter your name</label><input type="text" id="userName">
+        </section>
+        <section class="login__form-section">
+            <label for="userPassword">Enter your password</label><input type="text" id="userPassword">
+        </section>
+        <section class="login__form-section">
+            <span id="errorResponse"></span>
+            <input type="button" id="login" value="Submit">
+        </section>
+    </form>
+
+</main>
+<main id="chat">
+    <section id="chat-container">
+        <ul id="chat-data">
+
+        </ul>
+    </section>
+</main>
+<footer>
+    <div id="send-container">
+        <div><input type="text" id="message"></div>
+        <div><input type="button" id="sendMessage" value="Send"></div>
+    </div>
+</footer>
+<script>
+    const $chat = $('#chat');
+    const $loginForm = $('#login-form');
+    const $sendForm = $('#send-container');
+
+    const $userName = $('#userName');
+    const $userPassword = $('#userPassword');
+    const $errorResponse = $('#errorResponse');
+    const $message = $('#message');
+    const $chatContainer = $('#chat-container');
+    const $chatData = $("#chat-data");
+
+    let timestamp = 0;
+
+    $('#login').on('click', () => {
+        login();
+    });
+
+    $('#sendMessage').on('click', () => {
+        if (!$message.val()) {
+            return;
+        }
+
+        $.ajax({
+            url: './api/chat.php',
+            error: (jqXHR) => {
+                errorCode(jqXHR.status);
+            },
+            data: {
+                message: $message.val()
+            },
+            type: 'POST',
+            success: () => {
+                getMessages();
+                $message.val('');
+            }
+        });
+    });
+
+    function login() {
+        if (!$userName.val() || !$userPassword.val()) {
+            return;
+        }
+
+        $.ajax({
+            url: './api/chat.php',
+            type: 'POST',
+            data: {
+                user: $userName.val(),
+                password: $userPassword.val()
+            },
+            error: (jqXHR) => {
+                if (jqXHR.status === 401) {
+                    $errorResponse.text(jqXHR.responseText);
+                    return;
+                }
+                errorCode(jqXHR);
+            },
+            success: (data) => {
+                console.log(data);
+                $loginForm.hide();
+                $chat.show();
+                $sendForm.show();
+                getMessages();
+            }
+        });
+    }
+
+    function errorCode(code) {
+         $errorResponse.text(code.statusText);
+    }
+
+    function getMessages() {
+        $.ajax({
+            url: './api/chat.php',
+            type: 'GET',
+            data: {
+                timestamp: timestamp
+            },
+            error: (jqXHR) => {
+                errorCode(jqXHR.status);
+            },
+            success: (data) => {
+                messagesAdd(data);
+            }
+        });
+    }
+
+    function messagesAdd(messagesJson) {
+        const jsonData = JSON.parse(messagesJson);
+        jsonData.forEach((message) => {
+            // message.message.replace(':)', '<img src="img/smile1.png">');
+            $("<li />").html(`[${timestampToDate(message.timestamp)}] <span class="chat-bold">${message.user} :</span> ${
+                message.message
+                    .replace(':)', '<img class="image-smile" src="img/smile1.png">')
+                    .replace(':(', '<img class="image-smile" src="img/smile2.png">')
+            }`).appendTo($chatData);
+            timestamp = message.timestamp;
+        });
+
+        $chatContainer.animate({scrollTop: 1000}, 500);
+    }
+
+
+    function timestampToDate(timestamp) {
+        const date = new Date(timestamp * 1000);
+        return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+    }
+</script>
+</body>
+</html>
