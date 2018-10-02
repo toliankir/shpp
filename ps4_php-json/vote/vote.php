@@ -1,12 +1,13 @@
 <?php
-class VoteServer
+
+class Vote
 {
     private $voteFile;
     private $voteData;
 
     /**
      * Vote constructor.
-     * @param $voteFile file name of vote json file;
+     * @param $voteFile - File name of vote json file;
      */
     public function __construct($voteFile)
     {
@@ -19,8 +20,10 @@ class VoteServer
      */
     private function readVoteFile()
     {
+        if (!is_writable($this->voteFile)) {
+            return;
+        }
         $this->voteData = json_decode(file_get_contents($this->voteFile), true);
-
     }
 
     /**
@@ -33,7 +36,7 @@ class VoteServer
 
     /**
      * Increment question counter.
-     * @param $id Id of question
+     * @param $id - Id of question
      */
     public function makeVote($id)
     {
@@ -43,32 +46,6 @@ class VoteServer
         } else {
             echo "Incorrect question number.";
         }
-    }
-}
-
-class VoteClient
-{
-    private $voteFile;
-    private $voteData;
-
-
-    /**
-     * Vote constructor.
-     * @param $voteFile file name of vote json file;
-     */
-    public function __construct($voteFile)
-    {
-        $this->voteFile = $voteFile;
-        $this->readVoteFile();
-    }
-
-    /**
-     * Read json file and save json data in local object variable.
-     */
-    private function readVoteFile()
-    {
-        $this->voteData = json_decode(file_get_contents($this->voteFile), true);
-
     }
 
     /**
@@ -84,15 +61,26 @@ class VoteClient
      */
     public function printQuestions()
     {
-        try {
-            foreach ($this->voteData["questions"] as $key => $value) {
-                echo("<li><input title=\"" . $value .
-                    "\" type=\"radio\" name=\"question\" value=\"" . $key .
-                    "\">" . $value . "</li>\n");
-            }
-        } catch (Exception $e) {
-            echo "1233";
+        if (!$this->voteData) {
+            echo "<span class='vote__error'>Service temporarily unavailable</span>";
+            return;
         }
+        $voteList = '';
+        foreach ($this->voteData["questions"] as $key => $value) {
+            $voteList = $voteList . "<li><input id='id" . $key . "' type=\"radio\" name=\"question\" value=\"" . $key .
+                "\"><label for='id" . $key . "' >" . $value . "</label></li>\n";
+        }
+
+        echo("<div class=\"vote__title\">". $this->voteData["title"] ."</div>
+    <div class=\"vote__resetStatus\"><i id=\"resetVote\" class=\"fas fa-times-circle\"></i></div>
+    <form method=\"get\" action=\"make_vote.php\">
+        <ul class=\"vote__questionList\">" . $voteList . "</ul>
+        <input class=\"vote__input\" title=\"Make vote\" type=\"button\" value=\"Make vote\">
+    </form>
+    <div class=\"vote__link\">
+        <a href=\"result.php\">Show results.</a>
+    </div>");
+
     }
 
     /**

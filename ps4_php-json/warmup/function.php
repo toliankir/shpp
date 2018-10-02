@@ -71,4 +71,3 @@ function task6() {
     echo "<p>Array with unique values: " . implode(", ", $uniqueArray) . "</p>";
     echo "<p>Reversed array with unique values: " . implode(", ", array_reverse($uniqueArray)) . "</p>";
 }
-?>

@@ -1,9 +1,9 @@
 <?php
 require("vote.php");
 const VOTE_FILE = "vote.dat";
-$voteServer = new VoteServer(VOTE_FILE);
+$vote = new Vote(VOTE_FILE);
 if (isset($_GET["question"])) {
-    $voteServer->makeVote($_GET["question"]);
+    $vote->makeVote($_GET["question"]);
 }
 ?><!DOCTYPE html>
 <html>

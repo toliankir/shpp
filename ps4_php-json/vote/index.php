@@ -1,6 +1,6 @@
 <?php
 require("vote.php");
-$voteClient = new VoteClient("vote.dat");
+$vote = new Vote("vote.dat");
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,19 +16,9 @@ $voteClient = new VoteClient("vote.dat");
 <body>
 
 <div class="vote">
-    <div class="vote__title"><?php $voteClient->printTitle(); ?></div>
-    <div class="vote__resetStatus"><i id="resetVote" class="fas fa-times-circle"></i></div>
-    <form method="get" action="make_vote.php">
-        <ul class="vote__questionList">
-            <?php
-            $voteClient->printQuestions();
-            ?>
-        </ul>
-        <input class="vote__input" title="Make vote" type="button" value="Make vote">
-    </form>
-    <div class="vote__link">
-        <a href="result.php">Show results.</a>
-    </div>
+    <?php
+    $vote->printQuestions();
+    ?>
 </div>
 </body>
 <script type="text/javascript" src="script.js">

@@ -1,4 +1,4 @@
-$(".vote__input").click((event) => {
+$(".vote__input").click(() => {
     const question = $(".vote input[name='question']:checked")[0];
     if (question) {
         if (localStorage.getItem("voted") !== "true") {
@@ -12,7 +12,12 @@ $(".vote__input").click((event) => {
     }
 });
 
-$("#resetVote").click((event) => {
+$('.vote label').on('click', (event) => {
+    $(event.target).closest('li').find('input').prop('checked', true);
+    // console.log($(event.target).closest('li'));
+});
+
+$("#resetVote").click(() => {
     $("#resetVote").css("visibility", "hidden");
     localStorage.removeItem("voted");
 });

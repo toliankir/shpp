@@ -1,7 +1,7 @@
 <?php
 require("vote.php");
 const VOTE_FILE = "vote.dat";
-$voteClient = new VoteClient(VOTE_FILE);
+$vote = new Vote(VOTE_FILE);
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +14,11 @@ $voteClient = new VoteClient(VOTE_FILE);
         function drawChart() {
 
             let data = google.visualization.arrayToDataTable([
-                <?php $voteClient->printResult(); ?>
+                <?php $vote->printResult(); ?>
             ]);
 
             let options = {
-                title: 'Result: <?php $voteClient->printTitle(); ?>',
+                title: 'Result: <?php $vote->printTitle(); ?>',
                 backgroundColor: '#22a6b3',
                 titleTextStyle: {
                     color: '#eee',
@@ -64,8 +64,8 @@ $voteClient = new VoteClient(VOTE_FILE);
 <?php
 
 if (isset($_GET["question"])) {
-    if ($voteClient->getQuestionById($_GET["question"])) {
-        echo "<h3>You vote for " . $voteClient->getQuestionById($_GET["question"]) . "</h3>";
+    if ($vote->getQuestionById($_GET["question"])) {
+        echo "<h3>You vote for " . $vote->getQuestionById($_GET["question"]) . "</h3>";
     } else {
         echo "<h3>Something went wrong.</h3>";
     }
