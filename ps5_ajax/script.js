@@ -26,7 +26,7 @@ $('#sendMessage').on('click', () => {
     $.ajax({
         url: './api/chat.php',
         error: (jqXHR) => {
-            errorCode(jqXHR.status);
+            errorCode(jqXHR);
         },
         data: {
             message: $message.val()
@@ -40,7 +40,14 @@ $('#sendMessage').on('click', () => {
 });
 
 function login() {
-    if (!$userName.val() || !$userPassword.val()) {
+
+    if (!checkLogin($userName.val()) ) {
+        $errorResponse.text('Type correct login');
+        return;
+    }
+
+    if (!checkPassword($userPassword.val()) ) {
+        $errorResponse.text('Password must be more then 6 charsets');
         return;
     }
 
@@ -52,10 +59,7 @@ function login() {
             password: $userPassword.val()
         },
         error: (jqXHR) => {
-            if (jqXHR.status === 401) {
-                $errorResponse.text(jqXHR.responseText);
-                return;
-            }
+
             errorCode(jqXHR);
         },
         success: () => {
@@ -75,9 +79,12 @@ function logout() {
     clearInterval(refreshInterval);
 }
 
-function errorCode(code) {
+function errorCode(jqXHR) {
     $errorResponse.text('Service temporarily unavailable');
-    console.log(code.responseText);
+    if (jqXHR.status === 401) {
+        $errorResponse.text(jqXHR.responseText);
+    }
+    console.log(jqXHR.responseText);
     logout();
 }
 
@@ -89,7 +96,7 @@ function getMessages() {
             timestamp: timestamp
         },
         error: (jqXHR) => {
-            errorCode(jqXHR.status);
+            errorCode(jqXHR);
         },
         success: (data) => {
             messagesAdd(data);
@@ -112,8 +119,15 @@ function messagesAdd(messagesJson) {
     $chatData.animate({scrollTop: chatMassagesHeight}, 200);
 }
 
-
 function timestampToDate(timestamp) {
     const date = new Date(timestamp * 1000);
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+}
+
+function checkLogin(login) {
+    return /^[a-z]{1}[0-9a-zA-Z\-_\.]{5,19}$/.test(login);
+}
+
+function checkPassword(password) {
+    return /^.{6,}$/.test(password);
 }

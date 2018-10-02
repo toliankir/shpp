@@ -13,16 +13,13 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         }
         $_SESSION['user'] = $_POST['user'];
     } catch (Exception $err) {
-//        echo $err->getMessage().'/'.$err->getCode();
         errorHandler($err->getMessage(), $err->getCode());
     }
 }
 
 //If trying get data with oyt login.
 if (!isset($_SESSION['user'])) {
-    header("HTTP/1.1 401 Unauthorized");
-    echo 'you must to login';
-    exit();
+    errorHandler('you must to login', 401);
 }
 
 //Post message
@@ -37,11 +34,9 @@ try {
 //Get messages
 try {
     if (isset($_GET['timestamp'])) {
-
         echo json_encode($chatService->getMessages($_GET['timestamp']));
     }
 } catch (Exception $err) {
-
     errorHandler($err->getMessage(), $err->getCode());
 }
 
