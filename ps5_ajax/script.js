@@ -15,38 +15,27 @@ let timestamp = 0;
 let refreshInterval;
 
 $('#login').on('click', () => {
-    login();
+    login($userName.val(), $userPassword.val());
 });
 
 $('#sendMessage').on('click', () => {
-    if (!$message.val()) {
-        return;
-    }
-
-    $.ajax({
-        url: './api/chat.php',
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        data: {
-            message: $message.val()
-        },
-        type: 'POST',
-        success: () => {
-            getMessages();
-            $message.val('');
-        }
-    });
+    sendMessage($message.val());
 });
 
-function login() {
+$sendContainer.keyup((event) => {
+    if (event.keyCode === 13) {
+        sendMessage($message.val());
+    }
+});
 
-    if (!checkLogin($userName.val()) ) {
+function login(login, password) {
+
+    if (!checkLogin(login)) {
         $errorResponse.text('Type correct login');
         return;
     }
 
-    if (!checkPassword($userPassword.val()) ) {
+    if (!checkPassword(password)) {
         $errorResponse.text('Password must be more then 6 charsets');
         return;
     }
@@ -55,8 +44,8 @@ function login() {
         url: './api/chat.php',
         type: 'POST',
         data: {
-            user: $userName.val(),
-            password: $userPassword.val()
+            user: login,
+            password: password
         },
         error: (jqXHR) => {
 
@@ -68,6 +57,27 @@ function login() {
             $sendContainer.show();
             getMessages();
             refreshInterval = setInterval(getMessages, 1000);
+        }
+    });
+}
+
+function sendMessage(message) {
+    if (!message) {
+        return;
+    }
+
+    $.ajax({
+        url: './api/chat.php',
+        error: (jqXHR) => {
+            errorCode(jqXHR);
+        },
+        data: {
+            message: message
+        },
+        type: 'POST',
+        success: () => {
+            getMessages();
+            $message.val('');
         }
     });
 }

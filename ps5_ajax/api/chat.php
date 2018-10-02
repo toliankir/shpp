@@ -25,7 +25,9 @@ if (!isset($_SESSION['user'])) {
 //Post message
 try {
     if (isset($_POST['message'])) {
-        $chatService->sendMessage($_SESSION['user'], $_POST['message']);
+        $message = str_replace('<', '&lt;', $_POST['message']);
+        $message = str_replace('>', '&gt;', $message);
+        $chatService->sendMessage($_SESSION['user'], $message);
     }
 } catch (Exception $err) {
     errorHandler($err->getMessage(), $err->getCode());
