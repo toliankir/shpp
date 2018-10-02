@@ -1,3 +1,5 @@
+@chatWidth: 40%;
+
 html {
   height: 100%;
 }
@@ -37,19 +39,20 @@ main {
 
 }
 
-#chat {
+#chatContainer {
   display: none;
 }
 
-#chat-container {
+#chatData {
   display: inline-block;
   background-color: #fffecd;
   text-align: left;
-  width: 40%;
+  width: @chatWidth;
   height: 33vh;
   overflow: scroll;
   overflow-x: hidden;
   padding: 1rem;
+  min-height: 250px;
   & ul {
     list-style: none;
     padding: 0;
@@ -74,8 +77,7 @@ form {
   font-family: 'Montserrat', sans-serif;
   text-align: left;
   display: inline-block;
-  min-width: 300px;
-
+  width: 300px;
 }
 
 .login__form-section {
@@ -103,15 +105,14 @@ label {
 }
 
 input {
-  display: block;
+  display: inline-block;
   width: 100%;
   background-color: #fffecd;
   color: #a8a4a8;
   border: 0;
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
-  //text-indent: 0.5rem;
-  padding: 0.7rem 0 0.7rem 0.7rem;
+  padding: 0.7rem;
   font-weight: bold;
 
   &[type="button"] {
@@ -119,23 +120,46 @@ input {
     color: #fffecd;
     font-size: 1rem;
     text-indent: 0;
+    cursor: pointer;
   }
+
+}
+
+#visualEffect {
+  position: relative;
+}
+
+#visualEffect:before {
+  content: '';
+  z-index: -1;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  transform-origin: 100% 0;
+  transform: matrix(1, -0.135, 2.5, 4, 0, 0);
+  background: linear-gradient(0, rgba(0, 0, 0, 0), rgba(63, 59, 60, 0.5));;
 }
 
 footer {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: auto;
-  text-align: center;
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
-#send-container {
-  background-color: red;
+#sendContainer {
+  width: @chatWidth;
   display: none;
-  min-width: 450px;
-  width: 20%;
+}
 
-  & div {
-    flex: 1;
-  }
+#message {
+  width: 75%;
+}
+
+#sendMessage {
+  width: 20%;
+  float: right;
 }

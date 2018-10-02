@@ -6,9 +6,9 @@ const ERROR_CODE = array(
     500 => 'HTTP/1.1 500 Internal Server Error'
 );
 
-function errorHandler($error)
+function errorHandler($error_msg, $error_code)
 {
-    header(ERROR_CODE[$error]);
-    echo 'Test exception';
+    header(ERROR_CODE[$error_code]);
+    echo $error_msg;
     exit();
 }

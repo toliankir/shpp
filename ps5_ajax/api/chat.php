@@ -13,9 +13,8 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         }
         $_SESSION['user'] = $_POST['user'];
     } catch (Exception $err) {
-        header("HTTP/1.1 401 Unauthorized");
-        echo 'incorrect username or password';
-        exit();
+//        echo $err->getMessage().'/'.$err->getCode();
+        errorHandler($err->getMessage(), $err->getCode());
     }
 }
 
@@ -32,7 +31,7 @@ try {
         $chatService->sendMessage($_SESSION['user'], $_POST['message']);
     }
 } catch (Exception $err) {
-    errorHandler($err->getMessage());
+    errorHandler($err->getMessage(), $err->getCode());
 }
 
 //Get messages
@@ -43,6 +42,6 @@ try {
     }
 } catch (Exception $err) {
 
-    errorHandler($err->getMessage());
+    errorHandler($err->getMessage(), $err->getCode());
 }
 
