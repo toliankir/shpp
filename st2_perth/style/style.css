@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('../font/BLACKJAR.TTF') format('truetype');
+}
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  min-height: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+* {
+  box-sizing: border-box;
+}
+.page-part {
+  height: 100vh;
+  padding: 0 12% 0 12%;
+  position: relative;
+  min-height: 600px;
+  overflow: hidden;
+}
+.content {
+  width: 100%;
+  margin: 0;
+  min-width: 800px;
+}
+.content--right {
+  text-align: right;
+  color: white;
+}
+.content--logo-line i {
+  float: right;
+  line-height: 100px;
+  font-size: 2rem;
+  color: #fff;
+}
+.logo-section {
+  background-color: #49c6ef;
+  background-image: url('../img/blue-pattern.jpg');
+}
+.logo-section__logo i {
+  float: right;
+  line-height: 100px;
+  font-size: 2rem;
+  color: #fff;
+}
+.logo-section p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.1rem;
+  margin: 1rem 0 0 0;
+}
+.logo-section img {
+  position: absolute;
+  left: 18%;
+  bottom: -260px;
+}
+.logo-section .button-type {
+  display: inline-block;
+  border: 2px solid white;
+  border-radius: 1px;
+  background-color: rgba(0, 0, 0, 0);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  padding: 1rem 2rem 1rem 2rem;
+  margin-top: 4rem;
+  font-size: 1rem;
+}
+.logo-section h3 {
+  font-family: MyWebFont;
+  font-size: 5rem;
+  font-weight: normal;
+  margin: 3rem 0 0 0;
+}
+.bold-italic {
+  font-weight: bold;
+  font-style: italic;
+}
+.logo {
+  background-color: white;
+  text-align: center;
+  width: 120px;
+  height: 120px;
+  border-bottom: #49c6ef;
+  font-family: 'Kaushan Script', cursive;
+  font-size: 4rem;
+  line-height: 4rem;
+  color: #49c6ef;
+  border-bottom: 10px solid #01b1ea;
+  border-right: 10px solid #01b1ea;
+  position: relative;
+  display: inline-block;
+}
+.header-section {
+  background-color: #f4f4f4;
+  padding-top: 8rem;
+}
+.header-section img {
+  position: absolute;
+  right: -100px;
+  bottom: -100px;
+}
+.header-section h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.3rem;
+}
+.header-section p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+}
