@@ -10,10 +10,15 @@ function task1($firstNumber, $secondNumber)
 
 function task2($firstNumber, $secondNumber, $numArray)
 {
+    if (!preg_match('/^(\d,)*\d$/', $numArray)) {
+        echo 'Wrong last numbers';
+        return;
+    }
+
     $sum = 0;
     $num_array = explode(",", $numArray);
     for ($i = $firstNumber; $i <= $secondNumber; $i++) {
-        if (in_array(((string)$i)[strlen((string)$i) - 1], $num_array)) {
+        if (in_array(abs($i % 10), $num_array)) {
             $sum += $i;
         }
     }
@@ -48,21 +53,22 @@ function task4($boardSize)
     return $result;
 }
 
-function task5($inNumber){
+function task5($inNumber)
+{
+    if (!preg_match("/^[0-9-+.,]*$/", $inNumber)) {
+        return "Enter number please";
+    }
 
-        if (preg_match("/^[0-9-+.,]*$/", $inNumber)) {
-            $str = preg_replace("/[-+.,]/", "", $inNumber);
-            $sum = 0;
-            for ($i = 0; $i < strlen($str); $i++) {
-                $sum += $str[$i];
-            }
-            return $sum;
-        } else {
-            return "Eneter number please";
+    return array_reduce(str_split($inNumber), function ($sum, $item) {
+        if (is_numeric($item)) {
+            $sum += $item;
         }
+        return $sum;
+    });
 }
 
-function task6() {
+function task6()
+{
     for ($i = 0; $i < 100; $i++) {
         $resultArray[] = mt_rand(0, 10);
     }
