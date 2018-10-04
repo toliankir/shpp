@@ -1,133 +1,247 @@
 @blue-color: #49c6ef;
-
+@adaptive-size: 720px;
 @font-face {
-  font-family: 'MyWebFont';
-  src: url('../font/BLACKJAR.TTF') format('truetype');
+    font-family: 'MyWebFont';
+    src: url('../font/BLACKJAR.TTF') format('truetype');
 }
 
 html {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  margin: 0;
-  min-height: 100%;
-  background: white;
-  display: flex;
-  flex-direction: column;
+    margin: 0;
+    min-height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.page-part,
+.content {
+    position: relative;
+    display: block;
 }
 
 .page-part {
-  height: 100vh;
-  padding: 0 12% 0 12%;
-  position: relative;
-  min-height: 600px;
-  overflow: hidden;
+    height: 100vh;
+    padding: 0 12% 0 12%;
+    overflow: hidden;
+}
+
+@media screen and (max-width: @adaptive-size) {
+    .page-part {
+        height: 100vh;
+        padding: 0 5% 0 5%;
+        overflow: hidden;
+    }
 }
 
 .content {
-  width: 100%;
-  margin: 0;
-  min-width: 800px;
+    width: 100%;
+    margin: 0;
+    position: relative;
 }
 
-.content--right {
-  text-align: right;
-  color: white;
+.intro {
+    background-color: @blue-color;
+    background: url('../img/blue-pattern.jpg');
+    &__logo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        &>i {
+            float: right;
+            font-size: 2rem;
+            color: #fff;
+        }
+    }
+    &__content {
+        text-align: right;
+        position: relative;
+        color: white;
+        z-index: 2;
+        &>h3 {
+            font-family: MyWebFont;
+            font-size: 5rem;
+            font-weight: normal;
+            margin: 3rem 0 0 0;
+        }
+        &>p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.1rem;
+            margin: 1rem 0 0 0;
+            position: relative;
+            &>span {
+                font-weight: 800;
+                font-style: italic;
+            }
+        }
+    }
+    &>img {
+        z-index: 1;
+    }
 }
 
-.content--logo-line i {
-  float: right;
-  line-height: 100px;
-  font-size: 2rem;
-  color: #fff;
+@media screen and (min-width: @adaptive-size) {
+    .intro {
+        min-height: 650px;
+        &__logo {
+            &>i {
+                font-size: 2rem;
+            }
+        }
+        &__content {
+            &>h3 {
+                font-size: 5rem;
+                margin: 3rem 0 0 0;
+            }
+            &>p {
+                font-size: 2.1rem;
+                margin: 1rem 0 0 0;
+            }
+        }
+        &>img {
+            position: absolute;
+            bottom: -200px;
+        }
+    }
 }
 
-.logo-section {
-  background-color: @blue-color;
-  background-image: url('../img/blue-pattern.jpg');
-
-
-  &__logo i {
-    float: right;
-    line-height: 100px;
-    font-size: 2rem;
-    color: #fff;
-  }
-
-  p {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.1rem;
-    margin: 1rem 0 0 0;
-  }
-
-  & img {
-    position: absolute;
-    left: 18%;
-    bottom: -260px;
-  }
-  & .button-type {
-    display: inline-block;
-    border: 2px solid white;
-    border-radius: 1px;
-    background-color: rgba(0,0,0,0);
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    padding: 1rem 2rem 1rem 2rem;
-    margin-top: 4rem;
-    font-size: 1rem;
-  }
-  & h3 {
-    font-family: MyWebFont;
-    font-size: 5rem;
-    font-weight: normal;
-    margin: 3rem 0 0 0;
-  }
+@media screen and (max-width: @adaptive-size) {
+    .intro {
+        &__logo {
+            &>i {
+                font-size: 2rem;
+            }
+        }
+        &__content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            &>h3 {
+                font-size: 15vw;
+                margin: 0;
+            }
+            &>p {
+                font-size: 5vw;
+                margin: 0;
+            }
+        }
+        &>img {
+            margin: 1rem 0 0 0;
+        }
+    }
 }
 
-.bold-italic {
-  font-weight: bold;
-  font-style: italic;
+.header {
+    background-color: #f4f4f4;
+    &__content {
+        z-index: 2;
+        font-family: 'Montserrat', sans-serif;
+        &>.left-marked {
+            border-left: 5px solid @blue-color;
+            padding: 0 0 0 1rem;
+        }
+    }
+    &>img {
+        z-index: 1;
+    }
+}
+
+@media screen and (min-width: @adaptive-size) {
+    .header {
+        min-height: 650px;
+        &__content {
+            width: 60%;
+            font-family: 'Montserrat', sans-serif;
+            &>h3 {
+                margin: 8.5rem 0 0 0;
+                font-size: 2.5rem;
+                font-weight: 100;
+            }
+            &>p {
+                margin: 2rem 0 0 0;
+                line-height: 2rem;
+            }
+            &>.left-marked {
+                margin: 1rem 0 0 0;
+            }
+        }
+        &>img {
+            position: absolute;
+            right: -50px;
+            bottom: -150px;
+        }
+    }
+}
+
+@media screen and (max-width: @adaptive-size) {
+    .header {
+        &__content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            &>h3 {
+                margin: 1rem 0 0 0;
+                font-size: 7vw;
+                font-weight: 100;
+            }
+            &>p {
+                margin: 1rem 0 0 0;
+                line-height: 1.5rem;
+            }
+            &>.left-marked {
+                margin: 1rem 0 0 0;
+            }
+        }
+        &>img {
+            width: 80%;
+            margin: 1rem 0 0 20%;
+            height: auto;
+            
+        }
+    }
 }
 
 .logo {
-
-  background-color: white;
-  text-align: center;
-  width: 120px;
-  height: 120px;
-  border-bottom: @blue-color;
-  font-family: 'Kaushan Script', cursive;
-  font-size: 4rem;
-  line-height: 4rem;
-  color: @blue-color;
-  border-bottom: 10px solid #01b1ea;
-  border-right: 10px solid #01b1ea;
-  position: relative;
-  display: inline-block;
-
-
+    background-color: white;
+    text-align: center;
+    width: 110px;
+    height: 110px;
+    border-bottom: @blue-color;
+    font-family: 'Kaushan Script', cursive;
+    font-size: 4rem;
+    line-height: 4rem;
+    color: @blue-color;
+    border-bottom: 10px solid #01b1ea;
+    border-right: 10px solid #01b1ea;
 }
 
-.header-section {
-  background-color: #f4f4f4;
-  padding-top: 8rem;
-  & img {
-    position: absolute;
-    right: -100px;
-    bottom: -100px;
-  }
-  & h4 {
+.button-type {
+    position: relative;
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 3px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.3rem;
-  }
-
-  & p {
-    font-family: 'Montserrat', sans-serif;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 1rem 2rem 1rem 2rem;
+    margin-top: 4rem;
     font-size: 1rem;
-  }
+    cursor: pointer;
+    &--white {
+        color: white;
+    }
+    &--green {
+        color: #14af8f;
+    }
+    &--purple {
+        color: #ea4c89;
+    }
 }
