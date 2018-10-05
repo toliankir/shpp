@@ -30,14 +30,12 @@ body {
 .page-part {
     height: 100vh;
     padding: 0 12% 0 12%;
-    overflow: hidden;
+    overflow: hidden; // min-height: 650px;
 }
 
 @media screen and (max-width: @adaptive-size) {
     .page-part {
-        height: 100vh;
         padding: 0 5% 0 5%;
-        overflow: hidden;
     }
 }
 
@@ -62,19 +60,14 @@ body {
     }
     &__content {
         text-align: right;
-        position: relative;
         color: white;
         z-index: 2;
         &>h3 {
             font-family: MyWebFont;
-            font-size: 5rem;
             font-weight: normal;
-            margin: 3rem 0 0 0;
         }
         &>p {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.1rem;
-            margin: 1rem 0 0 0;
             position: relative;
             &>span {
                 font-weight: 800;
@@ -89,16 +82,11 @@ body {
 
 @media screen and (min-width: @adaptive-size) {
     .intro {
-        min-height: 650px;
-        &__logo {
-            &>i {
-                font-size: 2rem;
-            }
-        }
         &__content {
+            position: relative;
             &>h3 {
-                font-size: 5rem;
-                margin: 3rem 0 0 0;
+                font-size: 4.5rem;
+                margin: 0;
             }
             &>p {
                 font-size: 2.1rem;
@@ -107,6 +95,7 @@ body {
         }
         &>img {
             position: absolute;
+            left: 200px;
             bottom: -200px;
         }
     }
@@ -114,11 +103,6 @@ body {
 
 @media screen and (max-width: @adaptive-size) {
     .intro {
-        &__logo {
-            &>i {
-                font-size: 2rem;
-            }
-        }
         &__content {
             display: flex;
             flex-direction: column;
@@ -133,59 +117,73 @@ body {
             }
         }
         &>img {
+            position: relative;
             margin: 1rem 0 0 0;
         }
     }
 }
 
 .header {
+    display: flex;
     background-color: #f4f4f4;
+    position: relative;
     &__content {
+        width: 60%;
         z-index: 2;
         font-family: 'Montserrat', sans-serif;
+        &>h3 {
+            font-size: 2.5rem;
+            font-weight: 100;
+        }
+        &>p {
+            margin: 2rem 0 0 0;
+            line-height: 2rem;
+        }
         &>.left-marked {
             border-left: 5px solid @blue-color;
+            margin: 1rem 0 0 0;
             padding: 0 0 0 1rem;
         }
     }
     &>img {
-        z-index: 1;
+        position: absolute;
     }
 }
 
-@media screen and (min-width: @adaptive-size) {
+@media screen and (min-width: 721px) {
     .header {
-        min-height: 650px;
         &__content {
-            width: 60%;
-            font-family: 'Montserrat', sans-serif;
             &>h3 {
-                margin: 8.5rem 0 0 0;
-                font-size: 2.5rem;
-                font-weight: 100;
-            }
-            &>p {
-                margin: 2rem 0 0 0;
-                line-height: 2rem;
-            }
-            &>.left-marked {
-                margin: 1rem 0 0 0;
+                margin: 2.5rem 0 0 0;
             }
         }
         &>img {
-            position: absolute;
-            right: -50px;
-            bottom: -150px;
+            right: -150px;
+            bottom: -50px;
         }
     }
 }
 
-@media screen and (max-width: @adaptive-size) {
+@media screen and (min-width: 1001px) {
     .header {
         &__content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            &>h3 {
+                margin: 8.5rem 0 0 0;
+            }
+        }
+        &>img {
+            right: -50px;
+            bottom: -50px;
+        }
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        &__content {
             width: 100%;
             font-family: 'Montserrat', sans-serif;
             &>h3 {
@@ -202,10 +200,164 @@ body {
             }
         }
         &>img {
+            position: relative;
             width: 80%;
             margin: 1rem 0 0 20%;
             height: auto;
+        }
+    }
+}
+
+.main {
+    &__content {
+        position: relative;
+        z-index: 2;
+        font-family: 'Montserrat', sans-serif;
+        &>h3 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: normal;
+            color: #535353;
+        }
+        &>.bold-italic {
+            font-weight: 600;
+            font-style: italic;
+        }
+        &>.grey-font {
+            color: #7f7f7f;
+        }
+    }
+    &>img {
+        z-index: 1;
+    }
+}
+
+@media screen and (min-width: 721px) {
+    .main {
+        &__content {
+            padding: 2rem 0 0 55%;
+        }
+        &>img {
+            position: absolute;
+            left: -280px;
+            bottom: -120px;
+        }
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .main {
+        &__content {
+            padding: 5rem 0 0 55%;
+        }
+        &>img {
+            position: absolute;
+            left: -150px;
+            bottom: -100px;
+        }
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        &__content {
+            width: 100%;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            &>h3 {
+                margin: 1rem 0 0 0;
+                font-size: 7vw;
+                font-weight: 100;
+            }
+            &>p {
+                margin: 1rem 0 0 0;
+                line-height: 1.5rem;
+            }
+            &>.left-marked {
+                margin: 1rem 0 0 0;
+            }
+        }
+        &>img {
+            position: relative;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            margin: 1rem 0 0 0;
+        }
+    }
+}
+
+.beer {
+    background: url('../img/green-pattern.jpg');
+    background-color: #01c2ad;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    &>h3 {
+        color: white;
+        margin: 0;
+        font-size: 2rem;
+        font-family: 'Montserrat', sans-serif;
+    }
+    &>button {
+        margin: 2rem 0 0 0;
+    }
+}
+
+.feedback {
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    &__content {
+        position: relative;
+        width: 450px;
+        text-align: center;
+        color: #535353;
+        &>i {
+            margin: 0 20px 0 20px;
+            font-size: 1.5rem;
+            border: 3px solid;
+            width: 56px;
+            height: 56px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 28px;
+        }
+        &>.sabscription {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 1rem;
+            width: 100%;
+            display: flex;
+            position: relative;
+            justify-content: space-between;
+            align-items: center;
+            &>label {
+                font-weight: 600;
+                font-style: italic;
             
+            }
+            &>input {
+                position: relative;
+                width: 50%;
+                font-style: italic;
+                padding: 5px;
+           
+            }
+            &::after {
+                content: '\f0e0';
+                font-family: 'FontAwesome';
+                color: #00c7eb;
+                
+                position: absolute;
+                right: 10px;
+            }
         }
     }
 }
@@ -227,12 +379,13 @@ body {
 .button-type {
     position: relative;
     display: inline-block;
+    font-weight: bold;
     border: 2px solid;
     border-radius: 3px;
     font-family: 'Montserrat', sans-serif;
     background-color: rgba(0, 0, 0, 0);
     padding: 1rem 2rem 1rem 2rem;
-    margin-top: 4rem;
+    margin-top: 3rem;
     font-size: 1rem;
     cursor: pointer;
     &--white {
