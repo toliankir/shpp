@@ -35,10 +35,10 @@ main {
   display: inline-block;
   background-color: #fffecd;
   text-align: left;
-  width: 40%;
   height: 33vh;
   overflow: scroll;
   overflow-x: hidden;
+  width: 40%;
   padding: 1rem;
   min-height: 250px;
 }
@@ -127,6 +127,22 @@ footer {
 #sendContainer {
   width: 40%;
   display: none;
+}
+@media screen and (max-width: 1200px) {
+  #chatData {
+    width: 60%;
+  }
+  #sendContainer {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 700px) {
+  #chatData {
+    width: 90%;
+  }
+  #sendContainer {
+    width: 90%;
+  }
 }
 #message {
   width: 75%;

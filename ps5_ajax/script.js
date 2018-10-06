@@ -11,6 +11,11 @@ const $chatDataList = $("#chatDataList");
 
 const $message = $('#message');
 
+const smiles = [
+    "img/smile1.png",
+    "img/smile2.png"
+];
+
 let timestamp = 0;
 let requetTimeout;
 let $ajaxXHR;
@@ -40,6 +45,8 @@ function login(login, password) {
         $errorResponse.text('Password must be more then 6 charsets');
         return;
     }
+
+    imagePreload(smiles);
 
     $.ajax({
         url: './api/chat.php',
@@ -146,4 +153,11 @@ function checkLogin(login) {
 
 function checkPassword(password) {
     return /^.{6,}$/.test(password);
+}
+
+function imagePreload(imagesArray) {
+    imagesArray.forEach((value) => {
+        console.log(value);
+        $('<img/>').attr('src', value).hide().appendTo('body');
+    });
 }
