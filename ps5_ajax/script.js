@@ -12,7 +12,8 @@ const $chatDataList = $("#chatDataList");
 const $message = $('#message');
 
 let timestamp = 0;
-let refreshInterval;
+let requetTimeout;
+let $ajaxXHR;
 
 $('#login').on('click', () => {
     login($userName.val(), $userPassword.val());
@@ -56,7 +57,6 @@ function login(login, password) {
             $chatContainer.show();
             $sendContainer.show();
             getMessages();
-            refreshInterval = setInterval(getMessages, 1000);
         }
     });
 }
@@ -65,7 +65,8 @@ function sendMessage(message) {
     if (!message) {
         return;
     }
-
+    $ajaxXHR.abort();
+    clearTimeout(requetTimeout);
     $.ajax({
         url: './api/chat.php',
         error: (jqXHR) => {
@@ -86,20 +87,24 @@ function logout() {
     $chatContainer.hide();
     $sendContainer.hide();
     $loginContainer.show();
-    clearInterval(refreshInterval);
+    $ajaxXHR.abort();
+    clearTimeout(refreshInterval);
 }
 
 function errorCode(jqXHR) {
+    if (jqXHR.statusText === "abort") {
+        return;
+    }
     $errorResponse.text('Service temporarily unavailable');
     if (jqXHR.status === 401) {
         $errorResponse.text(jqXHR.responseText);
     }
+    console.log(jqXHR.statusText);
     console.log(jqXHR.responseText);
-    logout();
 }
 
 function getMessages() {
-    $.ajax({
+    $ajaxXHR = $.ajax({
         url: './api/chat.php',
         type: 'GET',
         data: {
@@ -110,6 +115,7 @@ function getMessages() {
         },
         success: (data) => {
             messagesAdd(data);
+            requetTimeout = setTimeout(getMessages, 1000);
         }
     });
 }
@@ -126,7 +132,7 @@ function messagesAdd(messagesJson) {
     });
 
     const chatMassagesHeight = $chatDataList.height() - $chatData.height();
-    $chatData.animate({scrollTop: chatMassagesHeight}, 200);
+    $chatData.animate({ scrollTop: chatMassagesHeight }, 200);
 }
 
 function timestampToDate(timestamp) {
