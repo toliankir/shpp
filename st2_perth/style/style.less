@@ -41,7 +41,7 @@ body {
 
 @media screen and (max-width: 720px) {
     .page-part {
-        min-height: 600px; // min-height: auto;
+        min-height: 600px; 
         padding: 0 5% 0 5%;
     }
 }
@@ -52,6 +52,7 @@ body {
     position: relative;
 }
 
+//----------------------Intro part--------------------------
 .intro {
     background-color: @blue-color;
     background: url('../img/blue-pattern.jpg');
@@ -131,6 +132,21 @@ body {
     }
 }
 
+.logo {
+    background-color: white;
+    text-align: center;
+    width: 110px;
+    height: 110px;
+    border-bottom: @blue-color;
+    font-family: 'Kaushan Script', cursive;
+    font-size: 4rem;
+    line-height: 4rem;
+    color: @blue-color;
+    border-bottom: 10px solid #01b1ea;
+    border-right: 10px solid #01b1ea;
+}
+
+//----------------------Header part--------------------------
 .header {
     display: flex;
     background-color: #f4f4f4;
@@ -216,6 +232,7 @@ body {
     }
 }
 
+//----------------------Main part--------------------------
 .main {
     &__content {
         position: relative;
@@ -298,6 +315,7 @@ body {
     }
 }
 
+//----------------------Beer part--------------------------
 .beer {
     background: url('../img/green-pattern.jpg');
     background-color: #01c2ad;
@@ -390,6 +408,7 @@ body {
     }
 }
 
+//----------------------Feedback part--------------------------
 @media screen and (max-width: 720px) {
     .feedback {
         min-height: auto;
@@ -404,6 +423,7 @@ body {
     }
 }
 
+//----------------------Footer part--------------------------
 .footer {
     background-color: white;
     height: 10vh;
@@ -453,20 +473,6 @@ body {
             position: relative;
         }
     }
-}
-
-.logo {
-    background-color: white;
-    text-align: center;
-    width: 110px;
-    height: 110px;
-    border-bottom: @blue-color;
-    font-family: 'Kaushan Script', cursive;
-    font-size: 4rem;
-    line-height: 4rem;
-    color: @blue-color;
-    border-bottom: 10px solid #01b1ea;
-    border-right: 10px solid #01b1ea;
 }
 
 .button-type {

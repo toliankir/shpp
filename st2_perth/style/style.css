@@ -113,6 +113,19 @@ body {
     margin: 1rem 0 0 0;
   }
 }
+.logo {
+  background-color: white;
+  text-align: center;
+  width: 110px;
+  height: 110px;
+  border-bottom: #49c6ef;
+  font-family: 'Kaushan Script', cursive;
+  font-size: 4rem;
+  line-height: 4rem;
+  color: #49c6ef;
+  border-bottom: 10px solid #01b1ea;
+  border-right: 10px solid #01b1ea;
+}
 .header {
   display: flex;
   background-color: #f4f4f4;
@@ -406,19 +419,6 @@ body {
     top: 10px;
     position: relative;
   }
-}
-.logo {
-  background-color: white;
-  text-align: center;
-  width: 110px;
-  height: 110px;
-  border-bottom: #49c6ef;
-  font-family: 'Kaushan Script', cursive;
-  font-size: 4rem;
-  line-height: 4rem;
-  color: #49c6ef;
-  border-bottom: 10px solid #01b1ea;
-  border-right: 10px solid #01b1ea;
 }
 .button-type {
   position: relative;
