@@ -29,12 +29,19 @@ body {
 
 .page-part {
     height: 100vh;
-    padding: 0 12% 0 12%;
-    overflow: hidden; // min-height: 650px;
+    overflow: hidden;
 }
 
-@media screen and (max-width: @adaptive-size) {
+@media screen and (min-width: 721px) {
     .page-part {
+        min-height: 650px;
+        padding: 0 12% 0 12%;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .page-part {
+        min-height: auto;
         padding: 0 5% 0 5%;
     }
 }
@@ -56,6 +63,7 @@ body {
             float: right;
             font-size: 2rem;
             color: #fff;
+            cursor: pointer;
         }
     }
     &__content {
@@ -252,8 +260,8 @@ body {
         }
         &>img {
             position: absolute;
-            left: -150px;
-            bottom: -100px;
+            left: -180px;
+            bottom: -60px;
         }
     }
 }
@@ -294,8 +302,10 @@ body {
     background: url('../img/green-pattern.jpg');
     background-color: #01c2ad;
     height: 50vh;
+    min-height: auto;
     display: flex;
     align-items: center;
+    text-align: center;
     flex-direction: column;
     justify-content: center;
     &>h3 {
@@ -317,11 +327,11 @@ body {
     justify-content: center;
     &__content {
         position: relative;
-        width: 450px;
+        max-width: 450px;
         text-align: center;
         color: #535353;
         &>i {
-            margin: 0 20px 0 20px;
+            margin: 0 20px 20px 20px;
             font-size: 1.5rem;
             border: 3px solid;
             width: 56px;
@@ -329,37 +339,107 @@ body {
             text-align: center;
             line-height: 50px;
             border-radius: 28px;
+            cursor: pointer;
+            &:hover {
+                border-color: @blue-color;
+            }
         }
         &>.sabscription {
             font-family: 'Montserrat', sans-serif;
-            margin-top: 1rem;
             width: 100%;
             display: flex;
             position: relative;
             justify-content: space-between;
             align-items: center;
             &>label {
+                font-size: 1rem;
                 font-weight: 600;
                 font-style: italic;
-            
+                color: #535353;
             }
-            &>input {
-                position: relative;
+            &>div {
                 width: 50%;
-                font-style: italic;
-                padding: 5px;
-           
-            }
-            &::after {
-                content: '\f0e0';
-                font-family: 'FontAwesome';
-                color: #00c7eb;
-                
-                position: absolute;
-                right: 10px;
+                position: relative;
+                &>input {
+                    position: relative;
+                    font-size: 1rem;
+                    width: 100%;
+                    font-weight: 600;
+                    font-style: italic;
+                    padding: 8px;
+                    border: 0;
+                    border-radius: 5px;
+                    color: #535353;
+                    &::placeholder {
+                        color: #d3d3d3;
+                    }
+                }
+                &:after {
+                    font-family: "Font Awesome 5 Free";
+                    content: "\f0e0";
+                    color: #6ec5ea;
+                    top: 8px;
+                    right: 10px;
+                    position: absolute;
+                    border-left: 1px solid #535353;
+                    padding-left: 10px;
+                }
             }
         }
     }
+}
+
+@media screen and (max-width: 720px) {
+    .feedback {
+        &__content {
+            &>.sabscription {
+                flex-direction: column;
+                &>label {
+                    margin: 0 0 0.5rem 0;
+                }
+            }
+        }
+    }
+}
+
+.footer {
+    background-color:white;
+    height: 10vh;
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    &__content {
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: #535353;
+        font-family: 'Montserrat', sans-serif;
+        & > .italic-font {
+            font-style: italic
+        }
+        & > .blue-font {
+         color: @blue-color;
+        }
+    }
+
+    & > .button-up {
+        position: absolute;
+        right: 20px;
+        background-color: #f4f4f4;
+        color: #535353;
+        font-size: 1.5rem;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+            border: 2px solid @blue-color;
+        }
+    }
+    
 }
 
 .logo {

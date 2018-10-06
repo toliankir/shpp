@@ -22,11 +22,17 @@ body {
 }
 .page-part {
   height: 100vh;
-  padding: 0 12% 0 12%;
   overflow: hidden;
+}
+@media screen and (min-width: 721px) {
+  .page-part {
+    min-height: 650px;
+    padding: 0 12% 0 12%;
+  }
 }
 @media screen and (max-width: 720px) {
   .page-part {
+    min-height: auto;
     padding: 0 5% 0 5%;
   }
 }
@@ -48,6 +54,7 @@ body {
   float: right;
   font-size: 2rem;
   color: #fff;
+  cursor: pointer;
 }
 .intro__content {
   text-align: right;
@@ -216,8 +223,8 @@ body {
   }
   .main > img {
     position: absolute;
-    left: -150px;
-    bottom: -100px;
+    left: -180px;
+    bottom: -60px;
   }
 }
 @media screen and (max-width: 720px) {
@@ -255,8 +262,10 @@ body {
   background: url('../img/green-pattern.jpg');
   background-color: #01c2ad;
   height: 50vh;
+  min-height: auto;
   display: flex;
   align-items: center;
+  text-align: center;
   flex-direction: column;
   justify-content: center;
 }
@@ -278,12 +287,12 @@ body {
 }
 .feedback__content {
   position: relative;
-  width: 450px;
+  max-width: 450px;
   text-align: center;
   color: #535353;
 }
 .feedback__content > i {
-  margin: 0 20px 0 20px;
+  margin: 0 20px 20px 20px;
   font-size: 1.5rem;
   border: 3px solid;
   width: 56px;
@@ -291,10 +300,13 @@ body {
   text-align: center;
   line-height: 50px;
   border-radius: 28px;
+  cursor: pointer;
+}
+.feedback__content > i:hover {
+  border-color: #49c6ef;
 }
 .feedback__content > .sabscription {
   font-family: 'Montserrat', sans-serif;
-  margin-top: 1rem;
   width: 100%;
   display: flex;
   position: relative;
@@ -302,21 +314,83 @@ body {
   align-items: center;
 }
 .feedback__content > .sabscription > label {
+  font-size: 1rem;
   font-weight: 600;
   font-style: italic;
+  color: #535353;
 }
-.feedback__content > .sabscription > input {
-  position: relative;
+.feedback__content > .sabscription > div {
   width: 50%;
-  font-style: italic;
-  padding: 5px;
+  position: relative;
 }
-.feedback__content > .sabscription::after {
-  content: '\f0e0';
-  font-family: 'FontAwesome';
-  color: #00c7eb;
-  position: absolute;
+.feedback__content > .sabscription > div > input {
+  position: relative;
+  font-size: 1rem;
+  width: 100%;
+  font-weight: 600;
+  font-style: italic;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  color: #535353;
+}
+.feedback__content > .sabscription > div > input::placeholder {
+  color: #d3d3d3;
+}
+.feedback__content > .sabscription > div:after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f0e0";
+  color: #6ec5ea;
+  top: 8px;
   right: 10px;
+  position: absolute;
+  border-left: 1px solid #535353;
+  padding-left: 10px;
+}
+@media screen and (max-width: 720px) {
+  .feedback__content > .sabscription {
+    flex-direction: column;
+  }
+  .feedback__content > .sabscription > label {
+    margin: 0 0 0.5rem 0;
+  }
+}
+.footer {
+  background-color: white;
+  height: 10vh;
+  min-height: auto;
+  display: flex;
+  align-items: center;
+}
+.footer__content {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #535353;
+  font-family: 'Montserrat', sans-serif;
+}
+.footer__content > .italic-font {
+  font-style: italic;
+}
+.footer__content > .blue-font {
+  color: #49c6ef;
+}
+.footer > .button-up {
+  position: absolute;
+  right: 20px;
+  background-color: #f4f4f4;
+  color: #535353;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.footer > .button-up:hover {
+  border: 2px solid #49c6ef;
 }
 .logo {
   background-color: white;
