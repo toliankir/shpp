@@ -1,5 +1,5 @@
 <?php
-include "service.php";
+require "service.php";
 
 class jsonService extends Exception implements dataService
 {
@@ -8,8 +8,10 @@ class jsonService extends Exception implements dataService
     const MESSAGE_PERIOD = 60 * 60;
 
     /**
-     * @param $user
-     * @param $password
+     * Checks username and password if user accepted return true if use dose not exist
+     * returent false, if wrong password call exception with code 401.
+     * @param $user - user login
+     * @param $password - password
      * @return bool
      * @throws Exception
      */
@@ -31,6 +33,7 @@ class jsonService extends Exception implements dataService
     }
 
     /**
+     * Adds user in json base.
      * @param $user
      * @param $password
      * @throws Exception
@@ -47,6 +50,8 @@ class jsonService extends Exception implements dataService
     }
 
     /**
+     * Get messages from base from timestam to last message. If timestamp is 0 or old, retrun
+     * messages for last hour.
      * @param $timestamp
      * @return array
      * @throws Exception
@@ -70,6 +75,7 @@ class jsonService extends Exception implements dataService
     }
 
     /**
+     * Save message from user in json database.
      * @param $user - Name of current user
      * @param $message - Message text
      * @throws Exception
@@ -88,6 +94,7 @@ class jsonService extends Exception implements dataService
     }
 
     /**
+     * Checks file.
      * @param $checkFile
      * @return mixed
      * @throws Exception

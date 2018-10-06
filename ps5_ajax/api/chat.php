@@ -1,6 +1,6 @@
 <?php
-include 'jsonService.php';
-include 'function.php';
+require 'jsonService.php';
+require 'function.php';
 
 session_start();
 $chatService = new jsonService();
