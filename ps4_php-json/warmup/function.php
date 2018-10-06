@@ -1,6 +1,11 @@
 <?php
 function task1($firstNumber, $secondNumber)
 {
+    if (!is_numeric($firstNumber) || !is_numeric($secondNumber)) {
+        echo 'Wrong input data';
+        return null;
+    }
+
     $sum = 0;
     for ($i = $firstNumber; $i <= $secondNumber; $i++) {
         $sum += $i;
@@ -10,9 +15,11 @@ function task1($firstNumber, $secondNumber)
 
 function task2($firstNumber, $secondNumber, $numArray)
 {
-    if (!preg_match('/^(\d,)*\d$/', $numArray)) {
+    if (!is_numeric($firstNumber) 
+    || !is_numeric($secondNumber) 
+    || !preg_match('/^(\d,)*\d$/', $numArray)) {
         echo 'Wrong last numbers';
-        return;
+        return null;
     }
 
     $sum = 0;
@@ -27,6 +34,11 @@ function task2($firstNumber, $secondNumber, $numArray)
 
 function task3($rowsCol)
 {
+    if (!is_numeric($rowsCol)) {
+        echo 'Wrong last numbers';
+        return null;
+    }
+
     $result = "";
     for ($i = 1; $i <= $rowsCol; $i++) {
         $result = $result . "<li>" . str_repeat("*", $i) . "</li>\n";
@@ -38,12 +50,13 @@ function task3($rowsCol)
 function task4($boardSize)
 {
     preg_match('/(\d+)x(\d+)/', $boardSize, $matches);
-    $amount = $matches[1] * $matches[2];
+$amount = $matches[1] * $matches[2];
     $marked = false;
     $result = "";
+
     for ($i = 1; $i <= $amount; $i++) {
 
-        $result = $result . "<div class='Task4__item " . ($marked ? "Task4__marked" : "") . "'></div>\n";
+        $result = $result . "<div class='Task4__item" . ($marked ? " Task4__marked" : "") . "'></div>";
         $marked = !$marked;
         if ($i % $matches[1] == 0) {
             if ($matches[1] % 2 == 0) $marked = !$marked;

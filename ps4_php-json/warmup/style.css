@@ -63,6 +63,7 @@ span, p {
 .Task4__canvas {
     word-spacing: -4px;
     line-height: 0;
+    white-space: nowrap;
 }
 
 .Task4__item {
@@ -74,4 +75,15 @@ span, p {
 
 .Task4__marked {
     background-color: black;
+}
+
+.output {
+    padding: 1rem;
+}
+
+a {
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
 }
