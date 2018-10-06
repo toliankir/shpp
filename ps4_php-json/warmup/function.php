@@ -68,7 +68,7 @@ $amount = $matches[1] * $matches[2];
 
 function task5($inNumber)
 {
-    if (!preg_match("/^[0-9-+.,]*$/", $inNumber)) {
+    if (!is_numeric($inNumber)) {
         return "Enter number please";
     }
 
