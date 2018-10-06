@@ -48,10 +48,10 @@ main {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
   font-size: 0.8rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 .chat-bold {
-  font-weight: bolder;
+  font-weight: 800;
 }
 .image-smile {
   height: 0.8rem;
@@ -93,7 +93,7 @@ input {
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   padding: 0.7rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 input[type="button"] {
   background-color: #635960;
