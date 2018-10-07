@@ -102,16 +102,16 @@ class jsonService extends Exception implements dataService
     private function checkJsonFile($checkFile)
     {
         if (!file_exists($checkFile)) {
-            throw new Exception('Database dose not exist',404);
+            throw new Exception('Database dose not exist', 404);
         }
 
         if (!is_readable($checkFile) || !is_writable($checkFile)) {
-            throw new Exception('Database is locked',403);
+            throw new Exception('Database is locked', 403);
         }
 
         $usersData = json_decode(file_get_contents($checkFile), true);
         if (!$usersData && filesize($checkFile) > 0) {
-            throw new Exception('Database is broken',500);
+            throw new Exception('Database is broken', 500);
         }
 
         return $usersData;
