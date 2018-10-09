@@ -13,7 +13,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         }
         $_SESSION['user'] = $_POST['user'];
     } catch (Exception $err) {
-        errorHandler($err->getMessage(), $err->getCode());
+    errorHandler($err->getMessage(), $err->getCode());
     }
 }
 
