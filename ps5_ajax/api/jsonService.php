@@ -5,7 +5,6 @@ class jsonService extends Exception implements dataService
 {
     const USER_DATA_FILE = '../json/users.json';
     const CHAT_DATA_FILE = '../json/chatdata.json';
-    const MESSAGE_PERIOD = 60 * 60;
 
     /**
      * Checks username and password if user accepted return true if use dose not exist
@@ -60,11 +59,7 @@ class jsonService extends Exception implements dataService
     {
 
         $chatBase = $this->checkJsonFile(self::CHAT_DATA_FILE);
-        $nowTimestamp = Date('U');
 
-        if ($timestamp < $nowTimestamp - self::MESSAGE_PERIOD) {
-            $timestamp = $nowTimestamp - self::MESSAGE_PERIOD;
-        }
 
         $chatMessages = [];
         $messageIndex = sizeof($chatBase) - 1;

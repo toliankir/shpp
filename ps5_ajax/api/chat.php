@@ -1,10 +1,14 @@
 <?php
-require 'jsonService.php';
+//require 'jsonService.php';
 require 'function.php';
+require_once 'mysqlService.php';
+
+const MESSAGE_PERIOD = 60 * 60;
 
 session_start();
-$chatService = new jsonService();
+//$chatService = new jsonService();
 
+$chatService = new MysqlService();
 //Login part
 if (isset($_POST['user']) && isset($_POST['password'])) {
     try {
@@ -36,7 +40,12 @@ try {
 //Get messages
 try {
     if (isset($_GET['timestamp'])) {
-        echo json_encode($chatService->getMessages($_GET['timestamp']));
+        $nowTimestamp = Date('U');
+        $timestamp = $_GET['timestamp'];
+        if ($timestamp < $nowTimestamp - MESSAGE_PERIOD) {
+            $timestamp = $nowTimestamp - MESSAGE_PERIOD;
+        }
+        echo json_encode($chatService->getMessages($timestamp));
     }
 } catch (Exception $err) {
     errorHandler($err->getMessage(), $err->getCode());
