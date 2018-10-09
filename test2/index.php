@@ -9,7 +9,7 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
 ];
 // try {
-$pdo = new PDO($dsn, 'testuser', '1234', $options);
+$pdo = new PDO($dsn, 'phpmyadmin', '3Tolian2', $options);
 // } catch (Exception $e) {
 //     echo $e;
 // }
