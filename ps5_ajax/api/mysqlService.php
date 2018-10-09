@@ -13,7 +13,7 @@ class MysqlService extends Exception implements dataService
 
     function __construct()
     {
-        $this->pdo = new PDO(self::DSN, 'phpmyadmin', '3Tolian2', self::OPTIONS);
+        $this->pdo = new PDO(self::DSN, 'shpp', '1234', self::OPTIONS);
     }
 
     /**
@@ -24,7 +24,7 @@ class MysqlService extends Exception implements dataService
      */
     public function login($user, $password)
     {
-        $stmt = $this->pdo->prepare("SELECT login, password FROM test_table WHERE login=:user");
+        $stmt = $this->pdo->prepare("SELECT login, password FROM users_table WHERE login=:user");
         $stmt->bindParam(":user", $user);
         $stmt->execute();
         $userData = $stmt->fetch();
@@ -44,7 +44,7 @@ class MysqlService extends Exception implements dataService
 
     public function addUser($user, $password)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO test_table (login, password) VALUES (:user, :password)");
+        $stmt = $this->pdo->prepare("INSERT INTO users_table (login, password) VALUES (:user, :password)");
         $stmt->bindParam(":user", $user);
         $stmt->bindParam(":password", $password);
         $stmt->execute();
