@@ -148,7 +148,7 @@ function timestampToDate(timestamp) {
 }
 
 function checkLogin(login) {
-    return /^[a-z]{1}[0-9a-zA-Z\-_\.]{5,19}$/.test(login);
+    return /^[а-яА-Яa-zA-Z][а-яА-Яa-zA-Z0-9_,\.]{2,19}$/.test(login);
 }
 
 function checkPassword(password) {
