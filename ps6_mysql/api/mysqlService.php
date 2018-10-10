@@ -3,7 +3,7 @@ require "service.php";
 
 class MysqlService extends Exception implements dataService
 {
-    const DSN = "mysql:host=localhost;port=3306;dbname=test_db;charset=utf8;";
+    const DSN = "mysql:host=localhost;port=3306;dbname=chat_db;charset=utf8;";
     const OPTIONS = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
