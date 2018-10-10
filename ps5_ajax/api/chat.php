@@ -1,14 +1,12 @@
 <?php
 require 'jsonService.php';
 require 'function.php';
-//require_once 'mysqlService.php';
 
 const MESSAGE_PERIOD = 60 * 60;
 
 session_start();
 $chatService = new jsonService();
 
-//$chatService = new MysqlService();
 //Login part
 if (isset($_POST['user']) && isset($_POST['password'])) {
     try {
