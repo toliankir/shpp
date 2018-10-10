@@ -36,10 +36,10 @@ $sendContainer.keyup((event) => {
 
 function login(login, password) {
 
-    // if (!checkLogin(login)) {
-    //     $errorResponse.text('Type correct login');
-    //     return;
-    // }
+    if (!checkLogin(login)) {
+        $errorResponse.text('Type correct login');
+        return;
+    }
 
     if (!checkPassword(password)) {
         $errorResponse.text('Password must be more then 6 charsets');
@@ -148,7 +148,7 @@ function timestampToDate(timestamp) {
 }
 
 function checkLogin(login) {
-    return /^[a-z][0-9a-zA-Z\-_.]{2,19}$/.test(login);
+    return /^[а-яА-Яa-zA-Z][а-яА-Яa-zA-Z0-9_,\.]{2,19}$/.test(login);
 }
 
 function checkPassword(password) {

@@ -13,7 +13,7 @@ class MysqlService extends Exception implements dataService
 
     function __construct()
     {
-        $this->pdo = new PDO(self::DSN, 'shpp', '1234', self::OPTIONS);
+        $this->pdo = new PDO(self::DSN, 'wm', '1234', self::OPTIONS);
     }
 
     /**
