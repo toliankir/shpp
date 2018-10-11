@@ -17,7 +17,7 @@ const smiles = [
 ];
 
 let timestamp = 0;
-let requetTimeout;
+let requestTimeout;
 let $ajaxXHR;
 
 $('#login').on('click', () => {
@@ -73,7 +73,7 @@ function sendMessage(message) {
         return;
     }
     $ajaxXHR.abort();
-    clearTimeout(requetTimeout);
+    clearTimeout(requestTimeout);
     $.ajax({
         url: './api/chat.php',
         error: (jqXHR) => {
@@ -95,13 +95,14 @@ function logout() {
     $sendContainer.hide();
     $loginContainer.show();
     $ajaxXHR.abort();
-    clearTimeout(requetTimeout);
+    clearTimeout(requestTimeout);
 }
 
 function errorCode(jqXHR) {
     if (jqXHR.statusText === "abort") {
         return;
     }
+    logout();
     $errorResponse.text('Service temporarily unavailable');
     if (jqXHR.status === 401) {
         $errorResponse.text(jqXHR.responseText);
@@ -122,7 +123,7 @@ function getMessages() {
         },
         success: (data) => {
             messagesAdd(data);
-            requetTimeout = setTimeout(getMessages, 1000);
+            requestTimeout = setTimeout(getMessages, 1000);
         }
     });
 }
