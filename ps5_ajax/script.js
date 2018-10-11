@@ -94,7 +94,6 @@ function logout() {
     $chatContainer.hide();
     $sendContainer.hide();
     $loginContainer.show();
-    $ajaxXHR.abort();
     clearTimeout(requestTimeout);
 }
 
@@ -140,7 +139,7 @@ function messagesAdd(messagesJson) {
     });
 
     const chatMassagesHeight = $chatDataList.height() - $chatData.height();
-    $chatData.animate({ scrollTop: chatMassagesHeight }, 200);
+    $chatData.animate({scrollTop: chatMassagesHeight}, 200);
 }
 
 function timestampToDate(timestamp) {

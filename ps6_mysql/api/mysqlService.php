@@ -96,7 +96,7 @@ class MysqlService extends Exception implements dataService
     public function sendMessage($user, $message)
     {
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO messages_tables (timestamp, user, message) VALUES (UNIX_TIMESTAMP(), :user, :message)");
+            $stmt = $this->pdo->prepare("INSERT INTO messages_table (timestamp, user, message) VALUES (UNIX_TIMESTAMP(), :user, :message)");
             $stmt->bindParam(":user", $user);
             $stmt->bindParam(":message", $message);
             $stmt->execute();

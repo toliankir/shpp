@@ -56,7 +56,6 @@ function login(login, password) {
             password: password
         },
         error: (jqXHR) => {
-
             errorCode(jqXHR);
         },
         success: () => {
@@ -94,7 +93,7 @@ function logout() {
     $chatContainer.hide();
     $sendContainer.hide();
     $loginContainer.show();
-    $ajaxXHR.abort();
+    // $ajaxXHR.abort();
     clearTimeout(requestTimeout);
 }
 
