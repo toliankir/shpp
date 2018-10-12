@@ -1,0 +1,6 @@
+2018-10-11 23:21:26  incorrect username or password
+2018-10-11 23:22:59  incorrect username or password
+2018-10-11 23:23:08  SQLSTATE[42S02]: Base table or view not found: 1146 Table 'chat_db.messages_tables' doesn't exist
+2018-10-11 23:24:01  incorrect username or password
+2018-10-11 23:25:14  401:incorrect username or password
+2018-10-11 23:25:51  500:SQLSTATE[42S02]: Base table or view not found: 1146 Table 'chat_db.messages_tables' doesn't exist

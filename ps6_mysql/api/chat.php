@@ -5,7 +5,11 @@ require_once 'mysqlService.php';
 const MESSAGE_PERIOD = 60 * 60;
 session_start();
 
-$chatService = new MysqlService();
+try {
+    $chatService = new MysqlService();
+} catch (Exception $err) {
+    errorHandler($err->getMessage(), $err->getCode());
+}
 //Login part
 if (isset($_POST['user']) && isset($_POST['password'])) {
     try {
