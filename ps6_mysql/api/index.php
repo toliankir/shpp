@@ -1,6 +1,6 @@
 <?php
-require_once 'function.php';
-require_once 'mysqlService.php';
+require_once '../php/function.php';
+require_once '../php/MysqlService.php';
 
 const MESSAGE_PERIOD = 60 * 60;
 session_start();
@@ -10,19 +10,24 @@ try {
 } catch (Exception $err) {
     errorHandler($err->getMessage(), $err->getCode());
 }
+
+if (isset($_POST['logout'])) {
+    session_destroy();
+}
 //Login part
 if (isset($_POST['user']) && isset($_POST['password'])) {
     try {
         if (!$chatService->login($_POST['user'], $_POST['password'])) {
             $chatService->addUser($_POST['user'], $_POST['password']);
         }
+        $userId = $chatService->login($_POST['user'], $_POST['password']);
         $_SESSION['user'] = $_POST['user'];
     } catch (Exception $err) {
-    errorHandler($err->getMessage(), $err->getCode());
+        errorHandler($err->getMessage(), $err->getCode());
     }
 }
 
-//If trying get data with oyt login.
+//If trying get data with out login.
 if (!isset($_SESSION['user'])) {
     errorHandler('you must to login', 401);
 }

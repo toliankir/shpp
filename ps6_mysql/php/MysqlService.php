@@ -1,9 +1,10 @@
 <?php
-require "service.php";
+require_once "service.php";
+require_once "mysqlConfig.php";
 
 class MysqlService extends Exception implements dataService
 {
-    const DSN = "mysql:host=localhost;port=3306;dbname=chat_db;charset=utf8;";
+    const DSN = "mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME.";charset=utf8;";
     const OPTIONS = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
@@ -33,7 +34,7 @@ class MysqlService extends Exception implements dataService
     public function login($user, $password)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT login, password FROM users_table WHERE login=:user");
+            $stmt = $this->pdo->prepare("SELECT id, login, password FROM users_table WHERE login=:user");
             $stmt->bindParam(":user", $user);
             $stmt->execute();
             $userData = $stmt->fetch();
@@ -42,15 +43,12 @@ class MysqlService extends Exception implements dataService
         }
 
         if (!$userData) {
-            echo 0;
             return false;
         }
 
         if ($userData["login"] == $user && password_verify($password, $userData["password"])) {
-            echo 1;
             return true;
         }
-
         throw new Exception('incorrect username or password', 401);
     }
 
@@ -79,7 +77,7 @@ class MysqlService extends Exception implements dataService
     public function getMessages($timestamp)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT timestamp, user, message FROM messages_table WHERE timestamp>:timestamp");
+            $stmt = $this->pdo->prepare("SELECT m.timestamp, u.login as user, m.message FROM messages_table m left join users_table u on u.id = m.user WHERE timestamp>:timestamp");
             $stmt->bindParam(":timestamp", $timestamp);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -95,11 +93,24 @@ class MysqlService extends Exception implements dataService
      */
     public function sendMessage($user, $message)
     {
+        $userId = $this->getUserIdByName($user);
         try {
             $stmt = $this->pdo->prepare("INSERT INTO messages_table (timestamp, user, message) VALUES (UNIX_TIMESTAMP(), :user, :message)");
-            $stmt->bindParam(":user", $user);
+            $stmt->bindParam(":user", $userId);
             $stmt->bindParam(":message", $message);
             $stmt->execute();
+        } catch (PDOException $err) {
+            throw new Exception($err->getMessage(), 500);
+        }
+    }
+
+    private function getUserIdByName($user)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT id FROM users_table WHERE login=:user");
+            $stmt->bindParam(':user', $user);
+            $stmt->execute();
+            return $stmt->fetch()['id'];
         } catch (PDOException $err) {
             throw new Exception($err->getMessage(), 500);
         }
