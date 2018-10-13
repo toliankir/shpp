@@ -200,11 +200,11 @@ function timestampToDate(timestamp) {
 }
 
 function checkLogin(login) {
-    return /^[а-яА-Яa-zA-Z][а-яА-Яa-zA-Z0-9_,\.]{2,19}$/.test(login);
+    return /^[а-яА-Яa-zA-Z][а-яА-Яa-zA-Z0-9_,\.]{2,32}$/.test(login);
 }
 
 function checkPassword(password) {
-    return /^.{6,}$/.test(password);
+    return /^.{6,32}$/.test(password);
 }
 
 function imagePreload(imagesArray) {
