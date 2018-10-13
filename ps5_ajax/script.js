@@ -132,16 +132,17 @@ function errorCode(jqXHR) {
         if (!firstEntry) {
             $errorResponse.text(jqXHR.responseText);
         }
-        logout(); 
+        logout();
         return;
     }
     $errorResponse.text('Service temporarily unavailable');
-    logout(); 
+    logout();
 }
 
 function getMessages() {
     $ajaxXHR = $.ajax({
         url: apiURL,
+        dataType: 'json',
         type: 'GET',
         data: {
             timestamp: timestamp
@@ -156,8 +157,7 @@ function getMessages() {
     });
 }
 
-function messagesAdd(messagesJson) {
-    const jsonData = JSON.parse(messagesJson);
+function messagesAdd(jsonData) {
     jsonData.forEach((message) => {
         $("<li />").html(`[${timestampToDate(message.timestamp)}] <span class="chat-bold">${message.user} :</span> ${
             message.message
@@ -200,11 +200,11 @@ function timestampToDate(timestamp) {
 }
 
 function checkLogin(login) {
-    return /^[а-яА-Яa-zA-Z][а-яА-Яa-zA-Z0-9_,\.]{2,19}$/.test(login);
+    return /^[а-яА-Яa-zA-Z][а-яА-Яa-zA-Z0-9_,\.]{2,32}$/.test(login);
 }
 
 function checkPassword(password) {
-    return /^.{6,}$/.test(password);
+    return /^.{6,32}$/.test(password);
 }
 
 function imagePreload(imagesArray) {
