@@ -77,7 +77,7 @@ class MysqlService extends Exception implements dataService
     public function getMessages($timestamp)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT m.timestamp, u.login as user, m.message FROM messages_table m left join users_table u on u.id = m.user WHERE timestamp>:timestamp");
+            $stmt = $this->pdo->prepare("SELECT UNIX_TIMESTAMP(m.timestamp) as timestamp, u.login as user, m.message FROM messages_table m left join users_table u on u.id = m.user WHERE UNIX_TIMESTAMP(timestamp)>:timestamp");
             $stmt->bindParam(":timestamp", $timestamp);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -95,7 +95,7 @@ class MysqlService extends Exception implements dataService
     {
         $userId = $this->getUserIdByName($user);
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO messages_table (timestamp, user, message) VALUES (UNIX_TIMESTAMP(), :user, :message)");
+            $stmt = $this->pdo->prepare("INSERT INTO messages_table (user, message) VALUES (:user, :message)");
             $stmt->bindParam(":user", $userId);
             $stmt->bindParam(":message", $message);
             $stmt->execute();
