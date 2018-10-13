@@ -151,3 +151,13 @@ footer {
   width: 20%;
   float: right;
 }
+#chatLogout {
+  position: absolute;
+  right: 25px;
+  top: 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #fffecd;
+  cursor: pointer;
+  display: block;
+}

@@ -8,6 +8,7 @@ const $errorResponse = $('#errorResponse');
 
 const $chatData = $('#chatData');
 const $chatDataList = $("#chatDataList");
+const $chatLogout = $('#chatLogout');
 
 const $message = $('#message');
 
@@ -16,11 +17,53 @@ const smiles = [
     "img/smile2.png"
 ];
 
+const apiURL = './api/';
+
+
 let timestamp = 0;
 let requestTimeout;
 let $ajaxXHR;
+let firstEntry = true;
+
+$(document).ready(() => {
+    $ajaxXHR = $.ajax({
+        url: apiURL,
+        type: 'GET',
+        data: {
+            timestamp: timestamp
+        },
+        error: (jqXHR) => {
+            errorCode(jqXHR);
+        },
+        success: () => {
+            imagePreload(smiles);
+            $loginContainer.hide();
+            $chatContainer.show();
+            $sendContainer.show();
+            getMessages();
+        }
+    });
+
+});
+
+$chatLogout.on('click', () => {
+    $.ajax({
+        url: apiURL,
+        type: 'POST',
+        data: {
+            logout: 'logout'
+        },
+        error: (jqXHR) => {
+            errorCode(jqXHR);
+        },
+        success: () => {
+            logout();
+        }
+    });
+});
 
 $('#login').on('click', () => {
+    firstEntry = false;
     login($userName.val(), $userPassword.val());
 });
 
@@ -46,36 +89,30 @@ function login(login, password) {
         return;
     }
 
-    imagePreload(smiles);
-
     $.ajax({
-        url: './api/chat.php',
+        url: apiURL,
         type: 'POST',
         data: {
             user: login,
             password: password
         },
         error: (jqXHR) => {
-
             errorCode(jqXHR);
         },
         success: () => {
-            $loginContainer.hide();
-            $chatContainer.show();
-            $sendContainer.show();
-            getMessages();
+            showChat();
         }
     });
 }
 
 function sendMessage(message) {
-    if (!message) {
+    if (!message.trim()) {
         return;
     }
     $ajaxXHR.abort();
     clearTimeout(requestTimeout);
     $.ajax({
-        url: './api/chat.php',
+        url: apiURL,
         error: (jqXHR) => {
             errorCode(jqXHR);
         },
@@ -90,29 +127,21 @@ function sendMessage(message) {
     });
 }
 
-function logout() {
-    $chatContainer.hide();
-    $sendContainer.hide();
-    $loginContainer.show();
-    clearTimeout(requestTimeout);
-}
-
 function errorCode(jqXHR) {
-    if (jqXHR.statusText === "abort") {
+    if (jqXHR.status === 401) {
+        if (!firstEntry) {
+            $errorResponse.text(jqXHR.responseText);
+        }
+        logout(); 
         return;
     }
-    logout();
     $errorResponse.text('Service temporarily unavailable');
-    if (jqXHR.status === 401) {
-        $errorResponse.text(jqXHR.responseText);
-    }
-    console.log(jqXHR.statusText);
-    console.log(jqXHR.responseText);
+    logout(); 
 }
 
 function getMessages() {
     $ajaxXHR = $.ajax({
-        url: './api/chat.php',
+        url: apiURL,
         type: 'GET',
         data: {
             timestamp: timestamp
@@ -138,8 +167,31 @@ function messagesAdd(messagesJson) {
         timestamp = message.timestamp;
     });
 
-    const chatMassagesHeight = $chatDataList.height() - $chatData.height();
-    $chatData.animate({scrollTop: chatMassagesHeight}, 200);
+    if (jsonData.length > 0) {
+        const chatMassagesHeight = $chatDataList.height() - $chatData.height();
+        $chatData.animate({
+            scrollTop: chatMassagesHeight
+        }, 200);
+    }
+}
+
+function showChat() {
+    imagePreload(smiles);
+    $errorResponse.text('');
+    $loginContainer.hide();
+    $chatLogout.show();
+    $chatContainer.show();
+    $sendContainer.show();
+    getMessages();
+}
+
+function logout() {
+    firstEntry = true;
+    $chatContainer.hide();
+    $sendContainer.hide();
+    $chatLogout.hide();
+    $loginContainer.show();
+    clearTimeout(requestTimeout);
 }
 
 function timestampToDate(timestamp) {
@@ -157,7 +209,6 @@ function checkPassword(password) {
 
 function imagePreload(imagesArray) {
     imagesArray.forEach((value) => {
-        console.log(value);
-        $('<img/>').attr('src', value).hide().appendTo('body');
+        $('<img>').attr('src', value).hide().appendTo('body');
     });
 }
