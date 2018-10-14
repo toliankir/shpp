@@ -1,10 +1,10 @@
 <?php
-require_once '../php/function.php';
-require_once '../php/MysqlService.php';
+require_once "../../app/function.php";
+require_once '../../app/MysqlService.php';
 
 const MESSAGE_PERIOD = 60 * 60;
 session_start();
-
+;
 try {
     $chatService = new MysqlService();
 } catch (Exception $err) {
@@ -56,4 +56,3 @@ try {
 } catch (Exception $err) {
     errorHandler($err->getMessage(), $err->getCode());
 }
-

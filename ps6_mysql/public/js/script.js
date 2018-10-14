@@ -17,8 +17,8 @@ const smiles = [
     "img/smile2.png"
 ];
 
-const apiURL = './api/';
-
+const apiURL = 'api/';
+console.log(apiURL);
 
 let timestamp = 0;
 let requestTimeout;

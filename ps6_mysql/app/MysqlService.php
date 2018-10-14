@@ -1,7 +1,9 @@
 <?php
 require_once "service.php";
-require_once "mysqlConfig.php";
-
+//require_once "../config/mysqlConfig.php";
+const DB_HOST = 'localhost';
+const DB_PORT = 3306;
+const DB_NAME = 'chat_db';
 class MysqlService extends Exception implements dataService
 {
     const DSN = "mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME.";charset=utf8;";
