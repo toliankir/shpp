@@ -18,7 +18,6 @@ const smiles = [
 ];
 
 const apiURL = 'api/';
-console.log(apiURL);
 
 let timestamp = 0;
 let requestTimeout;

@@ -1,6 +1,4 @@
 <?php
-const LOG_FILE = 'log/chat.log';
-
 const ERROR_CODE = array(
     401 => 'HTTP/1.1 401 Unauthorized',
     403 => 'HTTP/1.0 403 Forbidden',
@@ -10,6 +8,8 @@ const ERROR_CODE = array(
 
 /**
  * Create exception message and header for http response.
+ * @param $error_msg
+ * @param $error_code
  */
 function errorHandler($error_msg, $error_code)
 {
@@ -25,10 +25,10 @@ function errorHandler($error_msg, $error_code)
 
 function writeLog($logData)
 {
-    if (!file_exists('../' . LOG_FILE) || !is_writable('../' . LOG_FILE)) {
+    if (!file_exists( LOG_FILE) || !is_writable( LOG_FILE)) {
         return;
     }
 
     $outputLog = Date('Y-m-d H:i:s') . '  ' . $logData . "\n";
-    file_put_contents('../' . LOG_FILE, $outputLog, FILE_APPEND);
+    file_put_contents( LOG_FILE, $outputLog, FILE_APPEND);
 }

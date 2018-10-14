@@ -1,7 +1,3 @@
-2018-10-13 19:10:46  401:you must to login
-2018-10-13 23:50:42  401:you must to login
-2018-10-13 23:55:32  401:incorrect username or password
-2018-10-14 00:03:03  500:SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect datetime value: '1539464583' for column 'timestamp' at row 1
 2018-10-14 00:05:46  401:you must to login
 2018-10-14 00:25:02  401:you must to login
 2018-10-14 00:34:37  401:you must to login
@@ -22,3 +18,18 @@
 2018-10-14 11:17:53  401:you must to login
 2018-10-14 11:18:04  401:you must to login
 2018-10-14 11:18:22  401:you must to login
+2018-10-14 15:26:04  123
+2018-10-14 15:30:14  401:you must to login
+2018-10-14 15:37:55  401:you must to login
+2018-10-14 15:37:56  401:you must to login
+2018-10-14 15:41:39  403:PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/tolian/public_html/shpp/ps6_mysql/app/MysqlService.php:21
+Stack trace:
+#0 /home/tolian/public_html/shpp/ps6_mysql/app/MysqlService.php(21): PDO->__construct('mysql:host=loca...', 'wm', '1234', Array)
+#1 /home/tolian/public_html/shpp/ps6_mysql/public/api/index.php(11): MysqlService->__construct()
+#2 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/tolian/public_html/shpp/ps6_mysql/app/MysqlService.php:21
+Stack trace:
+#0 /home/tolian/public_html/shpp/ps6_mysql/app/MysqlService.php(21): PDO->__construct('mysql:host=loca...', 'wm', '1234', Array)
+#1 /home/tolian/public_html/shpp/ps6_mysql/public/api/index.php(11): MysqlService->__construct()
+#2 {main}

@@ -1,9 +1,6 @@
 <?php
-require_once "service.php";
-//require_once "../config/mysqlConfig.php";
-const DB_HOST = 'localhost';
-const DB_PORT = 3306;
-const DB_NAME = 'chat_db';
+require_once SERVICE_INTERFACE;
+
 class MysqlService extends Exception implements dataService
 {
     const DSN = "mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME.";charset=utf8;";
@@ -106,6 +103,11 @@ class MysqlService extends Exception implements dataService
         }
     }
 
+    /**
+     * @param $user
+     * @return mixed
+     * @throws Exception
+     */
     private function getUserIdByName($user)
     {
         try {
