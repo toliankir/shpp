@@ -17,8 +17,7 @@ const smiles = [
     "img/smile2.png"
 ];
 
-const apiURL = './api/';
-
+const apiURL = 'api/';
 
 let timestamp = 0;
 let requestTimeout;
@@ -209,6 +208,6 @@ function checkPassword(password) {
 
 function imagePreload(imagesArray) {
     imagesArray.forEach((value) => {
-        $('<img>').attr('src', value).hide().appendTo('body');
+        $('<img src="'+value+'">').hide().appendTo('body');
     });
 }

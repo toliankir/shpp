@@ -1,10 +1,8 @@
 <?php
-require "service.php";
+require_once SERVICE_INTERFACE;
 
 class jsonService extends Exception implements dataService
 {
-    const USER_DATA_FILE = '../json/users.json';
-    const CHAT_DATA_FILE = '../json/chatdata.json';
 
     /**
      * Checks username and password if user accepted return true if use dose not exist
@@ -16,7 +14,7 @@ class jsonService extends Exception implements dataService
      */
     public function login($user, $password)
     {
-        $usersBase = $this->checkJsonFile(self::USER_DATA_FILE);
+        $usersBase = $this->checkJsonFile(USER_DATA_FILE);
         $loginsArray = array_column($usersBase, 'login');
 
         if (in_array($user, $loginsArray)) {
@@ -39,13 +37,13 @@ class jsonService extends Exception implements dataService
      */
     public function addUser($user, $password)
     {
-        $usersInBase = $this->checkJsonFile(self::USER_DATA_FILE);
+        $usersInBase = $this->checkJsonFile(USER_DATA_FILE);
 
         $newUser['login'] = $user;
         $newUser['password'] = $password;
         $usersInBase[] = $newUser;
 
-        file_put_contents(self::USER_DATA_FILE, json_encode($usersInBase));
+        file_put_contents(USER_DATA_FILE, json_encode($usersInBase));
     }
 
     /**
@@ -58,7 +56,7 @@ class jsonService extends Exception implements dataService
     public function getMessages($timestamp)
     {
 
-        $chatBase = $this->checkJsonFile(self::CHAT_DATA_FILE);
+        $chatBase = $this->checkJsonFile(CHAT_DATA_FILE);
 
 
         $chatMessages = [];
@@ -77,7 +75,7 @@ class jsonService extends Exception implements dataService
      */
     public function sendMessage($user, $message)
     {
-        $chatBase = $this->checkJsonFile(self::CHAT_DATA_FILE);
+        $chatBase = $this->checkJsonFile(CHAT_DATA_FILE);
         $timestamp = Date('U');
         $newMessage['timestamp'] = $timestamp;
         $newMessage['user'] = $user;
@@ -85,7 +83,7 @@ class jsonService extends Exception implements dataService
 
         $chatBase[] = $newMessage;
 
-        file_put_contents(self::CHAT_DATA_FILE, json_encode($chatBase));
+        file_put_contents(CHAT_DATA_FILE, json_encode($chatBase));
     }
 
     /**

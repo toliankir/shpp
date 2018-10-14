@@ -1,6 +1,8 @@
 <?php
-require_once '../php/function.php';
-require_once '../php/jsonService.php';
+require_once "../../config/dirConfig.php";
+
+require_once ADDITIONAL_FUNCTION;
+require_once CURRENT_SERVICE_CLASS;
 
 const MESSAGE_PERIOD = 60 * 60;
 session_start();
