@@ -11,6 +11,30 @@ body {
   display: flex;
   flex-direction: column;
 }
+.top-line {
+  height: 10px;
+  display: flex;
+}
+.top-line__part-black {
+  flex: 1;
+  background-color: #635960;
+}
+.top-line__part-green {
+  flex: 1;
+  background-color: #8b8e59;
+}
+.top-line__part-yellow {
+  flex: 1;
+  background-color: #eada7d;
+}
+.top-line__part-light-yellow {
+  flex: 1;
+  background-color: #fffecd;
+}
+.top-line__part-blue {
+  flex: 1;
+  background-color: #7bc3ab;
+}
 header {
   font-family: 'Pacifico', cursive;
   font-size: 4.5rem;

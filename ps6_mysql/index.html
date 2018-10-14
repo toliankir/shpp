@@ -7,46 +7,59 @@
     <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:600,800" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style/style.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div id="chatLogout">Logout</div>
-    <header>
-        Easy Chat
-    </header>
+<div class="top-line">
+    <div class="top-line__part-black"></div>
+    <div class="top-line__part-green"></div>
+    <div class="top-line__part-yellow"></div>
+    <div class="top-line__part-light-yellow"></div>
+    <div class="top-line__part-blue"></div>
+    <div class="top-line__part-black"></div>
+    <div class="top-line__part-green"></div>
+    <div class="top-line__part-yellow"></div>
+    <div class="top-line__part-light-yellow"></div>
+    <div class="top-line__part-blue"></div>
+</div>
+<div id="chatLogout">Logout</div>
+<header>
+    Easy Chat
+</header>
 
-    <main id="loginContainer">
-        <form action="#">
-            <section class="login__form-section">
-                <label for="userName">Enter your name</label><input type="text" id="userName">
-            </section>
-            <section class="login__form-section">
-                <label for="userPassword">Enter your password</label><input type="password" id="userPassword">
-            </section>
-            <section class="login__form-section">
-                <span id="errorResponse"></span>
-                <div id="visualEffect"><input type="button" id="login" value="Submit"></div>
-            </section>
-        </form>
-    </main>
-
-    <main id="chatContainer">
-        <section id="chatData">
-            <ul id="chatDataList">
-            </ul>
+<main id="loginContainer">
+    <form action="#">
+        <section class="login__form-section">
+            <label for="userName">Enter your name</label><input type="text" id="userName">
         </section>
-    </main>
+        <section class="login__form-section">
+            <label for="userPassword">Enter your password</label><input type="password" id="userPassword">
+        </section>
+        <section class="login__form-section">
+            <span id="errorResponse"></span>
+            <div id="visualEffect"><input type="button" id="login" value="Submit"></div>
+        </section>
+    </form>
+</main>
 
-    <footer>
-        <div id="sendContainer">
-            <input title="Message" type="text" id="message">
-            <input type="button" id="sendMessage" value="Send">
-        </div>
-    </footer>
+<main id="chatContainer">
+    <section id="chatData">
+        <ul id="chatDataList">
+        </ul>
+    </section>
+</main>
 
-    <script src="script.js"></script>
+<footer>
+    <div id="sendContainer">
+        <input title="Message" type="text" id="message">
+        <input type="button" id="sendMessage" value="Send">
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 
 </html>
