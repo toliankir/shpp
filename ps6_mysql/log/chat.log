@@ -33,3 +33,6 @@ Stack trace:
 #0 /home/tolian/public_html/shpp/ps6_mysql/app/MysqlService.php(21): PDO->__construct('mysql:host=loca...', 'wm', '1234', Array)
 #1 /home/tolian/public_html/shpp/ps6_mysql/public/api/index.php(11): MysqlService->__construct()
 #2 {main}
+2018-10-14 15:43:54  401:you must to login
+2018-10-14 15:43:57  401:incorrect username or password
+2018-10-14 15:46:44  401:you must to login

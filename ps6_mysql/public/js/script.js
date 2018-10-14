@@ -208,6 +208,6 @@ function checkPassword(password) {
 
 function imagePreload(imagesArray) {
     imagesArray.forEach((value) => {
-        $('<img>').attr('src', value).hide().appendTo('body');
+        $('<img src="'+value+'">').hide().appendTo('body');
     });
 }
