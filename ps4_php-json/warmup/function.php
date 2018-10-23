@@ -88,5 +88,7 @@ function task6()
     echo "<p>Source array: " . implode(", ", $resultArray) . "</p>";
     $uniqueArray = array_unique($resultArray);
     echo "<p>Array with unique values: " . implode(", ", $uniqueArray) . "</p>";
-    echo "<p>Reversed array with unique values: " . implode(", ", array_reverse($uniqueArray)) . "</p>";
+    sort($uniqueArray);
+    echo "<p>Sorted array with unique values: " . implode(", ", $uniqueArray) . "</p>";
+    echo "<p>Sorted and reversed array with unique values: " . implode(", ", array_reverse($uniqueArray)) . "</p>";
 }
