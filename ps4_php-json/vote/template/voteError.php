@@ -1,0 +1,1 @@
+<span class='vote__error'>Service temporarily unavailable</span>

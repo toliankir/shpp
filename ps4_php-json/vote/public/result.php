@@ -1,7 +1,7 @@
 <?php
-require("vote.php");
-const VOTE_FILE = "vote.dat";
-$vote = new Vote(VOTE_FILE);
+$config = require ".." . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "config.php";
+require($config["voteClass"]);
+$vote = new Vote($config["voteJsonFile"]);
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +51,7 @@ $vote = new Vote(VOTE_FILE);
             margin-right: auto;
         }
 
-        a{
+        a {
             text-decoration: underline;
             font-family: sans-serif;
             font-size: 1rem;
@@ -61,17 +61,18 @@ $vote = new Vote(VOTE_FILE);
     </style>
 </head>
 <body>
-<?php
+<h3>
+    <?php
+    if (isset($_GET["question"])) {
+        if ($vote->getQuestionById($_GET["question"])) {
+            echo "You vote for " . $vote->getQuestionById($_GET["question"]);
+        } else {
+            echo "Something went wrong.";
+        }
 
-if (isset($_GET["question"])) {
-    if ($vote->getQuestionById($_GET["question"])) {
-        echo "<h3>You vote for " . $vote->getQuestionById($_GET["question"]) . "</h3>";
-    } else {
-        echo "<h3>Something went wrong.</h3>";
     }
-
-}
-?>
+    ?>
+</h3>
 <div id="piechart" style="width: 900px; height: 500px;"></div>
 <a href="index.php">Go back.</a>
 </body>

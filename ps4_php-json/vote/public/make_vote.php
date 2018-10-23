@@ -1,7 +1,7 @@
 <?php
-require("vote.php");
-const VOTE_FILE = "vote.dat";
-$vote = new Vote(VOTE_FILE);
+$config = require ".." . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "config.php";
+require($config["voteClass"]);
+$vote = new Vote($config["voteJsonFile"]);
 if (isset($_GET["question"])) {
     $vote->makeVote($_GET["question"]);
 }
@@ -27,8 +27,8 @@ if (isset($_GET["question"])) {
 <body>
 </body>
 <script>
-$(document).ready(() => {
-    window.location.replace("result.php");
-});
+    $(document).ready(() => {
+        window.location.replace("result.php");
+    });
 </script>
 </html>

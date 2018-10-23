@@ -4,6 +4,7 @@ class Vote
 {
     private $voteFile;
     private $voteData;
+    private $config;
 
     /**
      * Vote constructor.
@@ -11,6 +12,7 @@ class Vote
      */
     public function __construct($voteFile)
     {
+        $this->config = require ".." . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "config.php";
         $this->voteFile = $voteFile;
         $this->readVoteFile();
     }
@@ -62,25 +64,17 @@ class Vote
     public function printQuestions()
     {
         if (!$this->voteData) {
-            echo "<span class='vote__error'>Service temporarily unavailable</span>";
+           include $this->config["voteErrorTemplate"];
             return;
         }
-        $voteList = '';
+
+        ob_start();
         foreach ($this->voteData["questions"] as $key => $value) {
-            $voteList = $voteList . "<li><input id='id" . $key . "' type=\"radio\" name=\"question\" value=\"" . $key .
-                "\"><label for='id" . $key . "' >" . $value . "</label></li>\n";
+            include $this->config["voteQuestionTemplate"];
         }
+        $voteList = ob_get_clean();
 
-        echo("<div class=\"vote__title\">". $this->voteData["title"] ."</div>
-    <div class=\"vote__resetStatus\"><i id=\"resetVote\" class=\"fas fa-times-circle\"></i></div>
-    <form method=\"get\" action=\"make_vote.php\">
-        <ul class=\"vote__questionList\">" . $voteList . "</ul>
-        <input class=\"vote__input\" title=\"Make vote\" type=\"button\" value=\"Make vote\">
-    </form>
-    <div class=\"vote__link\">
-        <a href=\"result.php\">Show results.</a>
-    </div>");
-
+        include $this->config["voteQuestionsTemplate"];
     }
 
     /**
@@ -109,4 +103,3 @@ class Vote
     }
 }
 
-?>
