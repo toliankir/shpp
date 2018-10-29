@@ -1,12 +1,19 @@
 <?php
+
 namespace app;
 
 use Exception;
 
 class JsonService implements IDataService
 {
+    private $config;
 
-   /**
+    public function __construct()
+    {
+        $this->config = require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'jsonConfig.php';
+    }
+
+    /**
      * Checks username and password if user accepted return true if use dose not exist
      * return false, if wrong password call exception with code 401.
      * @param $user - user login
@@ -16,7 +23,7 @@ class JsonService implements IDataService
      */
     public function login($user, $password)
     {
-        $usersBase = $this->checkJsonFile(USER_DATA_FILE);
+        $usersBase = $this->checkJsonFile($this->config['usersData']);
         $loginsArray = array_column($usersBase, 'login');
 
         if (!in_array($user, $loginsArray)) {
@@ -40,13 +47,13 @@ class JsonService implements IDataService
      */
     public function addUser($user, $password)
     {
-        $usersInBase = $this->checkJsonFile(USER_DATA_FILE);
+        $usersInBase = $this->checkJsonFile($this->config['usersData']);
 
         $newUser['login'] = $user;
         $newUser['password'] = $password;
         $usersInBase[] = $newUser;
 
-        file_put_contents(USER_DATA_FILE, json_encode($usersInBase));
+        file_put_contents($this->config['usersData'], json_encode($usersInBase));
     }
 
     /**
@@ -58,9 +65,7 @@ class JsonService implements IDataService
      */
     public function getMessages($timestamp)
     {
-
-        $chatBase = $this->checkJsonFile(CHAT_DATA_FILE);
-
+        $chatBase = $this->checkJsonFile($this->config['chatData']);
 
         $chatMessages = [];
         $messageIndex = sizeof($chatBase) - 1;
@@ -78,7 +83,7 @@ class JsonService implements IDataService
      */
     public function sendMessage($user, $message)
     {
-        $chatBase = $this->checkJsonFile(CHAT_DATA_FILE);
+        $chatBase = $this->checkJsonFile($this->config['chatData']);
         $timestamp = Date('U');
         $newMessage['timestamp'] = $timestamp;
         $newMessage['user'] = $user;
@@ -86,7 +91,7 @@ class JsonService implements IDataService
 
         $chatBase[] = $newMessage;
 
-        file_put_contents(CHAT_DATA_FILE, json_encode($chatBase));
+        file_put_contents($this->config['chatData'], json_encode($chatBase));
     }
 
     /**
@@ -98,15 +103,15 @@ class JsonService implements IDataService
     private function checkJsonFile($checkFile)
     {
         if (!file_exists($checkFile)) {
-            throw new Exception('Database dose not exist '.$checkFile, 404);
+            throw new Exception('Database dose not exist ' . $checkFile, 404);
         }
 
         if (!is_readable($checkFile) || !is_writable($checkFile)) {
-            throw new Exception('Database is locked '.$checkFile, 403);
+            throw new Exception('Database is locked ' . $checkFile, 403);
         }
         $usersData = json_decode(file_get_contents($checkFile), true);
         if (!$usersData && filesize($checkFile) > 0) {
-            throw new Exception('Database is broken '.$checkFile, 500);
+            throw new Exception('Database is broken ' . $checkFile, 500);
         }
 
         return $usersData;

@@ -108,10 +108,10 @@ function login(login, password) {
 }
 
 function sendMessage(message) {
-    if (!message.trim()) {
-        return;
-    }
-    $ajaxXHR.abort();
+    // if (!message.trim()) {
+    //     return;
+    // }
+    $ajaxXHR.abort('SendMessageAbort');
     clearTimeout(requestTimeout);
     $.ajax({
         url: apiURL,
@@ -131,6 +131,10 @@ function sendMessage(message) {
 
 
 function errorCode(jqXHR) {
+    console.log(jqXHR);
+    if (jqXHR.statusText === 'SendMessageAbort') {
+        return;
+    }
     $errorResponse.text('Service temporarily unavailable');
     logout();
 }

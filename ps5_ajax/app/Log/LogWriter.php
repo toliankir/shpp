@@ -9,7 +9,7 @@ class LogWriter
 
     public function __construct($errorHandle = null)
     {
-        $this->config = require dirname(__DIR__,2) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'dirLog.php';
+        $this->config = require dirname(__DIR__,2) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'logConfig.php';
         if ($errorHandle === null) {
         $this->setDefaultLogs();
         return;
