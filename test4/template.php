@@ -1,7 +1,1 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: tolian
- * Date: 23.10.18
- * Time: 23:41
- */
+<h1>abc<?php echo $test; ?></h1>

@@ -2,9 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        table {
+            position: relative;
+        }
+
+        th {
+            cursor: default;
+            width: 100px;
+            position: relative;
+            background: #1abc9c;
+            border-right: 3px solid red;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
 </head>
 <body>
-$END$
+<table>
+    <thead>
+    <tr>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>4</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            test1
+        </td>
+        <td>
+            test2
+        </td>
+        <td>
+            test3
+        </td>
+        <td>
+            test4
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    let $overLeftPosition;
+    let $objs = $('th');
+    let changeSize = false;
+    let lastXPosition;
+
+    $objs.on('mousemove', (event) => {
+        const $target = $(event.target);
+        const onTargetPosition = $target.width() - (event.pageX - $target.offset().left);
+        if (changeSize) {
+            // console.log(onTargetPosition + '/' + $target.width());
+            const dx = lastXPosition - event.pageX;
+            // console.log(dx);
+            $overLeftPosition.width((event.pageX - $overLeftPosition.offset().left));
+            console.log(event.pageX+'-'+$target.offset().left+'='+(event.pageX - $target.offset().left));
+        }
+        if (onTargetPosition < 5) {
+            $target.css('cursor', 'pointer');
+
+        } else {
+            $('th').css('cursor', 'default');
+        }
+    });
+
+    $objs.on('mousedown', (event) => {
+        const $target = $(event.target);
+        const onTargetPosition = $target.width() - (event.pageX - $target.offset().left);
+        if (onTargetPosition < 5) {
+            $overLeftPosition = $target;
+            lastXPosition = event.pageX;
+            changeSize = true;
+        }
+    });
+
+    $(window).on('mouseup', () => {
+        changeSize = false;
+    })
+
+</script>
 </body>
 </html>
