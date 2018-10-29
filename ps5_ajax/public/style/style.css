@@ -48,12 +48,24 @@ header {
   justify-content: flex-end;
 }
 main {
-  flex-basis: 33%;
+  flex-basis: 33vh;
   position: relative;
   text-align: center;
 }
 #chatContainer {
   display: none;
+}
+#loginContainer {
+  display: none;
+}
+#loadingContainer {
+  display: flex;
+  height: 33vh;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  color: #fffecd;
+  font-size: 2rem;
+  justify-content: center;
 }
 #chatData {
   display: inline-block;
@@ -180,7 +192,7 @@ footer {
   right: 25px;
   top: 15px;
   width: auto;
-  display: block;
+  display: none;
 }
 #chatLogout input {
   background-color: #b9c783;

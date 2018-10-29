@@ -1,4 +1,5 @@
 const $chatContainer = $('#chatContainer');
+const $loadingContainer = $('#loadingContainer');
 const $loginContainer = $('#loginContainer');
 const $sendContainer = $('#sendContainer');
 
@@ -38,12 +39,15 @@ $(document).ready(() => {
         success: (data) => {
             if (data.statusCode === 200) {
                 imagePreload(smiles);
-                $loginContainer.hide();
+                $loadingContainer.hide();
                 $chatContainer.show();
                 $chatLogout.show();
                 $sendContainer.show();
                 getMessages();
+                return;
             }
+            $loadingContainer.hide();
+            $loginContainer.show();
         }
     });
 
@@ -81,20 +85,10 @@ $sendContainer.keyup((event) => {
 });
 
 function login(login, password) {
-    //
-    // if (!checkLogin(login)) {
-    //     $errorResponse.text('Type correct login');
-    //     return;
-    // }
-    //
-    // if (!checkPassword(password)) {
-    //     $errorResponse.text('Password must be more then 6 charsets');
-    //     return;
-    // }
-
     $.ajax({
         url: apiURL,
         type: 'POST',
+        dataType: 'json',
         data: {
             user: login,
             password: password
@@ -102,7 +96,12 @@ function login(login, password) {
         error: (jqXHR) => {
             errorCode(jqXHR);
         },
-        success: () => {
+        success: (data) => {
+            if (data.statusCode !== 200) {
+                $errorResponse.text(data.statusText);
+                return;
+            }
+
             showChat();
         }
     });
@@ -130,14 +129,8 @@ function sendMessage(message) {
     });
 }
 
+
 function errorCode(jqXHR) {
-    if (jqXHR.status === 401) {
-        if (!firstEntry) {
-            $errorResponse.text(jqXHR.responseText);
-        }
-        logout();
-        return;
-    }
     $errorResponse.text('Service temporarily unavailable');
     logout();
 }
@@ -160,8 +153,8 @@ function getMessages() {
     });
 }
 
-function messagesAdd(jsonData) {
-    jsonData.forEach((message) => {
+function messagesAdd(messagesArray) {
+    messagesArray.forEach((message) => {
         $("<li />").html(`[${timestampToDate(message.timestamp)}] <span class="chat-bold">${message.user} :</span> ${
             message.message
                 .replace(':)', '<img class="image-smile" src="img/smile1.png">')
@@ -170,7 +163,7 @@ function messagesAdd(jsonData) {
         timestamp = message.timestamp;
     });
 
-    if (jsonData.length > 0) {
+    if (messagesArray.length > 0) {
         const chatMassagesHeight = $chatDataList.height() - $chatData.height();
         $chatData.animate({
             scrollTop: chatMassagesHeight
@@ -202,16 +195,8 @@ function timestampToDate(timestamp) {
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
 }
 
-function checkLogin(login) {
-    return /^[а-яА-Яa-zA-Z][а-яА-Яa-zA-Z0-9_,\.]{2,32}$/.test(login);
-}
-
-function checkPassword(password) {
-    return /^.{6,32}$/.test(password);
-}
-
 function imagePreload(imagesArray) {
     imagesArray.forEach((value) => {
-        $('<img src="'+value+'">').hide().appendTo('body');
+        $('<img src="' + value + '">').hide().appendTo('body');
     });
 }

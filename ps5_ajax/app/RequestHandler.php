@@ -28,7 +28,7 @@ class RequestHandler
             ResponseCreator::responseCreate(200, $respMsg);
         } catch (Exception $err) {
             sleep(1);
-            ResponseCreator::responseCreate(200, $err->getMessage());
+            ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
         }
     }
 

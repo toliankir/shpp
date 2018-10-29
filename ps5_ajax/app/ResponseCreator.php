@@ -1,6 +1,6 @@
 <?php
-
 namespace app;
+
 use app\Log\LogWriter;
 
 class ResponseCreator

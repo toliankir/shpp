@@ -26,31 +26,36 @@
     <div class="top-line__part-blue"></div>
 </div>
 <form id="chatLogout">
-<input title="Logout" type="button" value="Logout">
+    <input title="Logout" type="button" value="Logout">
 </form>
 <header>
     Easy Chat
 </header>
+<main>
+    <section id="loadingContainer">
+        Loading...
+    </section>
 
-<main id="loginContainer">
-    <form action="#">
-        <section class="login__form-section">
-            <label for="userName">Enter your name</label><input type="text" id="userName">
-        </section>
-        <section class="login__form-section">
-            <label for="userPassword">Enter your password</label><input type="password" id="userPassword">
-        </section>
-        <section class="login__form-section">
-            <span id="errorResponse"></span>
-            <div id="visualEffect"><input type="button" id="login" value="Submit"></div>
-        </section>
-    </form>
-</main>
+    <section id="loginContainer">
+        <form action="#">
+            <div class="login__form-section">
+                <label for="userName">Enter your name</label><input type="text" id="userName">
+            </div>
+            <div class="login__form-section">
+                <label for="userPassword">Enter your password</label><input type="password" id="userPassword">
+            </div>
+            <div class="login__form-section">
+                <span id="errorResponse"></span>
+                <div id="visualEffect"><input type="button" id="login" value="Submit"></div>
+            </div>
+        </form>
+    </section>
 
-<main id="chatContainer">
-    <section id="chatData">
-        <ul id="chatDataList">
-        </ul>
+    <section id="chatContainer">
+        <div id="chatData">
+            <ul id="chatDataList">
+            </ul>
+        </div>
     </section>
 </main>
 
