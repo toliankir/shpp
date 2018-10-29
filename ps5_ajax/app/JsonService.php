@@ -1,10 +1,12 @@
 <?php
-require_once SERVICE_INTERFACE;
+namespace app;
 
-class jsonService extends Exception implements dataService
+use Exception;
+
+class JsonService implements IDataService
 {
 
-    /**
+   /**
      * Checks username and password if user accepted return true if use dose not exist
      * return false, if wrong password call exception with code 401.
      * @param $user - user login
@@ -23,10 +25,10 @@ class jsonService extends Exception implements dataService
 
         $userAccount = $usersBase[array_search($user, $loginsArray)];
 
-        if ($userAccount['password'] == $password) {
+        if ($userAccount['password'] === $password) {
             return true;
         }
-        throw new Exception('incorrect username or password', 401);
+        throw new Exception('Incorrect username or password.', 401);
 
     }
 
@@ -96,15 +98,15 @@ class jsonService extends Exception implements dataService
     private function checkJsonFile($checkFile)
     {
         if (!file_exists($checkFile)) {
-            throw new Exception('Database dose not exist', 404);
+            throw new Exception('Database dose not exist '.$checkFile, 404);
         }
 
         if (!is_readable($checkFile) || !is_writable($checkFile)) {
-            throw new Exception('Database is locked', 403);
+            throw new Exception('Database is locked '.$checkFile, 403);
         }
         $usersData = json_decode(file_get_contents($checkFile), true);
         if (!$usersData && filesize($checkFile) > 0) {
-            throw new Exception('Database is broken', 500);
+            throw new Exception('Database is broken '.$checkFile, 500);
         }
 
         return $usersData;

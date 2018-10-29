@@ -1,4 +1,5 @@
 <?php
+namespace app\Log;
 
 class ErrorHandle
 {
@@ -18,10 +19,18 @@ class ErrorHandle
         $this->next = $nextHandle;
     }
 
+    public function getNextHandle()
+    {
+        return $this->next;
+    }
+
     public function writeToLog($code, $msg)
     {
-        if ($this->rule($code)) {
-            file_put_contents($this->file, $msg);
+       $rule = $this->rule;
+
+        if ($rule($code)) {
+            $msg = Date('d/m/Y H:i:s'). '    ' .$code . ': ' . $msg. "\n";
+            file_put_contents($this->file, $msg, FILE_APPEND);
         }
 
         if ($this->next) {

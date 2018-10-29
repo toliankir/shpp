@@ -27,6 +27,7 @@ let firstEntry = true;
 $(document).ready(() => {
     $ajaxXHR = $.ajax({
         url: apiURL,
+        dataType: 'json',
         type: 'GET',
         data: {
             timestamp: timestamp
@@ -34,12 +35,15 @@ $(document).ready(() => {
         error: (jqXHR) => {
             errorCode(jqXHR);
         },
-        success: () => {
-            imagePreload(smiles);
-            $loginContainer.hide();
-            $chatContainer.show();
-            $sendContainer.show();
-            getMessages();
+        success: (data) => {
+            if (data.statusCode === 200) {
+                imagePreload(smiles);
+                $loginContainer.hide();
+                $chatContainer.show();
+                $chatLogout.show();
+                $sendContainer.show();
+                getMessages();
+            }
         }
     });
 
@@ -77,16 +81,16 @@ $sendContainer.keyup((event) => {
 });
 
 function login(login, password) {
-
-    if (!checkLogin(login)) {
-        $errorResponse.text('Type correct login');
-        return;
-    }
-
-    if (!checkPassword(password)) {
-        $errorResponse.text('Password must be more then 6 charsets');
-        return;
-    }
+    //
+    // if (!checkLogin(login)) {
+    //     $errorResponse.text('Type correct login');
+    //     return;
+    // }
+    //
+    // if (!checkPassword(password)) {
+    //     $errorResponse.text('Password must be more then 6 charsets');
+    //     return;
+    // }
 
     $.ajax({
         url: apiURL,
@@ -150,7 +154,7 @@ function getMessages() {
             errorCode(jqXHR);
         },
         success: (data) => {
-            messagesAdd(data);
+            messagesAdd(data.body);
             requestTimeout = setTimeout(getMessages, 1000);
         }
     });

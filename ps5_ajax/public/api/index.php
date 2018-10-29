@@ -1,61 +1,47 @@
 <?php
-require_once "../../config/dirConfig.php";
-
-require_once ADDITIONAL_FUNCTION;
-require_once CURRENT_SERVICE_CLASS;
-
-const MESSAGE_PERIOD = 60 * 60;
 session_start();
+$config = require_once "../../config/dirConfig.php";
+define('ROOT_DIR', $config['rootPath']);
+
+spl_autoload_register(function ($className) {
+    require_once ROOT_DIR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+});
+
+use \app\{JsonService, RequestHandler, ResponseCreator};
 
 try {
-    $chatService = new jsonService();
+    $requestHandler = new RequestHandler(new JsonService(), 60 * 60 * 24);
 } catch (Exception $err) {
-    errorHandler($err->getMessage(), $err->getCode());
+    ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+    exit();
 }
 
-if (isset($_POST['logout'])) {
-    session_destroy();
-}
 //Login part
-if (isset($_POST['user']) && isset($_POST['password'])) {
-    try {
-        if (!$chatService->login($_POST['user'], $_POST['password'])) {
-            $chatService->addUser($_POST['user'], $_POST['password']);
-        }
-        $userId = $chatService->login($_POST['user'], $_POST['password']);
-        $_SESSION['user'] = $_POST['user'];
-    } catch (Exception $err) {
-        errorHandler($err->getMessage(), $err->getCode());
-    }
+if (isset($_REQUEST['user']) && isset($_REQUEST['password'])) {
+    $requestHandler->login($_REQUEST['user'], $_REQUEST['password']);
+    exit();
 }
 
 //If trying get data with out login.
 if (!isset($_SESSION['user'])) {
-    errorHandler('you must to login', 401);
+    $requestHandler->noLoginUser();
+    exit();
 }
 
+//Logout
+if (isset($_REQUEST['logout'])) {
+    $requestHandler->logout();
+    exit();
+}
 //Post message
-try {
-    if (isset($_POST['message'])) {
-        $message = str_replace('<', '&lt;', $_POST['message']);
-        $message = str_replace('>', '&gt;', $message);
-        $chatService->sendMessage($_SESSION['user'], $message);
-    }
-} catch (Exception $err) {
-    errorHandler($err->getMessage(), $err->getCode());
+if (isset($_REQUEST['message'])) {
+    $requestHandler->postMessage($_REQUEST['message']);
+    exit();
 }
 
 //Get messages
-try {
-    if (isset($_GET['timestamp'])) {
-        $nowTimestamp = Date('U');
-        $timestamp = $_GET['timestamp'];
-        if ($timestamp < $nowTimestamp - MESSAGE_PERIOD) {
-            $timestamp = $nowTimestamp - MESSAGE_PERIOD;
-        }
-        echo json_encode($chatService->getMessages($timestamp));
-    }
-} catch (Exception $err) {
-    errorHandler($err->getMessage(), $err->getCode());
+if (isset($_REQUEST['timestamp'])) {
+    $requestHandler->getMessages($_GET['timestamp']);
+    exit();
 }
 

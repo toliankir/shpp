@@ -1,7 +1,7 @@
 <?php
 namespace app;
 
-interface dataService
+interface IDataService
 {
     public function login($user, $password);
 
