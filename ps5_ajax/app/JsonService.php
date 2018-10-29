@@ -6,7 +6,7 @@ class jsonService extends Exception implements dataService
 
     /**
      * Checks username and password if user accepted return true if use dose not exist
-     * returent false, if wrong password call exception with code 401.
+     * return false, if wrong password call exception with code 401.
      * @param $user - user login
      * @param $password - password
      * @return bool
@@ -17,16 +17,17 @@ class jsonService extends Exception implements dataService
         $usersBase = $this->checkJsonFile(USER_DATA_FILE);
         $loginsArray = array_column($usersBase, 'login');
 
-        if (in_array($user, $loginsArray)) {
-            $userAccount = $usersBase[array_search($user, $loginsArray)];
-            if ($userAccount['password'] == $password) {
-                return true;
-            } else {
-                throw new Exception('incorrect username or password', 401);
-            }
+        if (!in_array($user, $loginsArray)) {
+            return false;
         }
 
-        return false;
+        $userAccount = $usersBase[array_search($user, $loginsArray)];
+
+        if ($userAccount['password'] == $password) {
+            return true;
+        }
+        throw new Exception('incorrect username or password', 401);
+
     }
 
     /**
@@ -101,7 +102,6 @@ class jsonService extends Exception implements dataService
         if (!is_readable($checkFile) || !is_writable($checkFile)) {
             throw new Exception('Database is locked', 403);
         }
-
         $usersData = json_decode(file_get_contents($checkFile), true);
         if (!$usersData && filesize($checkFile) > 0) {
             throw new Exception('Database is broken', 500);

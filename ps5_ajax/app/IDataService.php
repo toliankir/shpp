@@ -1,4 +1,6 @@
 <?php
+namespace app;
+
 interface dataService
 {
     public function login($user, $password);

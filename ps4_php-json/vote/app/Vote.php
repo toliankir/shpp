@@ -73,7 +73,6 @@ class Vote
             include $this->config["voteQuestionTemplate"];
         }
         $voteList = ob_get_clean();
-
         include $this->config["voteQuestionsTemplate"];
     }
 
