@@ -24,3 +24,4 @@ class ResponseCreator
         echo json_encode($outArray);
     }
 }
+

@@ -1,4 +1,5 @@
 <?php
+
 namespace app;
 
 use Exception;
@@ -18,6 +19,8 @@ class RequestHandler
     {
         try {
             if (!$this->service->login($user, $password)) {
+                $this->loginCheck($user);
+                $this->passwordCheck($password);
                 $this->service->addUser($user, $password);
             }
 
@@ -41,6 +44,13 @@ class RequestHandler
 
     public function postMessage($message)
     {
+        try {
+            $this->messageCheck($message);
+        } catch (Exception $err) {
+            ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+            return;
+        }
+
         $message = str_replace('<', '&lt;', $message);
         $message = str_replace('>', '&gt;', $message);
         try {
@@ -58,10 +68,9 @@ class RequestHandler
         try {
             $chatMessages = $this->service->getMessages($this->getActualTimestamp($timestamp));
 
-            $respMsg = 'User: ' . $_SESSION['user'] . ' get messages.';
+            $respMsg = 'User get messages.';
             $moreData = array('massageCount' => count($chatMessages),
                 'queryTimestamp' => $timestamp);
-
             ResponseCreator::responseCreate(200, $respMsg, $chatMessages, $moreData);
         } catch (Exception $err) {
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
@@ -83,6 +92,39 @@ class RequestHandler
     {
         $respMsg = 'User must to login.';
         ResponseCreator::responseCreate(403, $respMsg);
+    }
+
+    /**
+     * @param $login
+     * @throws Exception
+     */
+    private function loginCheck($login)
+    {
+        if (preg_match("/^[0-9a-zA-Z.,_@]{3,}$/", $login) === 0) {
+            throw new Exception('Login \'' . $login . '\' syntax error.', 403);
+        }
+    }
+
+    /**
+     * @param $password
+     * @throws Exception
+     */
+    private function passwordCheck($password)
+    {
+        if (preg_match("/^.{3,}$/", $password) === 0) {
+            throw new Exception('Password \'' . $password . '\' syntax error.', 403);
+        }
+    }
+
+    /**
+     * @param $msg
+     * @throws Exception
+     */
+    private function messageCheck($msg)
+    {
+        if (strlen(trim($msg)) === 0) {
+            throw new Exception('Message is empty.', 200);
+        }
     }
 }
 

@@ -94,22 +94,22 @@ main {
   display: inline-block;
   margin: 0;
 }
-form {
+#loginForm {
   font-family: 'Montserrat', sans-serif;
   text-align: left;
   display: inline-block;
   width: 300px;
 }
-.login__form-section {
+.loginForm-section {
   height: 5.5rem;
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
 }
-.login__form-section:last-child {
+.loginForm-section:last-child {
   text-align: center;
 }
-.login__form-section:last-child span {
+.loginForm-section:last-child span {
   font-size: 0.8rem;
   font-weight: bold;
   color: red;
@@ -130,13 +130,6 @@ input {
   font-size: 1rem;
   padding: 0.7rem;
   font-weight: 600;
-}
-input[type="button"] {
-  background-color: #635960;
-  color: #fffecd;
-  font-size: 1rem;
-  text-indent: 0;
-  cursor: pointer;
 }
 #visualEffect {
   position: relative;
@@ -187,17 +180,25 @@ footer {
   width: 20%;
   float: right;
 }
+.form__button {
+  background-color: #635960;
+  color: #fffecd;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  text-indent: 0;
+  cursor: pointer;
+}
+.form__button-light {
+  background-color: #b9c783;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #fffecd;
+  cursor: pointer;
+}
 #chatLogout {
   position: absolute;
   right: 25px;
   top: 15px;
   width: auto;
   display: none;
-}
-#chatLogout input {
-  background-color: #b9c783;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  color: #fffecd;
-  cursor: pointer;
 }

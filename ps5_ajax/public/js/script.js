@@ -13,6 +13,9 @@ const $chatLogout = $('#chatLogout');
 
 const $message = $('#message');
 
+const $loginForm = $('#loginForm');
+const $sendForm = $('#sendForm');
+
 const smiles = [
     "img/smile1.png",
     "img/smile2.png"
@@ -69,18 +72,17 @@ $chatLogout.on('click', () => {
     });
 });
 
-$('#login').on('click', () => {
+$loginForm.submit(() => {
     firstEntry = false;
     login($userName.val(), $userPassword.val());
 });
 
-$('#sendMessage').on('click', () => {
+$sendForm.submit(() => {
     sendMessage($message.val());
 });
-
 $sendContainer.keyup((event) => {
     if (event.keyCode === 13) {
-        sendMessage($message.val());
+        $sendForm.submit();
     }
 });
 
@@ -108,9 +110,6 @@ function login(login, password) {
 }
 
 function sendMessage(message) {
-    // if (!message.trim()) {
-    //     return;
-    // }
     $ajaxXHR.abort('SendMessageAbort');
     clearTimeout(requestTimeout);
     $.ajax({

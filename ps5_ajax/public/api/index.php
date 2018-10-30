@@ -4,7 +4,7 @@ $config = require_once "../../config/dirConfig.php";
 define('ROOT_PATH', $config['rootPath']);
 
 spl_autoload_register(function ($className) {
-    require_once ROOT_PATH . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+    require ROOT_PATH . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
 });
 
 use \app\{JsonService, RequestHandler, ResponseCreator};

@@ -26,43 +26,45 @@
     <div class="top-line__part-blue"></div>
 </div>
 <form id="chatLogout">
-    <input title="Logout" type="button" value="Logout">
+    <input class="form__button-light" title="Logout" type="button" value="Logout">
 </form>
 <header>
     Easy Chat
 </header>
 <main>
-    <section id="loadingContainer">
+    <div id="loadingContainer">
         Loading...
-    </section>
+    </div>
 
-    <section id="loginContainer">
-        <form action="#">
-            <div class="login__form-section">
+    <div id="loginContainer">
+        <form action="#" id="loginForm">
+            <div class="loginForm-section">
                 <label for="userName">Enter your name</label><input type="text" id="userName">
             </div>
-            <div class="login__form-section">
+            <div class="loginForm-section">
                 <label for="userPassword">Enter your password</label><input type="password" id="userPassword">
             </div>
-            <div class="login__form-section">
+            <div class="loginForm-section">
                 <span id="errorResponse"></span>
-                <div id="visualEffect"><input type="button" id="login" value="Submit"></div>
+                <div id="visualEffect"><input class="form__button" type="Submit" value="Submit"></div>
             </div>
         </form>
-    </section>
+    </div>
 
-    <section id="chatContainer">
+    <div id="chatContainer">
         <div id="chatData">
             <ul id="chatDataList">
             </ul>
         </div>
-    </section>
+    </div>
 </main>
 
 <footer>
     <div id="sendContainer">
-        <input title="Message" type="text" id="message">
-        <input type="button" id="sendMessage" value="Send">
+        <form id="sendForm">
+            <input title="Message" type="text" id="message">
+            <input class="form__button" type="Submit" id="sendMessage" value="Send">
+        </form>
     </div>
 </footer>
 
