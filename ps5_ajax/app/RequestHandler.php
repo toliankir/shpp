@@ -101,7 +101,7 @@ class RequestHandler
     private function loginCheck($login)
     {
         if (preg_match("/^[0-9a-zA-Z.,_@]{3,}$/", $login) === 0) {
-            throw new Exception('Login \'' . $login . '\' syntax error.', 403);
+            throw new Exception('Login \'' . $login . '\' syntax error. Minimum 3 letters or numbers.', 403);
         }
     }
 
@@ -112,7 +112,7 @@ class RequestHandler
     private function passwordCheck($password)
     {
         if (preg_match("/^.{3,}$/", $password) === 0) {
-            throw new Exception('Password \'' . $password . '\' syntax error.', 403);
+            throw new Exception('Password \'' . $password . '\' syntax error. Minimum length: 3', 403);
         }
     }
 
