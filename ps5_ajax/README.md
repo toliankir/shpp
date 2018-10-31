@@ -1,10 +1,18 @@
+**REQUIREMENT**
+
+Any http server with PHP ver.7 support.
+For example XAMPP https://www.apachefriends.org/ru/index.html
+
 **INSTALATION**
-*req*
 
--Import mysql database structure from mysql/dump.sql to your database
-(exp. mysql -u your_user -p your_db < %PATH%/dump.sql)
+Copy files in your http server home folder. 
 
--Modify /api/mysqlConfig.php for your databese parameters.
+Set writable permission to files:
+json/chatdata.json
+json/user.json
+log/error.log
+log/event.log
 
--Set log/chat.log writeable.
-(exp. chmod 666 chat.log)
+Entry point is /public/index.html
+
+**API**
