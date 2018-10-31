@@ -3,7 +3,7 @@
 Any http server with PHP ver.7 support.
 For example XAMPP https://www.apachefriends.org/ru/index.html
 
-**INSTALATION**
+**INSTALLATION**
 
 Copy files in your http server home folder. 
 
@@ -16,3 +16,5 @@ log/event.log
 Entry point is /public/index.html
 
 **API**
+
+Api entry point is public/api/index.php

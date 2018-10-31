@@ -68,9 +68,13 @@ class JsonService implements IDataService
         $chatBase = $this->checkJsonFile($this->config['chatData']);
 
         $chatMessages = [];
-        $messageIndex = sizeof($chatBase) - 1;
-        while ($messageIndex >= 0 & $timestamp < $chatBase[$messageIndex]['timestamp']) {
-            $chatMessages[] = $chatBase[$messageIndex--];
+        $messageIndex = count($chatBase) - 1;
+
+        while ($messageIndex >= 0) {
+            if ($timestamp < $chatBase[$messageIndex]['timestamp']) {
+                $chatMessages[] = $chatBase[$messageIndex];
+            }
+            $messageIndex--;
         }
         return array_reverse($chatMessages);
     }
@@ -109,8 +113,13 @@ class JsonService implements IDataService
         if (!is_readable($checkFile) || !is_writable($checkFile)) {
             throw new Exception('Database is locked ' . $checkFile, 403);
         }
+
+        if (filesize($checkFile) === 0) {
+            return Array();
+        }
+
         $usersData = json_decode(file_get_contents($checkFile), true);
-        if (!$usersData && filesize($checkFile) > 0) {
+        if (!$usersData) {
             throw new Exception('Database is broken ' . $checkFile, 500);
         }
 

@@ -27,6 +27,7 @@ class ErrorHandle
 
     public function writeToLog($code, $msg)
     {
+        
         $rule = $this->rule;
 
         if ($rule($code)) {

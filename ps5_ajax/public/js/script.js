@@ -53,7 +53,6 @@ $(document).ready(() => {
             $loginContainer.show();
         }
     });
-
 });
 
 $chatLogout.on('click', () => {
@@ -103,7 +102,6 @@ function login(login, password) {
                 $errorResponse.text(data.statusText);
                 return;
             }
-
             showChat();
         }
     });
