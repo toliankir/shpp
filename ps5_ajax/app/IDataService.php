@@ -11,4 +11,3 @@ interface IDataService
 
     public function sendMessage($user, $message);
 }
-

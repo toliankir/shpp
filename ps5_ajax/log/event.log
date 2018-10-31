@@ -5,3 +5,5 @@
 01/11/2018 00:32:50    403: User must to login.
 01/11/2018 00:32:54    403: Login '1' syntax error.
 01/11/2018 00:33:02    200: User 1234 post message.
+01/11/2018 00:33:35    401: User: 1234 logout
+01/11/2018 00:33:40    403: User must to login.
