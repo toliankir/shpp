@@ -30,7 +30,7 @@ class ErrorHandle
         $rule = $this->rule;
 
         if ($rule($code)) {
-            $msg = Date('d/m/Y H:i:s') . '    ' . $_SESSION['user'] . '    ' . $code . ': ' . $msg . "\n";
+            $msg = Date('d/m/Y H:i:s') . '    ' . $code . ': ' . $msg . "\n";
             file_put_contents($this->file, $msg, FILE_APPEND);
         }
 
