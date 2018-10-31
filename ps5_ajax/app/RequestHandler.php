@@ -28,7 +28,7 @@ class RequestHandler
             $_SESSION['user'] = $user;
 
             $respMsg = 'User login.';
-            ResponseCreator::responseCreate(200, $respMsg);
+            ResponseCreator::responseCreate(202, $respMsg);
         } catch (Exception $err) {
             sleep(1);
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
@@ -55,7 +55,7 @@ class RequestHandler
         $message = str_replace('>', '&gt;', $message);
         try {
             $this->service->sendMessage($_SESSION['user'], $message);
-            $respMsg = 'User' . $_SESSION['user'] . 'post message.';
+            $respMsg = 'User ' . $_SESSION['user'] . ' post message.';
             ResponseCreator::responseCreate(200, $respMsg);
         } catch (Exception $err) {
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
@@ -71,7 +71,7 @@ class RequestHandler
             $respMsg = 'User get messages.';
             $moreData = array('massageCount' => count($chatMessages),
                 'queryTimestamp' => $timestamp);
-            ResponseCreator::responseCreate(200, $respMsg, $chatMessages, $moreData);
+            ResponseCreator::responseCreate(202, $respMsg, $chatMessages, $moreData);
         } catch (Exception $err) {
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
         }
@@ -123,7 +123,7 @@ class RequestHandler
     private function messageCheck($msg)
     {
         if (strlen(trim($msg)) === 0) {
-            throw new Exception('Message is empty.', 200);
+            throw new Exception('User ' .$_SESSION['user']. ' post empty message.', 200);
         }
     }
 }

@@ -41,7 +41,7 @@ class LogWriter
         }));
 
         $this->addErrorHandle(new ErrorHandle($this->config['eventLog'], function ($code) {
-            if ($code < 500) {
+            if ($code < 500 && $code !== 202) {
                 return true;
             }
             return false;

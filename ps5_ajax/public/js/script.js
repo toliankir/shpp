@@ -40,7 +40,7 @@ $(document).ready(() => {
             errorCode(jqXHR);
         },
         success: (data) => {
-            if (data.statusCode === 200) {
+            if (data.statusCode === 202) {
                 imagePreload(smiles);
                 $loadingContainer.hide();
                 $chatContainer.show();
@@ -98,7 +98,7 @@ function login(login, password) {
             errorCode(jqXHR);
         },
         success: (data) => {
-            if (data.statusCode !== 200) {
+            if (data.statusCode !== 202) {
                 $errorResponse.text(data.statusText);
                 return;
             }
