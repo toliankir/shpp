@@ -1,6 +1,6 @@
 <?php
 session_start();
-$config = require_once "../../config/dirConfig.php";
+$config = require dirname(__DIR__,2).DIRECTORY_SEPARATOR .'config' .DIRECTORY_SEPARATOR. 'dirConfig.php';
 define('ROOT_PATH', $config['rootPath']);
 
 spl_autoload_register(function ($className) {
