@@ -50,9 +50,8 @@ class RequestHandler
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
             return;
         }
+        $message = htmlspecialchars($message);
 
-        $message = str_replace('<', '&lt;', $message);
-        $message = str_replace('>', '&gt;', $message);
         try {
             $this->service->sendMessage($_SESSION['user'], $message);
             $respMsg = 'User ' . $_SESSION['user'] . ' post message.';

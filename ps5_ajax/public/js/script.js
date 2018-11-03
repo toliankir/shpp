@@ -29,6 +29,7 @@ let $ajaxXHR;
 let firstEntry = true;
 
 $(document).ready(() => {
+
     $ajaxXHR = $.ajax({
         url: apiURL,
         dataType: 'json',
@@ -40,6 +41,7 @@ $(document).ready(() => {
             errorCode(jqXHR);
         },
         success: (data) => {
+
             if (data.statusCode === 202) {
                 imagePreload(smiles);
                 $loadingContainer.hide();
@@ -78,11 +80,6 @@ $loginForm.submit(() => {
 
 $sendForm.submit(() => {
     sendMessage($message.val());
-});
-$sendContainer.keyup((event) => {
-    if (event.keyCode === 13) {
-        $sendForm.submit();
-    }
 });
 
 function login(login, password) {
@@ -128,7 +125,6 @@ function sendMessage(message) {
 
 
 function errorCode(jqXHR) {
-    console.log(jqXHR);
     if (jqXHR.statusText === 'SendMessageAbort') {
         return;
     }
@@ -158,8 +154,8 @@ function messagesAdd(messagesArray) {
     messagesArray.forEach((message) => {
         $("<li />").html(`[${timestampToDate(message.timestamp)}] <span class="chat-bold">${message.user} :</span> ${
             message.message
-                .replace(':)', '<img class="image-smile" src="img/smile1.png">')
-                .replace(':(', '<img class="image-smile" src="img/smile2.png">')
+                .replace(/:\)/g, '<img class="image-smile" src="img/smile1.png">')
+                .replace(/:\(/g, '<img class="image-smile" src="img/smile2.png">')
             }`).appendTo($chatDataList);
         timestamp = message.timestamp;
     });
