@@ -40,8 +40,8 @@ if (isset($_REQUEST['message'])) {
 }
 
 //Get messages
-if (isset($_REQUEST['timestamp'])) {
-    $requestHandler->getMessages($_GET['timestamp']);
+if (isset($_REQUEST['id'])) {
+    $requestHandler->getMessages($_GET['id']);
     exit();
 }
 

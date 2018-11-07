@@ -196,3 +196,17 @@
 03/11/2018 16:12:33    200: User admin post message.
 03/11/2018 16:13:02    200: User admin post message.
 03/11/2018 16:13:10    200: User admin post message.
+03/11/2018 16:16:02    401: User: admin logout
+03/11/2018 16:16:16    403: Login 'a&lt;b&gt;dmin&lt;/b&gt;1' syntax error. Minimum 3 letters or numbers.
+03/11/2018 16:16:32    403: User must to login.
+07/11/2018 10:02:46    403: User must to login.
+07/11/2018 19:09:48    200: User admin post message.
+07/11/2018 19:10:02    200: User admin post message.
+07/11/2018 19:10:19    200: User admin post message.
+07/11/2018 19:13:57    200: User admin post message.
+07/11/2018 19:14:00    200: User admin post message.
+07/11/2018 19:27:41    401: User: admin logout
+07/11/2018 19:27:43    403: User must to login.
+07/11/2018 19:27:52    403: User must to login.
+07/11/2018 19:27:57    200: User admin post message.
+07/11/2018 19:28:01    200: User admin post message.

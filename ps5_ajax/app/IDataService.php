@@ -7,7 +7,7 @@ interface IDataService
 
     public function addUser($user, $password);
 
-    public function getMessages($timestamp);
+    public function getMessages($id, $timestamp);
 
     public function sendMessage($user, $message);
 }

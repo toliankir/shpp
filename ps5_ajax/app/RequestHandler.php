@@ -62,13 +62,15 @@ class RequestHandler
 
     }
 
-    public function getMessages($timestamp)
+    public function getMessages($id)
     {
         try {
-            $chatMessages = $this->service->getMessages($this->getActualTimestamp($timestamp));
+            $timestamp = $this->getActualTimestamp();
+            $chatMessages = $this->service->getMessages($id, $timestamp);
 
             $respMsg = 'User get messages.';
-            $moreData = array('massageCount' => count($chatMessages),
+            $moreData = array('id' => $id,
+                'massageCount' => count($chatMessages),
                 'queryTimestamp' => $timestamp);
             ResponseCreator::responseCreate(202, $respMsg, $chatMessages, $moreData);
         } catch (Exception $err) {
@@ -76,15 +78,11 @@ class RequestHandler
         }
     }
 
-    private function getActualTimestamp($timestamp)
+    private function getActualTimestamp()
     {
         $nowTimestamp = Date('U');
 
-        if ($timestamp < $nowTimestamp - $this->period) {
-            $timestamp = $nowTimestamp - $this->period;
-        }
-
-        return $timestamp;
+        return $nowTimestamp - $this->period;
     }
 
     public function noLoginUser()

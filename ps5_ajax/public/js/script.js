@@ -24,6 +24,7 @@ const smiles = [
 const apiURL = 'api/';
 
 let timestamp = 0;
+let lastId = 0;
 let requestTimeout;
 let $ajaxXHR;
 let firstEntry = true;
@@ -35,13 +36,13 @@ $(document).ready(() => {
         dataType: 'json',
         type: 'GET',
         data: {
-            timestamp: timestamp
+            id: 0
         },
         error: (jqXHR) => {
             errorCode(jqXHR);
         },
         success: (data) => {
-
+            // console.log(data);
             if (data.statusCode === 202) {
                 imagePreload(smiles);
                 $loadingContainer.hide();
@@ -138,7 +139,7 @@ function getMessages() {
         dataType: 'json',
         type: 'GET',
         data: {
-            timestamp: timestamp
+            id: lastId
         },
         error: (jqXHR) => {
             errorCode(jqXHR);
@@ -157,7 +158,7 @@ function messagesAdd(messagesArray) {
                 .replace(/:\)/g, '<img class="image-smile" src="img/smile1.png">')
                 .replace(/:\(/g, '<img class="image-smile" src="img/smile2.png">')
             }`).appendTo($chatDataList);
-        timestamp = message.timestamp;
+        lastId = message.id;
     });
 
     if (messagesArray.length > 0) {

@@ -63,15 +63,14 @@ class JsonService implements IDataService
      * @return array
      * @throws Exception
      */
-    public function getMessages($timestamp)
+    public function getMessages($id, $timestamp)
     {
         $chatBase = $this->checkJsonFile($this->config['chatData']);
 
         $chatMessages = [];
         $messageIndex = count($chatBase) - 1;
-
         while ($messageIndex >= 0) {
-            if ($timestamp < $chatBase[$messageIndex]['timestamp']) {
+            if ($id < $chatBase[$messageIndex]['id'] && $timestamp < $chatBase[$messageIndex]['timestamp']) {
                 $chatMessages[] = $chatBase[$messageIndex];
             }
             $messageIndex--;
@@ -88,7 +87,9 @@ class JsonService implements IDataService
     public function sendMessage($user, $message)
     {
         $chatBase = $this->checkJsonFile($this->config['chatData']);
+
         $timestamp = Date('U');
+        $newMessage['id'] = $chatBase[count($chatBase) - 1]['id'] + 1;
         $newMessage['timestamp'] = $timestamp;
         $newMessage['user'] = $user;
         $newMessage['message'] = $message;
