@@ -7,10 +7,24 @@ use Exception;
 class JsonService implements IDataService
 {
     private $config;
+    private $usersJson;
+    private $chatJson;
 
-    public function __construct()
+    /**
+     * JsonService constructor.
+     * @throws Exception
+     */
+    function __construct()
     {
         $this->config = require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'jsonConfig.php';
+        $this->usersJson = $this->checkJsonFile($this->config['usersData']);
+        $this->chatJson = $this->checkJsonFile($this->config['chatData']);
+    }
+
+    function __destruct()
+    {
+        if ($this->usersJson) file_put_contents($this->config['usersData'], json_encode($this->usersJson));
+        if ($this->chatJson) file_put_contents($this->config['chatData'], json_encode($this->chatJson));
     }
 
     /**
@@ -23,20 +37,17 @@ class JsonService implements IDataService
      */
     public function login($user, $password)
     {
-        $usersBase = $this->checkJsonFile($this->config['usersData']);
-        $loginsArray = array_column($usersBase, 'login');
+        $loginsArray = array_column($this->usersJson, 'login');
 
         if (!in_array($user, $loginsArray)) {
-            return false;
+            return -1;
         }
 
-        $userAccount = $usersBase[array_search($user, $loginsArray)];
-
+        $userAccount = $this->usersJson[array_search($user, $loginsArray)];
         if ($userAccount['password'] === $password) {
-            return true;
+            return $userAccount['id'];
         }
         throw new Exception('Incorrect username or password.', 401);
-
     }
 
     /**
@@ -47,33 +58,30 @@ class JsonService implements IDataService
      */
     public function addUser($user, $password)
     {
-        $usersInBase = $this->checkJsonFile($this->config['usersData']);
-
+        $newUser['id'] = $this->getElementId($this->usersJson);
         $newUser['login'] = $user;
         $newUser['password'] = $password;
-        $usersInBase[] = $newUser;
-
-        file_put_contents($this->config['usersData'], json_encode($usersInBase));
+        $this->usersJson[] = $newUser;
     }
 
     /**
      * Get messages from base from timestam to last message. If timestamp is 0 or old, retrun
      * messages for last hour.
+     * @param $id
      * @param $timestamp
      * @return array
-     * @throws Exception
      */
     public function getMessages($id, $timestamp)
     {
-        $chatBase = $this->checkJsonFile($this->config['chatData']);
-
         $chatMessages = [];
-        $messageIndex = count($chatBase) - 1;
-        while ($messageIndex >= 0) {
-            if ($id < $chatBase[$messageIndex]['id'] && $timestamp < $chatBase[$messageIndex]['timestamp']) {
-                $chatMessages[] = $chatBase[$messageIndex];
+        $messageLastIndex = count($this->chatJson) - 1;
+        while ($messageLastIndex >= 0) {
+            if ($id < $this->chatJson[$messageLastIndex]['id'] && $timestamp < $this->chatJson[$messageLastIndex]['timestamp']) {
+                $message = $this->chatJson[$messageLastIndex];
+                $message['user'] = $this->getUserById($message['user']);
+                $chatMessages[] = $message;
             }
-            $messageIndex--;
+            $messageLastIndex--;
         }
         return array_reverse($chatMessages);
     }
@@ -82,22 +90,24 @@ class JsonService implements IDataService
      * Save message from user in json database.
      * @param $user - Name of current user
      * @param $message - Message text
-     * @throws Exception
      */
     public function sendMessage($user, $message)
     {
-        $chatBase = $this->checkJsonFile($this->config['chatData']);
-
         $timestamp = Date('U');
-        $newMessage['id'] = $chatBase[count($chatBase) - 1]['id'] + 1;
+        $newMessage['id'] = $this->getElementId($this->chatJson);
         $newMessage['timestamp'] = $timestamp;
         $newMessage['user'] = $user;
         $newMessage['message'] = $message;
 
-        $chatBase[] = $newMessage;
-
-        file_put_contents($this->config['chatData'], json_encode($chatBase));
+        $this->chatJson[] = $newMessage;
     }
+
+    private function getElementId($jsonData)
+    {
+        if (count($jsonData) === 0) return 0;
+        return $jsonData[count($jsonData) - 1]['id'] + 1;
+    }
+
 
     /**
      * Checks file.
@@ -125,5 +135,12 @@ class JsonService implements IDataService
         }
 
         return $usersData;
+    }
+
+    private function getUserById($userId)
+    {
+        foreach ($this->usersJson as $user) {
+            if ($user['id'] === $userId) return $user['login'];
+        }
     }
 }

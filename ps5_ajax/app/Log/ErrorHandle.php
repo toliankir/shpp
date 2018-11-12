@@ -8,7 +8,7 @@ class ErrorHandle
     private $rule;
     private $next;
 
-    public function __construct($file, $rule, $nextHandle = null)
+    function __construct($file, $rule, $nextHandle = null)
     {
         $this->file = $file;
         $this->rule = $rule;

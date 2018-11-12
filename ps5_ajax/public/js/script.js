@@ -23,8 +23,7 @@ const smiles = [
 
 const apiURL = 'api/';
 
-let timestamp = 0;
-let lastId = 0;
+let lastId = -1;
 let requestTimeout;
 let $ajaxXHR;
 let firstEntry = true;
@@ -36,7 +35,7 @@ $(document).ready(() => {
         dataType: 'json',
         type: 'GET',
         data: {
-            id: 0
+            id: lastId
         },
         error: (jqXHR) => {
             errorCode(jqXHR);

@@ -9,7 +9,7 @@ class RequestHandler
     private $service;
     private $period;
 
-    public function __construct($service, $period = 60 * 60)
+    function __construct($service, $period = 60 * 60)
     {
         $this->service = $service;
         $this->period = $period;
@@ -18,17 +18,24 @@ class RequestHandler
     public function login($user, $password)
     {
         try {
-            if (!$this->service->login($user, $password)) {
+            if ($this->service->login($user, $password) === -1) {
                 $this->loginCheck($user);
                 $this->passwordCheck($password);
                 $this->service->addUser($user, $password);
+
             }
 
-            $this->service->login($user, $password);
+            $userId = $this->service->login($user, $password);
+
             $_SESSION['user'] = $user;
+            $_SESSION['id'] = $userId;
 
             $respMsg = 'User login.';
-            ResponseCreator::responseCreate(202, $respMsg);
+            $moreData = [
+                'userId' => $userId,
+                'login' => $user
+            ];
+            ResponseCreator::responseCreate(202, $respMsg, '', $moreData);
         } catch (Exception $err) {
             sleep(1);
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
@@ -53,7 +60,7 @@ class RequestHandler
         $message = htmlspecialchars($message);
 
         try {
-            $this->service->sendMessage($_SESSION['user'], $message);
+            $this->service->sendMessage($_SESSION['id'], $message);
             $respMsg = 'User ' . $_SESSION['user'] . ' post message.';
             ResponseCreator::responseCreate(200, $respMsg);
         } catch (Exception $err) {
@@ -64,7 +71,6 @@ class RequestHandler
 
     public function getMessages($id)
     {
-        try {
             $timestamp = $this->getActualTimestamp();
             $chatMessages = $this->service->getMessages($id, $timestamp);
 
@@ -73,9 +79,6 @@ class RequestHandler
                 'massageCount' => count($chatMessages),
                 'queryTimestamp' => $timestamp);
             ResponseCreator::responseCreate(202, $respMsg, $chatMessages, $moreData);
-        } catch (Exception $err) {
-            ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
-        }
     }
 
     private function getActualTimestamp()
