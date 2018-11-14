@@ -1,13 +1,13 @@
 <?php
-define("ROOT_DIR", dirname(__DIR__) . DIRECTORY_SEPARATOR);
-define("JSON_DIR", ROOT_DIR . "json" . DIRECTORY_SEPARATOR);
-define("APP_DIR", ROOT_DIR . "app" . DIRECTORY_SEPARATOR);
-define("TEMPLATE_DIR", ROOT_DIR . "template" . DIRECTORY_SEPARATOR);
+$rootDir = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+$jsonDir = $rootDir. "json" . DIRECTORY_SEPARATOR;
+$appDir = $rootDir . "app" . DIRECTORY_SEPARATOR;
+$templateDir = $rootDir . "template" . DIRECTORY_SEPARATOR;
 
 return array(
-    "voteJsonFile" => JSON_DIR . "vote.json",
-    "voteClass" => APP_DIR . "Vote.php",
-    "voteQuestionsTemplate" => TEMPLATE_DIR . "voteQuestions.php",
-    "voteQuestionTemplate" => TEMPLATE_DIR . "voteQuestion.php",
-    "voteErrorTemplate" => TEMPLATE_DIR . "voteError.php"
+    "voteJsonFile" => $jsonDir . "vote.json",
+    "voteClass" => $appDir . "Vote.php",
+    "voteQuestionsTemplate" => $templateDir . "voteQuestions.php",
+    "voteQuestionTemplate" => $templateDir . "voteQuestion.php",
+    "voteErrorTemplate" => $templateDir . "voteError.php"
 );
