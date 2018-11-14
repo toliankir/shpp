@@ -17,55 +17,12 @@
 </head>
 
 <body>
-
     <script>
+        let a = ':):):)';
+        a = a.replace(/:\)/g, ';)');
+        console.log(a);
 
 
-        generateInRandomPlace(5);
-        let $draggedObject = null;
-        let xOffset, yOffset;
-        // $('.test').on('mousedown', (event) => {
-        //     generateInRandomPlace(1);
-        //     $draggedObject = $(event.target);
-        //     $draggedObject.css('background-color', 'green');
-        //     xOffset = event.pageX - $draggedObject.offset().left;
-        //     yOffset = event.pageY - $draggedObject.offset().top;
-        // });
-
-        $(document).on('mouseup', '.test', (event) => {
-            $draggedObject = null;
-            $(event.target).css('background-color', 'red');
-        });
-
-        $(document).on('mousedown', '.test', (event) => {
-            generateInRandomPlace(1);
-            $draggedObject = $(event.target);
-            $draggedObject.css('background-color', 'green');
-            xOffset = event.pageX - $draggedObject.offset().left;
-            yOffset = event.pageY - $draggedObject.offset().top;
-        })
-
-        $(window).on('mousemove', (event) => {
-            if ($draggedObject) {
-                $draggedObject.offset({
-                    top: event.pageY - yOffset,
-                    left: event.pageX - xOffset
-                });
-            }
-
-        });
-
-        function generateInRandomPlace(col) {
-            const $window = $(window);
-            const height = $window.height() - 100;
-            const width = $window.width() - 100;
-            for (let i = 0; i < col; i++) {
-                const randomTop = Math.floor(Math.random() * height);
-                const randomLeft = Math.floor(Math.random() * width);
-                $('<div />').addClass('test').css('top', randomTop)
-                    .css('left', randomLeft).appendTo('body');
-            }
-        }
     </script>
 </body>
 
