@@ -22,7 +22,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -22px;
 }
 .beer > .content_container > h3 {
   text-align: center;
@@ -60,6 +59,9 @@ body {
 }
 #hidden-menu {
   position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   visibility: hidden;
   z-index: 3;
   top: 0;
@@ -68,18 +70,19 @@ body {
   width: 100vw;
   height: 100vh;
   color: white;
-  padding: 0 1rem 0 1rem;
+  padding: 0;
 }
 #hidden-menu > .content_container {
+  margin-left: 3vh;
+  margin-right: 3vh;
+  height: 106vh;
   width: 100vw;
-  height: 100vh;
   position: relative;
   max-width: 940px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
 }
 #hidden-menu > .content_container > ul {
   list-style-type: none;
