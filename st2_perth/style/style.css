@@ -9,6 +9,41 @@ body {
 * {
   box-sizing: border-box;
 }
+.intro {
+  height: 100vh;
+  color: white;
+}
+.intro > .topper {
+  height: 110px;
+  position: relative;
+}
+.intro > .topper > .logo > .symbol {
+  position: relative;
+  width: 100px;
+  height: 104px;
+  text-align: center;
+  font-size: 4rem;
+  line-height: 4rem;
+  font-family: 'Kaushan Script', cursive;
+  color: #49c6ef;
+  background-color: white;
+  border-bottom: 4px solid #01b1ea;
+}
+.intro > .topper > .logo > .shadow {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 100px;
+  height: 100px;
+  background-color: #27b0e6;
+}
+.intro > .topper > i {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  font-size: 2rem;
+  cursor: pointer;
+}
 .beer {
   background: #01c2ad url('../img/green-pattern.jpg');
   height: 50vh;
@@ -37,7 +72,7 @@ body {
 .beer > .content_container > form > button {
   width: 225px;
 }
-.button-type {
+.btn {
   font-weight: bold;
   border: 2px solid;
   border-radius: 3px;
@@ -48,13 +83,16 @@ body {
   font-size: .9rem;
   cursor: pointer;
 }
-.button-type--white {
+.btn:focus {
+  outline: 0;
+}
+.btn--white {
   color: white;
 }
-.button-type--green {
+.btn--green {
   color: #14af8f;
 }
-.button-type--purple {
+.btn--purple {
   color: #ea4c89;
 }
 #hidden-menu {
@@ -108,8 +146,8 @@ body {
 }
 #hidden-menu > .content_container > #menu-hide {
   position: absolute;
-  right: 10px;
+  right: 12px;
   cursor: pointer;
-  top: 25px;
-  font-size: 2rem;
+  top: 47px;
+  font-size: 2.1rem;
 }

@@ -7,10 +7,12 @@ let scrollDown = false;
 
 menuShowBtn.addEventListener('click', () => {
     menu.style.visibility = 'visible';
+    menuShowBtn.style.visibility = 'hidden';
 });
 
 menuHideBtn.addEventListener('click', () => {
     menu.style.visibility = 'hidden';
+    menuShowBtn.style.visibility = 'visible';
 });
 
 toTopBtn.addEventListener('click', () => {

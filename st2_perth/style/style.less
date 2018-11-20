@@ -17,6 +17,45 @@ body {
   box-sizing: border-box;
 }
 
+//-----------------Intro
+.intro {
+  height: 100vh;
+  color: white;
+  & > .topper {
+    height: 110px;
+    position: relative;
+    & > .logo {
+      & > .symbol {
+        position: relative;
+        width: 100px;
+        height: 104px;
+        text-align: center;
+        font-size: 4rem;
+        line-height: 4rem;
+        font-family: 'Kaushan Script', cursive;
+        color: @blue-color;
+        background-color: white;
+        border-bottom: 4px solid #01b1ea;
+      }
+      & > .shadow {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        width: 100px;
+        height: 100px;
+        background-color: #27b0e6;
+      }
+    }
+    & > i {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+  }
+}
+
 //-----------------Beer
 .beer {
   background: #01c2ad url('../img/green-pattern.jpg');
@@ -47,7 +86,7 @@ body {
   }
 }
 
-.button-type {
+.btn {
   font-weight: bold;
   border: 2px solid;
   border-radius: 3px;
@@ -57,6 +96,9 @@ body {
   width: 175px;
   font-size: .9rem;
   cursor: pointer;
+  &:focus {
+    outline: 0;
+  }
   &--white {
     color: white;
   }
@@ -83,7 +125,7 @@ body {
   color: white;
   padding: 0;
 
-  &> .content_container {
+  & > .content_container {
     margin-left: 3vh;
     margin-right: 3vh;
     height: 106vh;
@@ -119,10 +161,10 @@ body {
     }
     & > #menu-hide {
       position: absolute;
-      right: 10px;
+      right: 12px;
       cursor: pointer;
-      top: 25px;
-      font-size: 2rem;
+      top: 47px;
+      font-size: 2.1rem;
     }
   }
 }

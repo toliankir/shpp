@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
           crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen and (min-width: 721px)" href="style/wide.css">
-    <link rel="stylesheet" type="text/css" media="screen and (max-width: 720px)" href="style/mobile.css">
+    <link rel="stylesheet" type="text/css" media="screen and (min-width: 1025px)" href="style/wide.css">
+    <link rel="stylesheet" type="text/css" media="screen and (max-width: 1024px) and (orientation : portrait)"
+          href="style/mobile.css">
     <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 <body>
@@ -41,13 +42,18 @@
 
     <div class="intro grid_container">
         <div class="topper">
-            <div class="logo">p</div>
+            <div class="logo">
+                <div class="shadow"></div>
+                <div class="symbol">p</div>
+            </div>
             <i id="menu-show" class="fas fa-align-justify"></i>
         </div>
         <h3>Meet Perth,</h3>
         <p>A stupidly simple, flat PSD. Oh yeah, it's <span>free</span> too!</p>
         <form action="#">
-            <button class="button-type button-type--white">DOWNLOAD <i class="fas fa-cloud-download-alt"></i></button>
+            <button class="btn btn--white">DOWNLOAD
+                <i class="fas fa-cloud-download-alt"></i>
+            </button>
         </form>
         <img src="img/iphone.png">
     </div>
@@ -60,11 +66,13 @@
             <h3>A Longwinded Header</h3>
             <p>Watch the International Space Station pass overhead from several thousand worldwide locations. It is the
                 third brightest object in the sky and easy to spot if you know when to look up.</p>
-            <p class="left-marked">Watch the International Space Station pass overhead from several thousand worldwide
+            <blockquote>Watch the International Space Station pass overhead from several thousand worldwide
                 locations. It is the third brightest object in the sky and easy to spot if you know when to look up.
-            </p>
+            </blockquote>
             <form action="#">
-                <button class="button-type button-type--green">SAY HELLO &nbsp;<i class="fas fa-envelope"></i></button>
+                <button class="btn btn--green">SAY HELLO &nbsp;
+                    <i class="fas fa-envelope"></i>
+                </button>
             </form>
         </div>
         <img src="img/ipad.png">
@@ -80,7 +88,8 @@
             <p class="grey-font">We're going rack off bloody she'll be right pash. You little ripper tucker also get a
                 dog up ya greenie</p>
             <form action="#">
-                <button class="button-type button-type--purple">VIEW ON DRIBBBLE <i class="fas fa-basketball-ball"></i>
+                <button class="btn btn--purple">VIEW ON DRIBBBLE
+                    <i class="fas fa-basketball-ball"></i>
                 </button>
             </form>
         </div>
@@ -92,8 +101,9 @@
     <div class="content_container">
         <h3>Like What You See?</h3>
         <form>
-            <button class="button-type button-type--white">BY ME A BEER? &nbsp;&nbsp;&nbsp;<i
-                    class="fas fa-basketball-ball"></i></button>
+            <button class="btn btn--white">BY ME A BEER? &nbsp;&nbsp;&nbsp;
+                <i class="fas fa-basketball-ball"></i>
+            </button>
         </form>
     </div>
 </div>
