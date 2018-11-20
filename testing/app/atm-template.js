@@ -13,7 +13,7 @@ const ATM = {
     log: [],
     msgOut: function (msg) {
         this.log.push(msg);
-        console.log(msg);
+        // console.log(msg);
     },
     // authorization
     auth: function (number, pin) {
