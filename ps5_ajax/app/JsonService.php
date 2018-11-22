@@ -121,11 +121,11 @@ class JsonService implements IDataService
     private function checkJsonFile($checkFile)
     {
         if (!file_exists($checkFile)) {
-            throw new Exception('Database dose not exist ' . $checkFile, 404);
+            throw new Exception('Database dose not exist ' . $checkFile, 500);
         }
 
         if (!is_readable($checkFile) || !is_writable($checkFile)) {
-            throw new Exception('Database is locked ' . $checkFile, 403);
+            throw new Exception('Database is locked ' . $checkFile, 500);
         }
 
         if (filesize($checkFile) === 0) {
