@@ -1,7 +1,4 @@
-<?php
-error_reporting(E_ALL);
-include "test.php";
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +7,7 @@ include "test.php";
 </head>
 <body>
 <?php
-$a = getStringFromTemplate();
+$a = preg_match("/^[0-9a-zA-Z.,_@]{3,}$/",'abc',$ar);
 echo $a;
 ?>
 </body>
