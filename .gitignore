@@ -1,3 +1,5 @@
 .idea/
 .vscode/
-#ps5_ajax/json/
+testing/node_modules/
+ps5_ajax/log/
+ps5_ajax/json/
