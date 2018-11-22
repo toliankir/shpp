@@ -76,4 +76,44 @@ describe('ATM', function () {
             assert.equal(atm.ATM.log.pop(), 'Current debet of 0000 is - 0');
         });
     });
+
+    describe('Get cash', function () {
+        it('Not authorized try get cash', function () {
+            atm.ATM.logout();
+            atm.ATM.getCash(100);
+            assert.equal(atm.ATM.log.pop(), 'You mast to login');
+        });
+
+        it('Admin user try get cash', function () {
+            atm.ATM.auth('0000', '000');
+            atm.ATM.getCash(100);
+            assert.equal(atm.ATM.log.pop().indexOf('Sorry user only,'), 0);
+        });
+
+        it('Simple user try get cash', function () {
+            atm.ATM.logout();
+            atm.ATM.auth('0025', '123');
+            atm.ATM.getCash(100);
+            assert.equal(atm.ATM.log.pop(), 'User 0025 gets 100');
+        });
+
+        it('Authorized simple user balance is 575', function () {
+            atm.ATM.check();
+            assert.equal(atm.ATM.log.pop(), 'Current debet of 0025 is - 575');
+        });
+
+        it('User 0025 balance is 575', function () {
+            assert.equal(atm.ATM.users[1]['debet'], 575);
+        });
+
+        it('Simple user try get -100 cash', function () {
+            atm.ATM.getCash(-100);
+            assert.ok(atm.ATM.log.pop().indexOf('error, amount less then 0') !== -1);
+        });
+
+        it('Simple user try get more that debet', function () {
+            atm.ATM.getCash(576);
+            assert.ok(atm.ATM.log.pop().indexOf('is less then you want get') !== -1 );
+        });
+    });
 });

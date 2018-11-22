@@ -43,38 +43,39 @@ const ATM = {
     },
     // get cash - available for user only
     getCash: function (amount) {
-        if (this.is_auth) {
-            if (this.current_type !== "user") {
-                console.log(`Sorry user only, your type is ${this.current_type}`);
-                return;
-            }
-            this.users.find((el) => {
-                if (this.current_user === el.number) {
-                    const getAmount = parseInt(amount, 10);
-                    if (getAmount > 0) {
-                        if (el.debet < getAmount) {
-                            this.msgOut(`Sorry ${this.current_user}, but your balance ${el.debet} is less then you want get ${amount}`);
-                            return;
-                        }
-
-                        if (this.cash < getAmount) {
-                            this.msgOut(`Sorry ${this.current_user}, you can get only ${this.cash}`);
-                            return;
-                        }
-
-                        if (this.cash - getAmount > 0 && el.debet > getAmount) {
-                            el.debet -= getAmount;
-                            this.cash -= getAmount;
-                            this.msgOut(`User ${this.current_user} gets ${amount}`);
-                        }
-
-                    } else {
-                        this.msgOut(`User ${this.current_user} error, amount less then 0, ${amount}`);
-                    }
-                    return true;
-                }
-            });
+        if (!this.is_auth) {
+            this.msgOut(`You mast to login`);
+            return;
         }
+        if (this.current_type !== "user") {
+            this.msgOut(`Sorry user only, your type is ${this.current_type}`);
+            return;
+        }
+        this.users.find((el) => {
+            if (this.current_user === el.number) {
+                const getAmount = parseInt(amount, 10);
+                if (getAmount < 0) {
+                    this.msgOut(`User ${this.current_user} error, amount less then 0, ${amount}`);
+                    return;
+                }
+                if (el.debet < getAmount) {
+                    this.msgOut(`Sorry ${this.current_user}, but your balance ${el.debet} is less then you want get ${amount}`);
+                    return;
+                }
+
+                if (this.cash < getAmount) {
+                    this.msgOut(`Sorry ${this.current_user}, you can get only ${this.cash}`);
+                    return;
+                }
+
+                if (this.cash - getAmount >= 0 && el.debet >= getAmount) {
+                    el.debet -= getAmount;
+                    this.cash -= getAmount;
+                    this.msgOut(`User ${this.current_user} gets ${amount}`);
+                }
+            }
+        });
+        // this.msgOut(`Error getCash`);
     },
     // load cash - available for user only
     loadCash: function (amount) {
