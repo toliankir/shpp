@@ -1,0 +1,12 @@
+header {
+    font-family: 'Pacifico', cursive;
+    font-size: 4.5rem;
+    color: #fffecd;
+    padding-bottom: 2rem;
+    text-align: center;
+    flex-basis: 30vh;
+    min-height: 8.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}

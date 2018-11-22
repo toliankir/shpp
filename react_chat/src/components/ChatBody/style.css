@@ -1,0 +1,19 @@
+#chatData {
+    display: inline-block;
+    background-color: #fffecd;
+    text-align: left;
+    height: 33vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    width: 40%;
+    padding: 1rem;
+    min-height: 250px;
+}
+#chatData ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
