@@ -72,12 +72,14 @@ $chatLogout.on('click', () => {
     });
 });
 
-$loginForm.submit(() => {
+$loginForm.submit((evt) => {
+    evt.preventDefault();
     firstEntry = false;
     login($userName.val(), $userPassword.val());
 });
 
-$sendForm.submit(() => {
+$sendForm.submit((evt) => {
+    evt.preventDefault();
     sendMessage($message.val());
 });
 
