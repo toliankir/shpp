@@ -2,7 +2,9 @@
 session_start();
 if (!headers_sent()) {
     header('Access-Control-Allow-Origin: *');
+//    header('Access-Control-Allow-Credentials: true');
 }
+
 $config = require dirname(__DIR__,2).DIRECTORY_SEPARATOR .'config' .DIRECTORY_SEPARATOR. 'dirConfig.php';
 define('ROOT_PATH', $config['rootPath']);
 

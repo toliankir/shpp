@@ -6,6 +6,7 @@ use Exception;
 
 class JsonService implements IDataService
 {
+    const UNDEFINED_USER = -1;
     private $config;
     private $usersJson;
     private $chatJson;
@@ -37,17 +38,19 @@ class JsonService implements IDataService
      */
     public function login($user, $password)
     {
-        $loginsArray = array_column($this->usersJson, 'login');
 
-        if (!in_array($user, $loginsArray)) {
-            return -1;
-        }
 
-        $userAccount = $this->usersJson[array_search($user, $loginsArray)];
-        if ($userAccount['password'] === $password) {
-            return $userAccount['id'];
+        foreach ($this->usersJson as $userProfile) {
+            if ($userProfile['login'] === $user && $userProfile['password'] === $password) {
+                return $userProfile['id'];
+            }
+
+            if ($userProfile['login'] === $user) {
+                throw new Exception('Incorrect username or password.', 401);
+            }
         }
-        throw new Exception('Incorrect username or password.', 401);
+        return self::UNDEFINED_USER;
+//        throw new Exception('Incorrect username or password.', 401);
     }
 
     /**

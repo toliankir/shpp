@@ -6,10 +6,12 @@ use Exception;
 
 class RequestHandler
 {
+    const UNDEFINED_USER = -1;
+    const DEFAULT_TIME_PERIOD = 3600;
     private $service;
     private $period;
 
-    function __construct($service, $period = 60 * 60)
+    function __construct($service, $period = self::DEFAULT_TIME_PERIOD)
     {
         $this->service = $service;
         $this->period = $period;
@@ -17,29 +19,40 @@ class RequestHandler
 
     public function login($user, $password)
     {
+        if (isset($_SESSION['user'])) {
+            ResponseCreator::responseCreate(401, 'User already login.');
+            return;
+        }
         try {
-            if ($this->service->login($user, $password) === -1) {
+            if ($this->service->login($user, $password) === self::UNDEFINED_USER) {
                 $this->loginCheck($user);
                 $this->passwordCheck($password);
                 $this->service->addUser($user, $password);
-
             }
-
-            $userId = $this->service->login($user, $password);
-
-            $_SESSION['user'] = $user;
-            $_SESSION['id'] = $userId;
-
-            $respMsg = 'User login.';
-            $moreData = [
-                'userId' => $userId,
-                'login' => $user
-            ];
-            ResponseCreator::responseCreate(202, $respMsg, '', $moreData);
         } catch (Exception $err) {
             sleep(1);
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+            return;
         }
+
+        try {
+            $userId = $this->service->login($user, $password);
+        } catch (Exception $err) {
+            ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+            return;
+        }
+
+        $_SESSION['user'] = $user;
+        $_SESSION['id'] = $userId;
+
+        $respMsg = 'User login.';
+        $moreData = [
+            'userId' => $userId,
+            'login' => $user
+        ];
+        ResponseCreator::responseCreate(202, $respMsg, '', $moreData);
+
+
     }
 
     public function logout()
@@ -71,14 +84,14 @@ class RequestHandler
 
     public function getMessages($id)
     {
-            $timestamp = $this->getActualTimestamp();
-            $chatMessages = $this->service->getMessages($id, $timestamp);
+        $timestamp = $this->getActualTimestamp();
+        $chatMessages = $this->service->getMessages($id, $timestamp);
 
-            $respMsg = 'User get messages.';
-            $moreData = array('id' => $id,
-                'massageCount' => count($chatMessages),
-                'queryTimestamp' => $timestamp);
-            ResponseCreator::responseCreate(202, $respMsg, $chatMessages, $moreData);
+        $respMsg = 'User get messages.';
+        $moreData = array('id' => $id,
+            'massageCount' => count($chatMessages),
+            'queryTimestamp' => $timestamp);
+        ResponseCreator::responseCreate(202, $respMsg, $chatMessages, $moreData);
     }
 
     private function getActualTimestamp()
@@ -123,7 +136,7 @@ class RequestHandler
     private function messageCheck($msg)
     {
         if (strlen(trim($msg)) === 0) {
-            throw new Exception('User ' .$_SESSION['user']. ' post empty message.', 200);
+            throw new Exception('User ' . $_SESSION['user'] . ' post empty message.', 200);
         }
     }
 }

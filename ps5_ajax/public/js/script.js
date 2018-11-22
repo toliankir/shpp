@@ -41,7 +41,6 @@ $(document).ready(() => {
             errorCode(jqXHR);
         },
         success: (data) => {
-            // console.log(data);
             if (data.statusCode === 202) {
                 imagePreload(smiles);
                 $loadingContainer.hide();
