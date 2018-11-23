@@ -27,7 +27,7 @@ class ErrorHandle
 
     public function writeToLog($code, $msg)
     {
-        
+
         $rule = $this->rule;
 
         if ($rule($code)) {
@@ -37,6 +37,14 @@ class ErrorHandle
 
         if ($this->next) {
             $this->next->writeToLog($code, $msg);
+        }
+    }
+
+    private function checkFile($file)
+    {
+        if (!file_exists($file)) {
+            $fp = fopen($file,'w');
+            fclose($fp);
         }
     }
 

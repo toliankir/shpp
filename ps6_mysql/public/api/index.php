@@ -12,10 +12,10 @@ spl_autoload_register(function ($className) {
     require ROOT_PATH . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
 });
 
-use \app\{JsonService, RequestHandler, ResponseCreator};
+use \app\{MysqlService, RequestHandler, ResponseCreator};
 
 try {
-    $requestHandler = new RequestHandler(new JsonService(), 60 * 60 * 24);
+    $requestHandler = new RequestHandler(new MysqlService(), 60 * 60 * 24);
 } catch (Exception $err) {
     ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
     exit();

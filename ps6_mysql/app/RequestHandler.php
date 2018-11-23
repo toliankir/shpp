@@ -19,10 +19,10 @@ class RequestHandler
 
     public function login($user, $password)
     {
-        if (isset($_SESSION['user'])) {
-            ResponseCreator::responseCreate(401, 'User already login.');
-            return;
-        }
+//        if (isset($_SESSION['user'])) {
+//            ResponseCreator::responseCreate(401, 'User already login.');
+//            return;
+//        }
         try {
             if ($this->service->login($user, $password) === self::UNDEFINED_USER) {
                 $this->loginCheck($user);

@@ -1,0 +1,5 @@
+22/11/2018 23:29:41    500: PDOException: SQLSTATE[HY000] [1049] Unknown database 'chat_db' in C:\programing\shpp\ps6_mysql\app\MysqlService.php:32
+Stack trace:
+#0 C:\programing\shpp\ps6_mysql\app\MysqlService.php(32): PDO->__construct('mysql:host=loca...', 'root', '', Array)
+#1 C:\programing\shpp\ps6_mysql\public\api\index.php(18): app\MysqlService->__construct()
+#2 {main}
