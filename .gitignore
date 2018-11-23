@@ -1,5 +1,1 @@
-.idea/
-.vscode/
-testing/node_modules/
-ps5_ajax/log/
-ps5_ajax/json/
+*.log
