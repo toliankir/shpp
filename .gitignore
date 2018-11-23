@@ -1,1 +1,2 @@
-*.log
+react/app/node_modules
+react_chat/node_modules
