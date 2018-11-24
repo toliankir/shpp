@@ -51,7 +51,8 @@ CREATE TABLE `users_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login` (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -73,4 +74,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-23  0:18:31
+-- Dump completed on 2018-11-24 15:02:40

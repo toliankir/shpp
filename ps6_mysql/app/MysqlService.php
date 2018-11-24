@@ -10,6 +10,7 @@ class MysqlService implements IDataService
 {
 
     const UNDEFINED_USER = -1;
+    const CRYPT_SALT = 'shpp';
     private $config;
     private $pdo;
 
@@ -57,7 +58,8 @@ class MysqlService implements IDataService
             return $this::UNDEFINED_USER;
         }
 
-        if ($userData['password'] === $password) {
+        $cryptPassword = crypt($password, self::CRYPT_SALT);
+        if (hash_equals($userData['password'], $cryptPassword)) {
             return $userData['id'];
         }
 
@@ -74,7 +76,8 @@ class MysqlService implements IDataService
         try {
             $stmt = $this->pdo->prepare('INSERT INTO users_table (login, password) VALUES (:login, :password)');
             $stmt->bindParam(':login', $user);
-            $stmt->bindParam(':password', $password);
+            $cryptPassword = crypt($password, self::CRYPT_SALT);
+            $stmt->bindParam(':password', $cryptPassword);
             $stmt->execute();
         } catch (PDOException $err) {
             throw new Exception($err->getMessage(), 500);

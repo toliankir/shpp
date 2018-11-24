@@ -5,7 +5,7 @@ return [
     'dbPort' => 3306,
     'dbName' => 'chatDb',
     'charSet' => 'utf8',
-    'mysqlUser' => 'root',
-    'mysqlPassword' => ''
+    'mysqlUser' => 'shpp',
+    'mysqlPassword' => '0000'
 ];
 
