@@ -22,8 +22,8 @@ try {
 }
 
 //Login part
-if (isset($_REQUEST['user']) && isset($_REQUEST['password'])) {
-    $requestHandler->login($_REQUEST['user'], $_REQUEST['password']);
+if (isset($_POST['user'], $_POST['password'])) {
+    $requestHandler->login($_POST['user'], $_POST['password']);
     exit();
 }
 
@@ -34,18 +34,19 @@ if (!isset($_SESSION['user'])) {
 }
 
 //Logout
-if (isset($_REQUEST['logout'])) {
+if (isset($_POST['logout'])) {
     $requestHandler->logout();
     exit();
 }
+
 //Post message
-if (isset($_REQUEST['message'])) {
+if (isset($_POST['message'])) {
     $requestHandler->postMessage($_REQUEST['message']);
     exit();
 }
 
 //Get messages
-if (isset($_REQUEST['id'])) {
+if (isset($_GET['id'])) {
     $requestHandler->getMessages($_GET['id']);
     exit();
 }

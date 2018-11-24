@@ -40,12 +40,4 @@ class ErrorHandle
         }
     }
 
-    private function checkFile($file)
-    {
-        if (!file_exists($file)) {
-            $fp = fopen($file,'w');
-            fclose($fp);
-        }
-    }
-
 }
