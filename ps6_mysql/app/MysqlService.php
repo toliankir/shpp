@@ -33,7 +33,7 @@ class MysqlService implements IDataService
         try {
             $this->pdo = new PDO($dsn, $this->config['mysqlUser'], $this->config['mysqlPassword'], $options);
         } catch (PDOException $err) {
-            throw new Exception($err, 500);
+            throw new Exception($err->getMessage(), 500);
         }
     }
 
