@@ -5,18 +5,19 @@ import Login from './Login';
 import Header from './Header';
 import LogoutBtn from './LogoutBtn';
 import ChatBody from './ChatBody';
+import SendMessage from './SendMessage';
 
 class App extends Component {
 
     state = {
-        userState: false
+        userState: false,
     };
 
     async componentDidMount() {
-        await this.getDataForLogin();
+        await this.getMessages();
     }
 
-    setUserState = (userState) => {
+    setChatState = (userState) => {
         this.setState({
             userState: userState
         });
@@ -26,31 +27,34 @@ class App extends Component {
         return (
             <div>
                 <Topper/>
-                {this.state.userState ? <LogoutBtn/> : ''}
+                {this.state.userState ? <LogoutBtn setChatState={this.setChatState}/> : ''}
                 <Header/>
                 <main>
-                    {this.state.userState ? <ChatBody setUserState={this.setUserState} /> : <Login setUserState={this.setUserState}/>}
+                    {this.state.userState ? <ChatBody/> :
+                    <Login setChatState={this.setChatState}/>}
                 </main>
+                <footer>
+                    {this.state.userState ? <SendMessage/>: '' }
+                </footer>
             </div>
         );
     }
 
 
-    async getDataForLogin() {
-        const responseData = await fetch('http://127.0.0.1/shpp/ps5_ajax/public/api/?id=0', {
-
+    async getMessages() {
+        const responseData = await fetch('http://localhost/shpp/ps5_ajax/public/api/?id=-1', {
+            method: 'GET',
+            credentials: 'include'
         });
-        console.log(responseData);
         const json = await  responseData.json();
         let userState = false;
-        if (json.statusCode === 200) {
+
+        if (json.statusCode === 202) {
             userState = true;
         }
-        console.log(json);
         this.setState({
             userState: userState
         });
-
     }
 }
 

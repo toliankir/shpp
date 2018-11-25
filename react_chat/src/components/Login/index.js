@@ -2,20 +2,16 @@ import React, {Component} from 'react';
 import './style.css';
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
-
-    }
 
     state = {
-        jsonData: '123',
+        jsonData: '',
         username: '',
         password: ''
     };
 
-    changeUserState(state) {
-        const {setUserState} = this.props;
-        setUserState(state);
+    changeState(state) {
+        const {setChatState} = this.props;
+        setChatState(state);
     }
 
     handleUsernameChange = (event) => {
@@ -33,10 +29,10 @@ class Login extends Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        const responseData = await fetch('http://127.0.0.1/shpp/ps5_ajax/public/api/index.php',
+        const responseData = await fetch('http://localhost/shpp/ps5_ajax/public/api/index.php',
             {
                 method: 'POST',
-                credentials: 'same-origin',
+                credentials: 'include',
                 headers: new Headers({
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }),
@@ -44,9 +40,8 @@ class Login extends Component {
             });
         const jsonData = await responseData.json();
         if (jsonData.statusCode === 202) {
-            this.changeUserState(true);
+            this.changeState(true);
         }
-        console.log(jsonData);
     };
 
     render() {
@@ -64,7 +59,7 @@ class Login extends Component {
                     <div className='loginForm-section'>
                         <span id='errorResponse'/>
                         <div id='visualEffect'>
-                            <input className='form__button' type='Submit' value='Submit'/>
+                            <input readOnly className='form__button' type='Submit' value='Submit'/>
                         </div>
                     </div>
                 </form>

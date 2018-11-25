@@ -1,0 +1,10 @@
+#sendContainer {
+    width: 40%;
+}
+#message {
+    width: 75%;
+}
+#sendMessage {
+    width: 20%;
+    float: right;
+}
