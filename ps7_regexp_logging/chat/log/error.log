@@ -1,0 +1,9 @@
+24/11/2018 13:59:01    500: PDOException: SQLSTATE[HY000] [1049] Unknown database 'chatdb' in C:\programing\shpp\ps6_mysql\app\MysqlService.php:33
+Stack trace:
+#0 C:\programing\shpp\ps6_mysql\app\MysqlService.php(33): PDO->__construct('mysql:host=loca...', 'shpp', '0000', Array)
+#1 C:\programing\shpp\ps6_mysql\public\api\index.php(18): app\MysqlService->__construct()
+#2 {main}
+26/11/2018 21:31:27    500: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+
+26/11/2018 21:31:29    500: SQLSTATE[HY000] [2002] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+
