@@ -35,28 +35,25 @@ function testJs(el, regExp) {
     jsIndicator.className = errorClass;
 }
 
-function testPhp(el, regExp) {
+async function testPhp(el, regExp) {
     const phpIndicator = document.getElementById(`php-${el.target.id}`);
-    $.ajax({
-        url: 'regexp.php',
+
+    const response = await fetch('regexp.php', {
         method: 'POST',
-        dataType: 'json',
-        data: {
-            str: el.target.value,
-            regexp: regExp
-        },
-        success: (data) => {
-            if (data.status) {
-                phpIndicator.innerText = phpOkMsg;
-                phpIndicator.className = okClass;
-                return;
-            }
-            phpIndicator.innerText = phpErrorMsg;
-            phpIndicator.className = errorClass;
-        },
-        error: () => {
-            console.log('Php request error');
-        }
+        headers: new Headers({
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+        body: `str=${el.target.value}&regexp=${regExp}`
     });
+
+    const jsonData = await response.json();
+
+    if (jsonData.status) {
+        phpIndicator.innerText = phpOkMsg;
+        phpIndicator.className = okClass;
+        return;
+    }
+    phpIndicator.innerText = phpErrorMsg;
+    phpIndicator.className = errorClass;
 
 }
