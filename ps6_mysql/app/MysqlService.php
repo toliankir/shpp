@@ -94,7 +94,7 @@ class MysqlService implements IDataService
         $chatMessages = [];
         try {
             $stmt = $this->pdo->prepare('SELECT UNIX_TIMESTAMP(m.timestamp) as timestamp, m.id, u.login as user, m.message 
-FROM messages_table m LEFT JOIN users_table u ON m.userId = u.id WHERE m.id > :id AND m.timestamp > :timestamp');
+FROM messages_table m LEFT JOIN users_table u ON m.userId = u.id WHERE m.id > :id AND UNIX_TIMESTAMP(m.timestamp) > :timestamp');
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':timestamp', $timestamp);
             $stmt->execute();

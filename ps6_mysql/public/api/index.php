@@ -15,7 +15,7 @@ spl_autoload_register(function ($className) {
 use \app\{MysqlService, RequestHandler, ResponseCreator};
 
 try {
-    $requestHandler = new RequestHandler(new MysqlService(), 60 * 60 * 24);
+    $requestHandler = new RequestHandler(new MysqlService(), 3600);
 } catch (Exception $err) {
     ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
     exit();
