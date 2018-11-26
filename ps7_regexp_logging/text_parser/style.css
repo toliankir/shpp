@@ -1,0 +1,40 @@
+body {
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+}
+
+#regexp {
+    height:18px;
+    padding: 0 15px 0 5px;
+}
+#regexp.error {
+    background-color: red;
+}
+
+#regexp-wrapper {
+    position: relative;
+}
+
+#regexp-wrapper:before {
+    position: absolute;
+    z-index: 2;
+    left: 2px;
+    top: 3px;
+    content: '/';
+}
+
+#regexp-wrapper:after {
+    position: relative;
+    z-index: 2;
+    left: -20px;
+    top: 0;
+    content: '/g';
+}
+
+textarea {
+    width: 400px;
+    height: 150px;
+}
