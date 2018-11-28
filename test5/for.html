@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    let obj = [];
+    let sum = 0;
+    size = 1000 * 100000;
+
+    console.log(`Iterations: ${size}`);
+
+    for (let i = 0; i < size; i++) {
+        obj[i] = i;
+    }
+
+    let t0, t1, allTime = 0;
+
+    for (let i2 = 0; i2 < 10; i2++) {
+        t0 = performance.now();
+        obj.forEach((el) => {
+            sum += el;
+        });
+        t1 = performance.now();
+        allTime += (t1 - t0);
+    }
+    console.log(`forEach ${allTime / 10}`);
+
+    allTime = 0;
+
+    for (let i2 = 0; i2 < 10; i2++) {
+        t0 = performance.now();
+        for (const value of obj) {
+            sum += value;
+        }
+        t1 = performance.now();
+        allTime += (t1 - t0);
+    }
+
+    console.log(`for of ${allTime / 10}`);
+
+    allTime = 0;
+
+    for (let i2 = 0; i2 < 10; i2++) {
+        t0 = performance.now();
+        for (let i = 0; i < obj.length; i++) {
+            sum += obj[i];
+        }
+        t1 = performance.now();
+        allTime += (t1 - t0);
+    }
+
+    console.log(`for of ${allTime / 10}`);
+</script>
+</body>
+</html>
