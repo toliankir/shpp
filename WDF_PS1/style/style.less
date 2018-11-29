@@ -25,19 +25,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  @media (max-width: 741px) {
+  @media (max-width: 740px) {
    height: 100vh;
   }
 }
 form {
-  padding: 60px 30px 60px 30px;
+  padding: 0 30px 0 30px;
   font-family: 'Lato', sans-serif;
-  @media (min-width: 740px) {
+  @media (min-width: 741px) {
     max-width: 360px;
-
+    padding: 60px 30px 60px 30px;
   }
-
-
   width: 100vw;
   text-align: center;
   color: @form-text-color;
@@ -62,6 +60,9 @@ form {
      &::placeholder {
        opacity: 0;
      }
+    }
+    &::placeholder {
+      font-weight: 700;
     }
     display: block;
     font-family: 'Lato', sans-serif;
