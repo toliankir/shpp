@@ -28,7 +28,7 @@ let requestTimeout;
 let $ajaxXHR;
 let firstEntry = true;
 
-$(document).ready(() => {
+$(() => {
 
     $ajaxXHR = $.ajax({
         url: apiURL,
@@ -36,23 +36,21 @@ $(document).ready(() => {
         type: 'GET',
         data: {
             id: lastId
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
-            if (data.statusCode === 202) {
-                imagePreload(smiles);
-                $loadingContainer.hide();
-                $chatContainer.show();
-                $chatLogout.show();
-                $sendContainer.show();
-                getMessages();
-                return;
-            }
-            $loadingContainer.hide();
-            $loginContainer.show();
         }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        if (data.statusCode === 202) {
+            imagePreload(smiles);
+            $loadingContainer.hide();
+            $chatContainer.show();
+            $chatLogout.show();
+            $sendContainer.show();
+            getMessages();
+            return;
+        }
+        $loadingContainer.hide();
+        $loginContainer.show();
     });
 });
 
@@ -62,13 +60,11 @@ $chatLogout.on('click', () => {
         type: 'POST',
         data: {
             logout: 'logout'
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: () => {
-            logout();
         }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done(() => {
+        logout();
     });
 });
 
@@ -91,17 +87,15 @@ function login(login, password) {
         data: {
             user: login,
             password: password
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
-            if (data.statusCode !== 202) {
-                $errorResponse.text(data.statusText);
-                return;
-            }
-            showChat();
         }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        if (data.statusCode !== 202) {
+            $errorResponse.text(data.statusText);
+            return;
+        }
+        showChat();
     });
 }
 
@@ -110,17 +104,15 @@ function sendMessage(message) {
     clearTimeout(requestTimeout);
     $.ajax({
         url: apiURL,
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
         data: {
             message: message
         },
         type: 'POST',
-        success: () => {
-            getMessages();
-            $message.val('');
-        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done(() => {
+        getMessages();
+        $message.val('');
     });
 }
 
@@ -140,15 +132,14 @@ function getMessages() {
         type: 'GET',
         data: {
             id: lastId
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
+        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
             messagesAdd(data.body);
             requestTimeout = setTimeout(getMessages, 1000);
         }
-    });
+    );
 }
 
 function messagesAdd(messagesArray) {
