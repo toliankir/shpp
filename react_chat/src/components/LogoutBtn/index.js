@@ -16,7 +16,6 @@ export default class LogoutBtn extends Component {
         }
     };
 
-
     render() {
         return (
             <form id="chatLogout">
