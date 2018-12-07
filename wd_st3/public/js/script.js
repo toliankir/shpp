@@ -34,13 +34,13 @@ $imageContainer.on('click', 'input', (el) => {
     $draggedElement = $(el.target).closest($('div'));
 });
 
-// $imageContainer.on('blur', 'input',  () => {
-    //  if (messageRemove($draggedElement)) {
-    //     return;
-    // }
-    // submitMessageChange($draggedElement);
-    // putMessageToBase($draggedElement);
-// });
+$imageContainer.on('blur', 'input', () => {
+     if (messageRemove($draggedElement)) {
+        return;
+    }
+    submitMessageChange($draggedElement);
+    putMessageToBase($draggedElement);
+});
 
 $(document).on('mouseup', () => {
     if ($draggedElement !== null && draggable) {
@@ -106,23 +106,21 @@ $imageContainer.on('mousemove', (ev) => {
 });
 
 $imageContainer.on('keyup', (el) => {
-     if ($(el.target).is($(inputSelector))) {
+    if ($(el.target).is($(inputSelector))) {
         $draggedElement = $(el.target).closest($('div'));
     }
-    const inputDragged = $draggedElement.find($(inputSelector));
+    const $inputDragged = $draggedElement.find($(inputSelector));
 
     if (el.keyCode === 13) {
-        if (messageRemove($draggedElement)) {
-            return;
-        }
-        submitMessageChange($draggedElement);
+        $inputDragged.trigger('blur');
+        return;
     }
 
     if (el.keyCode === 27) {
-        $draggedElement.text(inputDragged.attr(propOldValue));
+        $draggedElement.text($inputDragged.attr(propOldValue));
     }
 
-    inputDragged.attr(propValue, inputDragged.val());
+    $inputDragged.attr(propValue, $inputDragged.val());
     putMessageToBase($draggedElement);
 });
 
