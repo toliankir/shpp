@@ -47,14 +47,14 @@ $(document).on('mouseup', () => {
 
 
 $imageContainer.on('dblclick', (el) => {
-    $element = $(el.target);
+    const $clickedElement = $(el.target);
     //If dbclick on empty field, creating new massage
-    if ($element.is(imageContainerSelector)) {
+    if ($clickedElement.is(imageContainerSelector)) {
         $draggedElement = addDraggableItem([el.offsetX, el.offsetY]);
     }
 
     //If clicked on massage
-    if ($element.is(draggableSelector)) {
+    if ($clickedElement.is(draggableSelector)) {
         //Old element size for saving position of right-bottom corner after element resizing.
         const oldWidth = $draggedElement.outerWidth();
         const oldHeight = $draggedElement.outerHeight();
