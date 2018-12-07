@@ -4,13 +4,15 @@ let prevX, prevY;
 
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
-const CORNER_HEIGHT = 10;
+let cornerHeight = 0;
+let cornerRight = 0;
+let cornerBottom = 0;
 
 const draggableClass = 'draggable';
 const draggableSelector = '.' + draggableClass;
 const imageContainerClass = 'image-container';
 const imageContainerSelector = '.' + imageContainerClass;
-const cornerClass = 'message-corner';
+const cornerSelector = '.draggable::after';
 const inputSelector = 'input:text';
 const propValue = 'data-value';
 const propOldValue = 'data-old';
@@ -19,7 +21,29 @@ const apiUrl = 'api/';
 
 $(() => {
     getAllMessagesFromBase();
+    cornerHeight = parseInt(getPropertyFromStyleList(cornerSelector, 'borderWidth')) * 2;
+    cornerRight = parseInt(getPropertyFromStyleList(cornerSelector, 'right'));
+    cornerBottom = parseInt(getPropertyFromStyleList(cornerSelector, 'bottom'));
 });
+
+/**
+ * Get style parameter from StyleList, use if element not present in DOM.
+ * @param selector
+ * @param property
+ * @returns {*}
+ */
+function getPropertyFromStyleList(selector, property) {
+    const allStyleLists = document.styleSheets;
+    for (let styleListNum = 0; styleListNum < allStyleLists.length; styleListNum++) {
+        const cssRules = allStyleLists[styleListNum].cssRules;
+        for (let cssRulesNum = 0; cssRulesNum < cssRules.length; cssRulesNum++) {
+            if (cssRules[cssRulesNum].selectorText === selector) {
+                return cssRules[cssRulesNum].style[property];
+            }
+        }
+    }
+
+}
 
 /**
  * Drag element
@@ -62,11 +86,9 @@ $imageContainer.on('dblclick', (el) => {
         //Add input to massage.
         const newInput = $('<input type="text">').val($draggedElement.text()).attr(propValue, $draggedElement.text())
             .attr(propOldValue, $draggedElement.text());
-        const $cornerElement = $('<div></div>').addClass(cornerClass);
-        $draggedElement.text('').append(newInput).find($('input')).focus();
 
         //If after adding element to DOM it is position is incorrect
-        $.when($draggedElement.append($cornerElement))
+        $.when($draggedElement.text('').append(newInput).find($('input')).focus())
             .then($draggedElement.css({
                 left: $draggedElement.position().left + (oldWidth - $draggedElement.outerWidth()),
                 top: $draggedElement.position().top + (oldHeight - $draggedElement.outerHeight())
@@ -101,8 +123,8 @@ $imageContainer.on('mousemove', (ev) => {
         xPos = $imageContainer.width() - $draggedElement.outerWidth();
     }
 
-    if (yPos + $draggedElement.outerHeight() + CORNER_HEIGHT > $imageContainer.height()) {
-        yPos = $imageContainer.height() - $draggedElement.outerHeight() - CORNER_HEIGHT;
+    if (yPos + $draggedElement.outerHeight() + cornerHeight > $imageContainer.height()) {
+        yPos = $imageContainer.height() - $draggedElement.outerHeight() - cornerHeight;
     }
 
     $draggedElement.css({
@@ -149,8 +171,6 @@ $(window).on('resize', () => {
  */
 function addDraggableItem(position = null) {
     const $newElement = $('<div></div>').addClass(draggableClass).text('New button');
-    const $cornerElement = $('<div></div>').addClass(cornerClass);
-    $newElement.append($cornerElement);
     $imageContainer.append($newElement);
 
     if (!position) {
@@ -159,8 +179,8 @@ function addDraggableItem(position = null) {
         position[1] = Math.random() * ($(imageContainerSelector).height() - $newElement.height());
 
     } else {
-        position[0] -= $newElement.outerWidth() - parseInt($cornerElement.css("right"));
-        position[1] -= $newElement.outerHeight() - parseInt($cornerElement.css("bottom"));
+        position[0] -= $newElement.outerWidth() - cornerRight;
+        position[1] -= $newElement.outerHeight() - cornerBottom;
     }
 
     const uniqId = Math.abs(hashCode(Date.now() + position[0] + position[1]));
@@ -271,8 +291,8 @@ function correctingPosition() {
             $element.css({left: $imageContainer.width() - $element.outerWidth()});
             changed = true;
         }
-        if ($element.position().top + $element.outerHeight() + CORNER_HEIGHT > $imageContainer.height()) {
-            $element.css({top: $imageContainer.height() - $element.outerHeight() - CORNER_HEIGHT});
+        if ($element.position().top + $element.outerHeight() + cornerHeight > $imageContainer.height()) {
+            $element.css({top: $imageContainer.height() - $element.outerHeight() - cornerHeight});
             changed = true;
         }
 
@@ -304,10 +324,8 @@ function messageRemove($draggedElement) {
 function applyMessageChange($draggedElement) {
     const oldWidth = $draggedElement.outerWidth();
     const oldHeight = $draggedElement.outerHeight();
-    const $cornerElement = $('<div></div>').addClass(cornerClass);
 
     $draggedElement.text($draggedElement.find($(inputSelector)).val());
-    $draggedElement.append($cornerElement);
     $draggedElement.css({
         left: $draggedElement.position().left - ($draggedElement.outerWidth() - oldWidth),
         top: $draggedElement.position().top - ($draggedElement.outerHeight() - oldHeight)
