@@ -24,7 +24,8 @@ if (!isset($_GET['action'])) {
 }
 
 if ($_GET['action'] === 'getAllMessages') {
-    ResponseHandler::responseOk($json->getAllMessages(), 'All messages printed.');
+    $resp = $json->getAllMessages();
+    ResponseHandler::responseOk($resp, 'Get ' . count($resp) . ' messages.');
 }
 
 if ($_GET['action'] === 'deleteMessage') {
@@ -33,7 +34,7 @@ if ($_GET['action'] === 'deleteMessage') {
         exit();
     }
     try {
-    ResponseHandler::responseOk($json->deleteMessage((int)$_GET['id']), 'Message ' . $_GET['id'] . ' delete.');
+        ResponseHandler::responseOk($json->deleteMessage((int)$_GET['id']), 'Message ' . $_GET['id'] . ' delete.');
     } catch (Exception $err) {
         ResponseHandler::responseError($err->getMessage());
         exit();
@@ -45,9 +46,9 @@ if ($_GET['action'] === 'put') {
         ResponseHandler::responseError('Wrong response.');
         exit();
     }
-  $msg = ['id' => (int)$_GET['id'],
-      'body' => $_GET['body']];
+    $msg = ['id' => (int)$_GET['id'],
+        'body' => $_GET['body']];
 
     $json->putMessage($msg);
-    ResponseHandler::responseOk($msg, 'Message putted.');
+    ResponseHandler::responseOk($msg, 'Message #' . $_GET['id'] . 'putted.');
 }

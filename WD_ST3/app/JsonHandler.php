@@ -57,8 +57,13 @@ class JsonHandler
         $deletedMessage = $this->jsonData[$messageIndex];
 
         array_splice($this->jsonData, $messageIndex, 1);
-        file_put_contents($this->jsonFile, json_encode($this->jsonData));
 
+        if (count($this->jsonData) === 0) {
+            file_put_contents($this->jsonFile, '');
+            return $deletedMessage;
+        }
+
+        file_put_contents($this->jsonFile, json_encode($this->jsonData));
         return $deletedMessage;
     }
 
