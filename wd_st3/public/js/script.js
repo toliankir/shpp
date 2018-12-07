@@ -35,7 +35,7 @@ $imageContainer.on('click', 'input', (el) => {
 });
 
 $imageContainer.on('blur', 'input', () => {
-     if (messageRemove($draggedElement)) {
+    if (messageRemove($draggedElement)) {
         return;
     }
     submitMessageChange($draggedElement);
