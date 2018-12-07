@@ -1,12 +1,13 @@
 let $draggedElement = null;
 let draggable = false;
 let prevX, prevY;
-
-const ENTER_KEY = 13;
-const ESC_KEY = 27;
 let cornerHeight = 0;
 let cornerRight = 0;
 let cornerBottom = 0;
+
+const ENTER_KEY = 13;
+const ESC_KEY = 27;
+const newMassageText = 'New message';
 
 const draggableClass = 'draggable';
 const draggableSelector = '.' + draggableClass;
@@ -20,10 +21,10 @@ const $imageContainer = $(imageContainerSelector);
 const apiUrl = 'api/';
 
 $(() => {
-    getAllMessagesFromBase();
     cornerHeight = parseInt(getPropertyFromStyleList(cornerSelector, 'borderWidth')) * 2;
     cornerRight = parseInt(getPropertyFromStyleList(cornerSelector, 'right'));
     cornerBottom = parseInt(getPropertyFromStyleList(cornerSelector, 'bottom'));
+    getAllMessagesFromBase();
 });
 
 /**
@@ -170,7 +171,7 @@ $(window).on('resize', () => {
  * @returns {jQuery}
  */
 function addDraggableItem(position = null) {
-    const $newElement = $('<div></div>').addClass(draggableClass).text('New button');
+    const $newElement = $('<div></div>').addClass(draggableClass).text(newMassageText);
     $imageContainer.append($newElement);
 
     if (!position) {
