@@ -14,7 +14,7 @@ const $imageContainer = $(imageContainerSelector);
 const apiUrl = 'api/';
 
 $(() => {
-    getAllMessages();
+    getAllMessagesFromBase();
 });
 
 $imageContainer.on('mousedown', draggableSelector, (el) => {
@@ -34,14 +34,17 @@ $imageContainer.on('click', 'input', (el) => {
     $draggedElement = $(el.target).closest($('div'));
 });
 
-$imageContainer.on('blur', 'input',  () => {
-    submitMessageChange($draggedElement);
-    putMessage($draggedElement);
-});
+// $imageContainer.on('blur', 'input',  () => {
+    //  if (messageRemove($draggedElement)) {
+    //     return;
+    // }
+    // submitMessageChange($draggedElement);
+    // putMessageToBase($draggedElement);
+// });
 
 $(document).on('mouseup', () => {
     if ($draggedElement !== null && draggable) {
-        putMessage($draggedElement);
+        putMessageToBase($draggedElement);
     }
     draggable = false;
 });
@@ -68,7 +71,7 @@ $imageContainer.on('dblclick', (el) => {
 
     }
 
-    putMessage($draggedElement);
+    putMessageToBase($draggedElement);
 });
 
 $imageContainer.on('mousemove', (ev) => {
@@ -109,6 +112,9 @@ $imageContainer.on('keyup', (el) => {
     const inputDragged = $draggedElement.find($(inputSelector));
 
     if (el.keyCode === 13) {
+        if (messageRemove($draggedElement)) {
+            return;
+        }
         submitMessageChange($draggedElement);
     }
 
@@ -117,7 +123,7 @@ $imageContainer.on('keyup', (el) => {
     }
 
     inputDragged.attr(propValue, inputDragged.val());
-    putMessage($draggedElement);
+    putMessageToBase($draggedElement);
 });
 
 $(window).on('resize', () => {
@@ -155,7 +161,7 @@ function hashCode(s) {
     }, 0);
 }
 
-function putMessage(element) {
+function putMessageToBase(element) {
     const id = element.attr('id');
     const html = element[0].outerHTML;
     $.ajax({
@@ -176,7 +182,7 @@ function putMessage(element) {
     });
 }
 
-function getAllMessages() {
+function getAllMessagesFromBase() {
     $.ajax({
         url: apiUrl,
         dataType: 'json',
@@ -195,7 +201,7 @@ function getAllMessages() {
 
 }
 
-function deleteMessage(id) {
+function deleteMessageFromBase(id) {
     $.ajax({
         url: apiUrl,
         dataType: 'json',
@@ -251,22 +257,31 @@ function correctingPosition() {
         }
 
         if (changed) {
-            putMessage($element);
+            putMessageToBase($element);
         }
     });
 }
 
-function submitMessageChange($draggedElement) {
+function messageRemove($draggedElement) {
+    if (!$imageContainer.has($draggedElement)) {
+        return true;
+    }
+
     const inputDragged = $draggedElement.find($(inputSelector));
     if (!inputDragged.val()) {
-        deleteMessage($draggedElement.attr('id'));
+        deleteMessageFromBase($draggedElement.attr('id'));
         $draggedElement.remove();
-        return;
+        return true;
     }
+    return false;
+}
+
+function submitMessageChange($draggedElement) {
     const oldWidth = $draggedElement.outerWidth();
     const oldHeight = $draggedElement.outerHeight();
     const $cornerElement = $('<div></div>').addClass(cornerClass);
-    $draggedElement.text(inputDragged.val());
+
+    $draggedElement.text($draggedElement.find($(inputSelector)).val());
     $draggedElement.append($cornerElement);
     $draggedElement.css({
         left: $draggedElement.position().left - ($draggedElement.outerWidth() - oldWidth),
