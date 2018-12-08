@@ -65,7 +65,7 @@ $imageContainer.on('mousedown', draggableSelector, (el) => {
  */
 $(document).on('mouseup', () => {
     if ($draggedElement !== null && draggable) {
-        putMessageToBase($draggedElement.attr('id'), $draggedElement[0].outerHTML);
+        putMessageToBase($draggedElement);
     }
     draggable = false;
 });
@@ -97,7 +97,7 @@ $imageContainer.on('dblclick', (el) => {
             .then(correctingPosition());
     }
 
-    putMessageToBase($draggedElement.attr('id'), $draggedElement[0].outerHTML);
+    putMessageToBase($draggedElement);
 });
 
 $imageContainer.on('mousemove', (ev) => {
@@ -155,7 +155,7 @@ $imageContainer.on('keyup', (el) => {
     }
 
     $inputDragged.attr(propValue, $inputDragged.val());
-    putMessageToBase($draggedElement.attr('id'), $draggedElement[0].outerHTML);
+    putMessageToBase($draggedElement);
 });
 
 /**
@@ -205,21 +205,28 @@ function hashCode(s) {
 
 /**
  * Put element to base, if element exist in base replace it.
- * @param id
- * @param body
+ * @param $element
  */
-function putMessageToBase(id, body) {
+function putMessageToBase($element) {
+    const id = $element.attr('id');
+    const body = $element.html();
+    const xPos = Math.round($element.position().left);
+    const yPos = Math.round($element.position().top);
     $.ajax({
         url: apiUrl,
         dataType: 'json',
         type: 'GET',
         data: {
             action: 'put',
-            id: id,
-            body: body
+            message: {
+                id: id,
+                body: body,
+                x: xPos,
+                y: yPos
+            }
         },
         error: (jqXHR) => {
-            console.log(jqXHR);
+            errorReport(jqXHR);
         },
         success: (data) => {
             successReport(data);
@@ -239,7 +246,7 @@ function getAllMessagesFromBase() {
             action: 'getAllMessages'
         },
         error: (jqXHR) => {
-            console.log(jqXHR);
+            errorReport(jqXHR);
         },
         success: (data) => {
             if (!data) {
@@ -257,19 +264,30 @@ function getAllMessagesFromBase() {
  * @param messages
  */
 function addMessages(messages) {
+    if (!messages) {
+        return;
+    }
     messages.forEach((message) => {
-        const $newElement = $(message.body);
+        const $newElement = $('<div></div>')
+            .addClass(draggableClass)
+            .css({left: parseInt(message.x), top: parseInt(message.y)})
+            .attr('id', message.id)
+            .html(message.body);
 
         if ($newElement.has(inputSelector)) {
             const $newElementInput = $newElement.find(inputSelector);
             $newElementInput.val($newElementInput.attr(propValue));
         }
-
         $imageContainer.append($newElement);
     });
 }
 
 function successReport(data) {
+    if (data.statusCode === 500) {
+        console.log(data.statusText);
+    }
+}
+function errorReport(data) {
     // console.log(data.statusText);
 }
 
@@ -298,7 +316,7 @@ function correctingPosition() {
         }
 
         if (changed) {
-            putMessageToBase($element.attr('id'), $element[0].outerHTML);
+            putMessageToBase($element);
         }
     });
 }
@@ -311,7 +329,8 @@ function correctingPosition() {
 function messageRemove($draggedElement) {
     const inputDragged = $draggedElement.find($(inputSelector));
     if (!inputDragged.val()) {
-        putMessageToBase($draggedElement.attr('id'), '');
+        $draggedElement.html('');
+        putMessageToBase($draggedElement);
         $draggedElement.remove();
         return true;
     }
