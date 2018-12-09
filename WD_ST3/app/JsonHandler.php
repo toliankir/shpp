@@ -25,6 +25,10 @@ class JsonHandler
         $this->jsonData = $this->readJson($jsonFile);
     }
 
+    /**
+     * Updates message in object, don't writes changes to file.
+     * @param $message
+     */
     public function putMessage($message)
     {
         $messageIndex = $this->getIndexById($message['id']);
@@ -33,8 +37,6 @@ class JsonHandler
         } else {
             $this->jsonData[] = $message;
         }
-
-        file_put_contents($this->jsonFile, json_encode($this->jsonData, JSON_PRETTY_PRINT), LOCK_EX);
     }
 
     public function getAllMessages()
@@ -43,6 +45,7 @@ class JsonHandler
     }
 
     /**
+     * Removes message from object, don't writes changes to file.
      * @param $id
      * @return mixed
      * @throws Exception
@@ -63,13 +66,12 @@ class JsonHandler
             return $deletedMessage;
         }
 
-        file_put_contents($this->jsonFile, json_encode($this->jsonData, JSON_PRETTY_PRINT), LOCK_EX);
         return $deletedMessage;
     }
 
     private function getIndexById($id)
     {
-               foreach ($this->jsonData as $index => $message) {
+        foreach ($this->jsonData as $index => $message) {
             if ($message['id'] === $id) {
                 return $index;
             }
@@ -85,8 +87,7 @@ class JsonHandler
     private function readJson($jsonFile)
     {
         if (!file_exists($jsonFile) ||
-            !is_readable($jsonFile) ||
-            !is_writable($jsonFile)) {
+            !is_readable($jsonFile)) {
             throw new Exception('Json database access error.');
         }
 
@@ -98,7 +99,20 @@ class JsonHandler
         if (!$json) {
             throw new Exception('Corrupted json file.');
         }
-
         return $json;
+    }
+
+    /**
+     * Writes object data to file.
+     * @throws Exception
+     */
+    public function writeDataToFile()
+    {
+        if (!file_exists($this->jsonFile) ||
+            !is_readable($this->jsonFile) ||
+            !is_writable($this->jsonFile)) {
+            throw new Exception('Json database access error.');
+        }
+        return file_put_contents($this->jsonFile, json_encode($this->jsonData, JSON_PRETTY_PRINT), LOCK_EX);
     }
 }

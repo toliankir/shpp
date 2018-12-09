@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $del_msg = [];
     $err_msg = [];
     foreach ($_POST['messages'] as $message) {
-
         if ($message['body'] === $message['id']) {
             try {
                 $json->deleteMessage($message['id']);
@@ -44,15 +43,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             continue;
         }
-
         $json->putMessage($message);
         $put_msg[] = $message['id'];
     }
-    ResponseHandler::responseOk([
-        'putted' => $put_msg,
-        'deleted' => $del_msg,
-        'error' => $err_msg
-    ], count($_POST['messages']) . ' message(s) handled. Update: '
-        . count($put_msg) . '. Delete: ' . count($del_msg)
-        . '. Error: ' . count($err_msg) . '.');
+
+    try {
+        if ($json->writeDataToFile() !== false) {
+            ResponseHandler::responseOk([
+                'putted' => $put_msg,
+                'deleted' => $del_msg,
+                'error' => $err_msg
+            ], count($_POST['messages']) . ' message(s) handled. Update: '
+                . count($put_msg) . '. Delete: ' . count($del_msg)
+                . '. Error: ' . count($err_msg) . '.');
+        }
+    } catch (Exception $err) {
+        ResponseHandler::responseError($err->getMessage());
+    }
+
 }
