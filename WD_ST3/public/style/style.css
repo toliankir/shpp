@@ -27,6 +27,7 @@ body {
     cursor: move;
     border-radius: 5px;
     word-wrap: break-word;
+    min-height: 28px;
     min-width: 35px;
     max-width: 200px;
 }
@@ -43,8 +44,6 @@ body {
     border-color: white white transparent transparent;
 }
 
-.btn-from {
-    position: absolute;
-    left: 0;
-    top: 0;
+input {
 }
+

@@ -18,27 +18,24 @@ try {
     exit();
 }
 
-if (!isset($_GET['action'])) {
-    ResponseHandler::responseError('Wrong response.');
-    exit();
-}
 
-if ($_GET['action'] === 'getAllMessages') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $resp = $json->getAllMessages();
     ResponseHandler::responseOk($resp, 'Get ' . count($resp) . ' messages.');
 }
 
-if ($_GET['action'] === 'put') {
-    if (!isset($_GET['message'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['messages'])) {
         ResponseHandler::responseError('Wrong response.');
         exit();
     }
+
     $put_msg = [];
     $del_msg = [];
     $err_msg = [];
-    foreach ($_GET['message'] as $message) {
+    foreach ($_POST['messages'] as $message) {
 
-        if (empty($message['body'])) {
+        if ($message['body'] === $message['id']) {
             try {
                 $json->deleteMessage($message['id']);
                 $del_msg[] = $message['id'];
@@ -55,7 +52,7 @@ if ($_GET['action'] === 'put') {
         'putted' => $put_msg,
         'deleted' => $del_msg,
         'error' => $err_msg
-    ], count($_GET['message']) . ' messages handled. Update: '
+    ], count($_POST['messages']) . ' message(s) handled. Update: '
         . count($put_msg) . '. Delete: ' . count($del_msg)
         . '. Error: ' . count($err_msg) . '.');
 }
