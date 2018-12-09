@@ -5,12 +5,13 @@ body {
     align-items: center;
     justify-content: center;
 }
+
 * {
     box-sizing: border-box;
 }
-.image-container{
-    position: relative;
 
+.image-container {
+    position: relative;
     height: 80vh;
     width: 70vw;
     background: url("../img/image.jpg");
@@ -30,17 +31,17 @@ body {
     max-width: 200px;
 }
 
-.message-corner {
+.draggable:after {
     cursor: default;
+    content: '';
     position: absolute;
     width: 0;
     height: 0;
     right: 10px;
     bottom: -10px;
     border: 5px solid;
-    border-color: white white transparent  transparent;
+    border-color: white white transparent transparent;
 }
-
 
 .btn-from {
     position: absolute;

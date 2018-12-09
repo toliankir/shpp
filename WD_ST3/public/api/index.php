@@ -28,27 +28,34 @@ if ($_GET['action'] === 'getAllMessages') {
     ResponseHandler::responseOk($resp, 'Get ' . count($resp) . ' messages.');
 }
 
-if ($_GET['action'] === 'deleteMessage') {
-    if (!isset($_GET['id'])) {
-        ResponseHandler::responseError('Wrong response.');
-        exit();
-    }
-    try {
-        ResponseHandler::responseOk($json->deleteMessage((int)$_GET['id']), 'Message ' . $_GET['id'] . ' delete.');
-    } catch (Exception $err) {
-        ResponseHandler::responseError($err->getMessage());
-        exit();
-    }
-}
-
 if ($_GET['action'] === 'put') {
-    if (!isset($_GET['id'], $_GET['body'])) {
+    if (!isset($_GET['message'])) {
         ResponseHandler::responseError('Wrong response.');
         exit();
     }
-    $msg = ['id' => (int)$_GET['id'],
-        'body' => $_GET['body']];
+    $put_msg = [];
+    $del_msg = [];
+    $err_msg = [];
+    foreach ($_GET['message'] as $message) {
 
-    $json->putMessage($msg);
-    ResponseHandler::responseOk($msg, 'Message #' . $_GET['id'] . 'putted.');
+        if (empty($message['body'])) {
+            try {
+                $json->deleteMessage($message['id']);
+                $del_msg[] = $message['id'];
+            } catch (Exception $err) {
+                $err_msg[] = $message['id'];
+            }
+            continue;
+        }
+
+        $json->putMessage($message);
+        $put_msg[] = $message['id'];
+    }
+    ResponseHandler::responseOk([
+        'putted' => $put_msg,
+        'deleted' => $del_msg,
+        'error' => $err_msg
+    ], count($_GET['message']) . ' messages handled. Update: '
+        . count($put_msg) . '. Delete: ' . count($del_msg)
+        . '. Error: ' . count($err_msg) . '.');
 }

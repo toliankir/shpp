@@ -34,7 +34,7 @@ class JsonHandler
             $this->jsonData[] = $message;
         }
 
-        file_put_contents($this->jsonFile, json_encode($this->jsonData));
+        file_put_contents($this->jsonFile, json_encode($this->jsonData, JSON_PRETTY_PRINT), LOCK_EX);
     }
 
     public function getAllMessages()
@@ -59,17 +59,17 @@ class JsonHandler
         array_splice($this->jsonData, $messageIndex, 1);
 
         if (count($this->jsonData) === 0) {
-            file_put_contents($this->jsonFile, '');
+            file_put_contents($this->jsonFile, '', LOCK_EX);
             return $deletedMessage;
         }
 
-        file_put_contents($this->jsonFile, json_encode($this->jsonData));
+        file_put_contents($this->jsonFile, json_encode($this->jsonData, JSON_PRETTY_PRINT), LOCK_EX);
         return $deletedMessage;
     }
 
     private function getIndexById($id)
     {
-        foreach ($this->jsonData as $index => $message) {
+               foreach ($this->jsonData as $index => $message) {
             if ($message['id'] === $id) {
                 return $index;
             }
