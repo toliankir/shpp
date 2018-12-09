@@ -1,9 +1,9 @@
-let $draggedElement = null;
 let draggable = false;
 let prevX, prevY;
 let cornerHeight = 0;
 let cornerRight = 0;
 let cornerBottom = 0;
+let timeOutResize = null;
 
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
@@ -15,36 +15,24 @@ const imageContainerClass = 'image-container';
 const imageContainerSelector = '.' + imageContainerClass;
 const cornerSelector = '.draggable::after';
 const inputSelector = 'input:text';
-const propValue = 'data-value';
-const propOldValue = 'data-old';
-const $imageContainer = $(imageContainerSelector);
 const apiUrl = 'api/';
+
+const propValue = 'data-value';
+const propChanged = 'data-changed';
+const propOldValue = 'data-old';
+const propOldX = 'prop-x';
+const propOldY = 'prop-y';
+
+let $draggedElement = null;
+const $imageContainer = $(imageContainerSelector);
 
 $(() => {
     cornerHeight = parseInt(getPropertyFromStyleList(cornerSelector, 'borderWidth')) * 2;
     cornerRight = parseInt(getPropertyFromStyleList(cornerSelector, 'right'));
     cornerBottom = parseInt(getPropertyFromStyleList(cornerSelector, 'bottom'));
+
     getAllMessagesFromBase();
 });
-
-/**
- * Get style parameter from StyleList, use if element not present in DOM.
- * @param selector
- * @param property
- * @returns {*}
- */
-function getPropertyFromStyleList(selector, property) {
-    const allStyleLists = document.styleSheets;
-    for (let styleListNum = 0; styleListNum < allStyleLists.length; styleListNum++) {
-        const cssRules = allStyleLists[styleListNum].cssRules;
-        for (let cssRulesNum = 0; cssRulesNum < cssRules.length; cssRulesNum++) {
-            if (cssRules[cssRulesNum].selectorText === selector) {
-                return cssRules[cssRulesNum].style[property];
-            }
-        }
-    }
-
-}
 
 /**
  * Drag element
@@ -60,45 +48,56 @@ $imageContainer.on('mousedown', draggableSelector, (el) => {
     prevX = el.clientX;
     prevY = el.clientY;
 });
+
 /**
  * Save element in base, if element is set and it be dragged.
  */
 $(document).on('mouseup', () => {
-    if ($draggedElement !== null && draggable) {
-        putMessageToBase($draggedElement);
+    if (draggable) {
+        putMessageToBase([$draggedElement]);
     }
     draggable = false;
 });
 
-
 $imageContainer.on('dblclick', (el) => {
     const $clickedElement = $(el.target);
-    //If dbclick on empty field, creating new massage
-    if ($clickedElement.is(imageContainerSelector)) {
-        $draggedElement = addDraggableItem([el.offsetX, el.offsetY]);
+
+    if ($clickedElement.is(inputSelector)) {
+        $draggedElement = $clickedElement.closest(draggableSelector);
     }
 
-    //If clicked on massage
+    //If double clicked on empty area. Creating new massage.
+    if ($clickedElement.is(imageContainerSelector)) {
+        $draggedElement = addDraggableItem(el.offsetX, el.offsetY);
+        setCornerPosition($draggedElement, el.offsetX, el.offsetY);
+        correctingPosition($draggedElement);
+        $draggedElement.attr(propChanged, true);
+    }
+
+    //If double clicked on massage. Open input form.
     if ($clickedElement.is(draggableSelector)) {
-        //Old element size for saving position of right-bottom corner after element resizing.
-        const oldWidth = $draggedElement.outerWidth();
-        const oldHeight = $draggedElement.outerHeight();
+        //Old element position for saving position of right-bottom corner after element resizing.
+        const oldX = Math.round($draggedElement.position().left + $draggedElement.outerWidth() - cornerRight);
+        const oldY = Math.round($draggedElement.position().top + $draggedElement.outerHeight() + cornerHeight);
+        $draggedElement.attr(propChanged, true);
 
         //Add input to massage.
-        const newInput = $('<input type="text">').val($draggedElement.text()).attr(propValue, $draggedElement.text())
+        const newInput = $('<input type="text">')
+            .val($draggedElement.text())
+            .attr(propOldX, oldX)
+            .attr(propOldY, oldY)
+            .attr(propValue, $draggedElement.text())
             .attr(propOldValue, $draggedElement.text());
 
         //If after adding element to DOM it is position is incorrect
-        $.when($draggedElement.text('').append(newInput).find($('input')).focus())
-            .then($draggedElement.css({
-                left: $draggedElement.position().left + (oldWidth - $draggedElement.outerWidth()),
-                top: $draggedElement.position().top + (oldHeight - $draggedElement.outerHeight())
-            }))
-            .then(correctingPosition());
+        $draggedElement.text('').append(newInput).find($('input')).focus()
+        setCornerPosition($draggedElement, oldX, oldY);
+        correctingPosition($draggedElement);
     }
 
-    putMessageToBase($draggedElement);
+    putMessageToBase([$draggedElement]);
 });
+
 
 $imageContainer.on('mousemove', (ev) => {
     if (!draggable) {
@@ -106,33 +105,23 @@ $imageContainer.on('mousemove', (ev) => {
     }
 
     //Calculate new element position according to mouse move.
-    let xPos = $draggedElement.position().left - (prevX - ev.clientX);
-    let yPos = $draggedElement.position().top - (prevY - ev.clientY);
+    let xPos = Math.round($draggedElement.position().left - (prevX - ev.clientX));
+    let yPos = Math.round($draggedElement.position().top - (prevY - ev.clientY));
     //Save new mouse position for next position calculation.
     prevX = ev.clientX;
     prevY = ev.clientY;
 
-    //Checks new element position
-    if (xPos < 0) {
-        xPos = 0;
-    }
-    if (yPos < 0) {
-        yPos = 0;
-    }
-
-    if (xPos + $draggedElement.outerWidth() > $imageContainer.width()) {
-        xPos = $imageContainer.width() - $draggedElement.outerWidth();
-    }
-
-    if (yPos + $draggedElement.outerHeight() + cornerHeight > $imageContainer.height()) {
-        yPos = $imageContainer.height() - $draggedElement.outerHeight() - cornerHeight;
+    //If position change, element mast be save in base
+    if (xPos !== parseInt($draggedElement.css('left'))
+        || yPos !== parseInt($draggedElement.css('top'))) {
+        $draggedElement.attr(propChanged, true);
     }
 
     $draggedElement.css({
         left: xPos,
         top: yPos
     });
-
+    correctingPosition($draggedElement);
 });
 
 $imageContainer.on('keyup', (el) => {
@@ -142,52 +131,48 @@ $imageContainer.on('keyup', (el) => {
     }
     const $inputDragged = $draggedElement.find($(inputSelector));
 
-    if (el.keyCode === ENTER_KEY) {
+    if (el.keyCode === ENTER_KEY && $draggedElement.has(inputSelector)) {
         if (messageRemove($draggedElement)) {
             return;
         }
-        applyMessageChange($draggedElement);
+        changeMessageContent($draggedElement, $inputDragged.val());
     }
 
     if (el.keyCode === ESC_KEY) {
-        $inputDragged.val($inputDragged.attr(propOldValue));
-        applyMessageChange($draggedElement);
+        changeMessageContent($draggedElement, $inputDragged.attr(propOldValue));
     }
 
     $inputDragged.attr(propValue, $inputDragged.val());
-    putMessageToBase($draggedElement);
+    putMessageToBase([$draggedElement]);
 });
 
 /**
  * On window resize corrects messages position.
  */
 $(window).on('resize', () => {
-    correctingPosition();
+    clearTimeout(timeOutResize);
+    timeOutResize = setTimeout(() => {
+        const changedElements = correctingPosition();
+        putMessageToBase(changedElements);
+    }, 250);
 });
 
 /**
  * Add element to DOM and return it is jquery object.
- * @param position
  * @returns {jQuery}
+ * @param x
+ * @param y
  */
-function addDraggableItem(position = null) {
-    const $newElement = $('<div></div>').addClass(draggableClass).text(newMassageText);
+function addDraggableItem(x, y) {
+    const $newElement = $('<div></div>')
+        .attr(propChanged, false)
+        .addClass(draggableClass)
+        .text(newMassageText);
     $imageContainer.append($newElement);
 
-    if (!position) {
-        position = [];
-        position[0] = Math.random() * ($(imageContainerSelector).width() - $newElement.width());
-        position[1] = Math.random() * ($(imageContainerSelector).height() - $newElement.height());
+    const uniqId = Math.abs(hashCode(Date.now() + x + y));
 
-    } else {
-        position[0] -= $newElement.outerWidth() - cornerRight;
-        position[1] -= $newElement.outerHeight() - cornerBottom;
-    }
-
-    const uniqId = Math.abs(hashCode(Date.now() + position[0] + position[1]));
-
-    $newElement.attr('id', uniqId).css({left: Math.round(position[0]), top: Math.round(position[1])});
-    correctingPosition();
+    $newElement.attr('id', uniqId);
     return $newElement;
 }
 
@@ -208,31 +193,41 @@ function hashCode(s) {
  * @param $element
  */
 function putMessageToBase($element) {
-    const id = $element.attr('id');
-    const body = $element.html();
-    const xPos = Math.round($element.position().left);
-    const yPos = Math.round($element.position().top);
+    let req = [];
+    $element.forEach((el) => {
+        if (el.attr(propChanged) === 'false') {
+            return;
+        }
+        $req_elem = {
+            id: el.attr('id'),
+            body: el.html(),
+            x: Math.round(el.position().left),
+            y: Math.round(el.position().top)
+        };
+        req.push($req_elem);
+    });
+
+    if (req.length === 0) {
+        return;
+    }
+
     $.ajax({
         url: apiUrl,
         dataType: 'json',
         type: 'GET',
         data: {
             action: 'put',
-            message: {
-                id: id,
-                body: body,
-                x: xPos,
-                y: yPos
-            }
-        },
-        error: (jqXHR) => {
-            errorReport(jqXHR);
-        },
-        success: (data) => {
-            successReport(data);
+            message: req
         }
-    });
+    })
+        .fail((jqXHR) => {
+            errorReport(jqXHR);
+        })
+        .done((data) => {
+            successReport(data);
+        });
 }
+
 
 /**
  * Get messages from base
@@ -244,19 +239,20 @@ function getAllMessagesFromBase() {
         type: 'GET',
         data: {
             action: 'getAllMessages'
-        },
-        error: (jqXHR) => {
-            errorReport(jqXHR);
-        },
-        success: (data) => {
-            if (!data) {
-                return;
-            }
-            successReport(data);
-            addMessages(data.body);
         }
-    });
-
+    })
+        .fail((jqXHR) => {
+            errorReport(jqXHR);
+        })
+        .done((data) => {
+                if (!data) {
+                    return;
+                }
+                successReport(data);
+                addMessages(data.body);
+                correctingPosition();
+            }
+        );
 }
 
 /**
@@ -272,6 +268,7 @@ function addMessages(messages) {
             .addClass(draggableClass)
             .css({left: parseInt(message.x), top: parseInt(message.y)})
             .attr('id', message.id)
+            .attr(propChanged, false)
             .html(message.body);
 
         if ($newElement.has(inputSelector)) {
@@ -286,39 +283,59 @@ function successReport(data) {
     if (data.statusCode === 500) {
         console.log(data.statusText);
     }
+    console.log(data.statusText);
 }
+
 function errorReport(data) {
-    // console.log(data.statusText);
+    console.log(data.statusText);
+}
+
+function setCornerPosition($element, x, y) {
+    if (!$element) {
+        return;
+    }
+    $element.css({
+        left: Math.round(x - $element.outerWidth() + cornerRight),
+        top: Math.round(y - $element.outerHeight() - cornerHeight)
+    });
 }
 
 /**
  * Looking that all massage is in visible area.
  */
-function correctingPosition() {
-    const $elements = $(draggableSelector);
+function correctingPosition($elements = null) {
+    if (!$elements) {
+        $elements = $(draggableSelector);
+    }
+    let $changedElements = [];
+
     $elements.each((index, value) => {
-        let changed = false;
         const $element = $(value);
+        let x = $element.position().left,
+            y = $element.position().top;
 
-        if ($element.position().left < 0) {
-            $element.css({left: 0});
+        if (x < 0) {
+            x = 0;
         }
-        if ($element.position().top < 0) {
-            $element.css({top: 0});
+        if (y < 0) {
+            y = 0;
         }
-        if ($element.position().left + $element.outerWidth() > $imageContainer.width()) {
-            $element.css({left: $imageContainer.width() - $element.outerWidth()});
-            changed = true;
+        if (x + $element.outerWidth() > $imageContainer.width()) {
+            x = Math.round($imageContainer.width() - $element.outerWidth());
         }
-        if ($element.position().top + $element.outerHeight() + cornerHeight > $imageContainer.height()) {
-            $element.css({top: $imageContainer.height() - $element.outerHeight() - cornerHeight});
-            changed = true;
+        if (y + $element.outerHeight() + cornerHeight > $imageContainer.height()) {
+            y = Math.round($imageContainer.height() - $element.outerHeight() - cornerHeight);
         }
 
-        if (changed) {
-            putMessageToBase($element);
+        if ($element.position().left !== x || $element.position().top !== y) {
+            $element
+                .attr(propChanged, true)
+                .css({left: x, top: y});
+            $changedElements.push($element);
         }
+
     });
+    return $changedElements;
 }
 
 /**
@@ -329,8 +346,10 @@ function correctingPosition() {
 function messageRemove($draggedElement) {
     const inputDragged = $draggedElement.find($(inputSelector));
     if (!inputDragged.val()) {
-        $draggedElement.html('');
-        putMessageToBase($draggedElement);
+        $draggedElement
+            .html('')
+            .attr(propChanged, true);
+        putMessageToBase([$draggedElement]);
         $draggedElement.remove();
         return true;
     }
@@ -341,13 +360,31 @@ function messageRemove($draggedElement) {
  * Set propValue attribute of input to text() value of message.
  * @param $draggedElement
  */
-function applyMessageChange($draggedElement) {
-    const oldWidth = $draggedElement.outerWidth();
-    const oldHeight = $draggedElement.outerHeight();
+function changeMessageContent($draggedElement, value) {
+    const $inputDragged = $draggedElement.find(inputSelector);
+    const x = $inputDragged.attr(propOldX);
+    const y = $inputDragged.attr(propOldY);
+    $draggedElement
+        .text(value)
+        .attr(propChanged, false);
+    setCornerPosition($draggedElement, x, y);
+    correctingPosition($draggedElement);
+}
 
-    $draggedElement.text($draggedElement.find($(inputSelector)).val());
-    $draggedElement.css({
-        left: $draggedElement.position().left - ($draggedElement.outerWidth() - oldWidth),
-        top: $draggedElement.position().top - ($draggedElement.outerHeight() - oldHeight)
-    });
+/**
+ * Get style parameter from StyleList, use if element not present in DOM.
+ * @param selector
+ * @param property
+ * @returns {*}
+ */
+function getPropertyFromStyleList(selector, property) {
+    const allStyleLists = document.styleSheets;
+    for (let styleListNum = 0; styleListNum < allStyleLists.length; styleListNum++) {
+        const cssRules = allStyleLists[styleListNum].cssRules;
+        for (let cssRulesNum = 0; cssRulesNum < cssRules.length; cssRulesNum++) {
+            if (cssRules[cssRulesNum].selectorText === selector) {
+                return cssRules[cssRulesNum].style[property];
+            }
+        }
+    }
 }
