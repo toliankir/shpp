@@ -6,9 +6,12 @@ let cornerBottom = 0;
 let timeOutResize = null;
 let timeOutKeyup = null;
 
+
+const animationDuration = 250;
+const delayResize = 250;
+const delayKeyPress = 500;
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
-const newMassageText = 'New message';
 
 const draggableClass = 'draggable';
 const draggableSelector = '.' + draggableClass;
@@ -16,6 +19,7 @@ const imageContainerClass = 'image-container';
 const imageContainerSelector = '.' + imageContainerClass;
 const cornerSelector = '.draggable::after';
 const inputSelector = 'input:text';
+const inputTag = '<input type="text">';
 const apiUrl = 'api/';
 
 const propValue = 'data-value';
@@ -75,25 +79,18 @@ $(() => {
 
         //If double clicked on massage. Open input form.
         if ($clickedElement.is(draggableSelector)) {
-            //Old element position for saving position of right-bottom corner after element resizing.
-            const oldX = Math.round($draggedElement.position().left + $draggedElement.outerWidth() - cornerRight);
-            const oldY = Math.round($draggedElement.position().top + $draggedElement.outerHeight() + cornerHeight);
-            $draggedElement.attr(propChanged, true);
-
-            //Add input to massage.
-            const newInput = $('<input type="text">')
-                .val($draggedElement.text())
-                .attr(propOldX, oldX)
-                .attr(propOldY, oldY)
-                .attr(propValue, $draggedElement.text())
-                .attr(propOldValue, $draggedElement.text());
+            const $newInput = createInput($draggedElement);
 
             //If after adding element to DOM it is position is incorrect
-            $draggedElement.text('').append(newInput).find($('input')).focus();
-            setCornerPosition($draggedElement, oldX, oldY);
+            $draggedElement
+                .attr(propChanged, true)
+                .text('')
+                .append($newInput)
+                .find($('input'))
+                .focus();
+            setCornerPosition($draggedElement, $newInput.attr(propOldX), $newInput.attr(propOldY));
             correctingPosition($draggedElement);
         }
-
         putMessageToBase([$draggedElement]);
     });
 
@@ -123,6 +120,10 @@ $(() => {
         correctingPosition($draggedElement);
     });
 
+
+    /**
+     * User typing event.
+     */
     $imageContainer.on('keyup', (el) => {
         //If user click on input, not on draggable element. Change draggable element to actual.
         if ($(el.target).is($(inputSelector))) {
@@ -130,7 +131,7 @@ $(() => {
         }
         const $inputDragged = $draggedElement.find($(inputSelector));
 
-        if (el.keyCode === ENTER_KEY && $draggedElement.has(inputSelector)) {
+        if (el.keyCode === ENTER_KEY) {
             if (messageRemove($draggedElement)) {
                 return;
             }
@@ -141,13 +142,15 @@ $(() => {
             changeMessageContent($draggedElement, $inputDragged.attr(propOldValue));
         }
 
+        //Saving typed text in attribute for saving on server
         $inputDragged.attr(propValue, $inputDragged.val());
         $draggedElement.attr(propChanged, true);
 
+        //Don't saving message on server if user typing, waiting for he is end.
         clearTimeout(timeOutKeyup);
         timeOutKeyup = setTimeout(() => {
             putMessageToBase([$draggedElement]);
-        }, 500);
+        }, delayKeyPress);
     });
 
     /**
@@ -158,12 +161,28 @@ $(() => {
         timeOutResize = setTimeout(() => {
             const changedElements = correctingPosition();
             putMessageToBase(changedElements);
-        }, 250);
+        }, delayResize);
     });
 
-})
-;
+});
 
+/**
+ * Creates new input for adds to message.
+ * @param $element
+ * @returns {*|jQuery}
+ */
+function createInput($element) {
+    //Old element position for saving position of right-bottom corner after element resizing.
+    const oldX = Math.round($element.position().left + $element.outerWidth() - cornerRight);
+    const oldY = Math.round($element.position().top + $element.outerHeight() + cornerHeight);
+
+    return $(inputTag)
+        .val($element.text())
+        .attr(propOldX, oldX)
+        .attr(propOldY, oldY)
+        .attr(propValue, $element.text())
+        .attr(propOldValue, $element.text());
+}
 
 /**
  * Add element to DOM and return it is jquery object.
@@ -174,8 +193,7 @@ $(() => {
 function addDraggableItem(x, y) {
     const $newElement = $('<div></div>')
         .attr(propChanged, false)
-        .addClass(draggableClass)
-        .text(newMassageText);
+        .addClass(draggableClass);
     $imageContainer.append($newElement);
 
     const uniqId = Math.abs(hashCode(Date.now() + x + y));
@@ -202,7 +220,9 @@ function hashCode(s) {
  */
 function putMessageToBase(elements) {
     let req = [];
-    const filterdElements = elements.filter(($el) => {
+
+    //Excludes messages that marked as not changed.
+    const filteredElements = elements.filter(($el) => {
         if ($el.attr(propChanged) === 'false') {
             return false;
         }
@@ -217,65 +237,86 @@ function putMessageToBase(elements) {
         return true;
     });
 
-    if (req.length === 0) {
-        return;
-    }
-
-    $.ajax({
-        url: apiUrl,
-        dataType: 'json',
-        type: 'GET',
-        data: {
-            action: 'put',
-            message: req
-        }
-    })
-        .fail((jqXHR) => {
-            errorReport(jqXHR);
-            restoreState(filterdElements);
-        })
-        .done((data) => {
-            if (data.statusCode === 500) {
-                errorReport(data);
-                restoreState(filterdElements);
-                return;
+    if (req.length !== 0) {
+        $.ajax({
+            url: apiUrl,
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                messages: req
             }
-            setActualState(filterdElements);
-            successReport(data);
-        });
+        })
+            .fail((jqXHR) => {
+                errorReport(jqXHR);
+                restoreState(filteredElements);
+            })
+            .done((data) => {
+                if (data.statusCode === 500) {
+                    errorReport(data);
+                    restoreState(filteredElements);
+                    return;
+                }
+                setActualState(filteredElements);
+                successReport(data);
+            });
+    }
 }
 
+/**
+ * Restores elements state if server request failed.
+ * @param elements
+ */
 function restoreState(elements) {
     elements.forEach(($el) => {
         const oldState = $el.attr(propOldValue);
+        if (!oldState) {
+            $el.remove();
+            return;
+        }
         const $oldState = $(oldState).attr(propOldValue, oldState);
-        $el.replaceWith($oldState);
-    });
-}
+        const id = $oldState.attr('id');
+        const currentX = $el.position().left;
+        const currentY = $el.position().top;
+        const targetX = parseInt($oldState.css('left'));
+        const targetY = parseInt($oldState.css('top'));
 
-function setActualState(elements) {
-    elements.forEach(($el) => {
-        $el.attr(propOldValue, $el[0].outerHTML);
+        $oldState.css({left: currentX, top: currentY});
+        $el.replaceWith($oldState[0].outerHTML);
+
+        $('#' + id).animate({left: targetX, top: targetY}, animationDuration);
     });
 }
 
 /**
- * Get messages from base
+ * If server request was done, sets new actual state of message by default.
+ * @param elements
+ */
+function setActualState(elements) {
+    elements.forEach(($el) => {
+        $el
+            .attr(propOldValue, '')
+            .attr(propOldValue, $el[0].outerHTML);
+    });
+}
+
+/**
+ * Get messages from base.
  */
 function getAllMessagesFromBase() {
     $.ajax({
         url: apiUrl,
         dataType: 'json',
-        type: 'GET',
-        data: {
-            action: 'getAllMessages'
-        }
+        type: 'GET'
     })
         .fail((jqXHR) => {
             errorReport(jqXHR);
         })
         .done((data) => {
                 if (!data) {
+                    return;
+                }
+                if (data.statusCode === 500) {
+                    errorReport(data);
                     return;
                 }
                 successReport(data);
@@ -307,13 +348,11 @@ function addMessages(messages) {
         }
 
         $newElement.attr(propOldValue, $newElement[0].outerHTML);
-
         $imageContainer.append($newElement);
     });
 }
 
 function successReport(data) {
-
     console.log(data.statusText);
 }
 
@@ -321,6 +360,12 @@ function errorReport(data) {
     console.log(data.statusText);
 }
 
+/**
+ *
+ * @param $element
+ * @param x
+ * @param y
+ */
 function setCornerPosition($element, x, y) {
     if (!$element) {
         return;
@@ -332,7 +377,8 @@ function setCornerPosition($element, x, y) {
 }
 
 /**
- * Looking that all massage is in visible area.
+ * Checks that massage is in visible area. If $elements = null corrects
+ * position of all messages.
  */
 function correctingPosition($elements = null) {
     if (!$elements) {
@@ -378,7 +424,7 @@ function messageRemove($draggedElement) {
     const inputDragged = $draggedElement.find($(inputSelector));
     if (!inputDragged.val()) {
         $draggedElement
-            .html('')
+            .html($draggedElement.attr('id'))
             .attr(propChanged, true);
         putMessageToBase([$draggedElement]);
         $draggedElement.remove();
