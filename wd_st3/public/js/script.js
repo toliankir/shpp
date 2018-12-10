@@ -45,7 +45,9 @@ $(() => {
             return;
         }
 
+        $(draggableSelector).css({zIndex: 1});
         $draggedElement = $(el.target);
+        $draggedElement.css({zIndex: 2});
         draggable = true;
 
         prevX = el.clientX;
