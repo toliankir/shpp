@@ -15,7 +15,7 @@ body {
     height: 80vh;
     width: 70vw;
     background: url("../img/image.jpg");
-    background-size: 100vw 100vh;
+    background-size: auto 100vh;
     overflow: hidden;
 }
 
