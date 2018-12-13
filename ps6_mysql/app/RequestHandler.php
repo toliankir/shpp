@@ -51,8 +51,6 @@ class RequestHandler
             'login' => $user
         ];
         ResponseCreator::responseCreate(202, $respMsg, '', $moreData);
-
-
     }
 
     public function logout()

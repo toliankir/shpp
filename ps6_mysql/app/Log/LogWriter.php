@@ -33,12 +33,13 @@ class LogWriter
 
     private function setDefaultLogs()
     {
-        $this->__construct(new ErrorHandle($this->config['errorLog'], function ($code) {
+        $this->firstRule = new ErrorHandle($this->config['errorLog'], function ($code) {
             if ($code >= 500) {
                 return true;
             }
             return false;
-        }));
+        });
+        $this->lastRule = $this->firstRule;
 
         $this->addErrorHandle(new ErrorHandle($this->config['eventLog'], function ($code) {
             if ($code < 500 && $code !== 202) {

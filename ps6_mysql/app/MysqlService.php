@@ -87,11 +87,11 @@ class MysqlService implements IDataService
     /**
      * @param $id
      * @param $timestamp
+     * @return array
      * @throws Exception
      */
     public function getMessages($id, $timestamp)
     {
-        $chatMessages = [];
         try {
             $stmt = $this->pdo->prepare('SELECT UNIX_TIMESTAMP(m.timestamp) as timestamp, m.id, u.login as user, m.message 
 FROM messages_table m LEFT JOIN users_table u ON m.userId = u.id WHERE m.id > :id AND UNIX_TIMESTAMP(m.timestamp) > :timestamp');

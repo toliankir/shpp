@@ -38,46 +38,49 @@ $(() => {
             id: lastId
         }
     }).fail((jqXHR) => {
+        console.log(123);
         errorCode(jqXHR);
     }).done((data) => {
         if (data.statusCode === 202) {
-            imagePreload(smiles);
-            $loadingContainer.hide();
-            $chatContainer.show();
-            $chatLogout.show();
-            $sendContainer.show();
-            getMessages();
-            return;
-        }
+                    imagePreload(smiles);
+                    $loadingContainer.hide();
+                    $chatContainer.show();
+                    $chatLogout.show();
+                    $sendContainer.show();
+                    getMessages();
+                    return;
+                }
         $loadingContainer.hide();
         $loginContainer.show();
     });
-});
 
-$chatLogout.on('click', () => {
-    $.ajax({
-        url: apiURL,
-        type: 'POST',
-        data: {
-            logout: 'logout'
-        }
-    }).fail((jqXHR) => {
-        errorCode(jqXHR);
-    }).done(() => {
-        logout();
+    $chatLogout.on('click', () => {
+        $.ajax({
+            url: apiURL,
+            type: 'POST',
+            data: {
+                logout: 'logout'
+            }
+        }).fail((jqXHR) => {
+            errorCode(jqXHR);
+        }).done(() => {
+            logout();
+        });
     });
+
+    $loginForm.submit((evt) => {
+        evt.preventDefault();
+        firstEntry = false;
+        login($userName.val(), $userPassword.val());
+    });
+
+    $sendForm.submit((evt) => {
+        evt.preventDefault();
+        sendMessage($message.val());
+    });
+
 });
 
-$loginForm.submit((evt) => {
-    evt.preventDefault();
-    firstEntry = false;
-    login($userName.val(), $userPassword.val());
-});
-
-$sendForm.submit((evt) => {
-    evt.preventDefault();
-    sendMessage($message.val());
-});
 
 function login(login, password) {
     $.ajax({
@@ -121,6 +124,7 @@ function errorCode(jqXHR) {
     if (jqXHR.statusText === 'SendMessageAbort') {
         return;
     }
+    $loadingContainer.hide();
     $errorResponse.text('Service temporarily unavailable');
     logout();
 }
