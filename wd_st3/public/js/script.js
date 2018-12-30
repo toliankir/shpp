@@ -79,20 +79,22 @@ $(() => {
             $draggedElement.attr(propChanged, true);
         }
 
+        $draggedElement.width('auto');
+
         //If double clicked on massage. Open input form.
         //if ($clickedElement.is(draggableSelector)) {
-            const $newInput = createInput($draggedElement);
+        const $newInput = createInput($draggedElement);
 
-            //If after adding element to DOM it is position is incorrect
-            $draggedElement
-                .attr(propChanged, true)
-                .text('')
-                .append($newInput)
-                .find($('input'))
-                .focus();
-            setCornerPosition($draggedElement, $newInput.attr(propOldX), $newInput.attr(propOldY));
-            correctingPosition($draggedElement);
-      //  }
+        //If after adding element to DOM it is position is incorrect
+        $draggedElement
+            .attr(propChanged, true)
+            .text('')
+            .append($newInput)
+            .find($('input'))
+            .focus();
+        setCornerPosition($draggedElement, $newInput.attr(propOldX), $newInput.attr(propOldY));
+        correctingPosition($draggedElement);
+        //  }
         putMessageToBase([$draggedElement]);
     });
 
@@ -113,6 +115,9 @@ $(() => {
         if (xPos !== parseInt($draggedElement.css('left'))
             || yPos !== parseInt($draggedElement.css('top'))) {
             $draggedElement.attr(propChanged, true);
+        }
+        if (xPos + Math.ceil($draggedElement.outerWidth()) >= Math.ceil($imageContainer.width())) {
+            xPos = $imageContainer.width() - Math.ceil($draggedElement.outerWidth());
         }
 
         $draggedElement.css({
@@ -138,6 +143,7 @@ $(() => {
                 return;
             }
             changeMessageContent($draggedElement, $inputDragged.val());
+            $draggedElement.width($draggedElement.width());
         }
 
         if (el.keyCode === ESC_KEY) {
@@ -402,7 +408,7 @@ function correctingPosition($elements = null) {
             y = 0;
         }
         if (x + $element.outerWidth() > $imageContainer.width()) {
-            x = Math.round($imageContainer.width() - $element.outerWidth());
+            x = Math.round($imageContainer.width() - $element.outerWidth() - 1);
         }
         if (y + $element.outerHeight() + cornerHeight > $imageContainer.height()) {
             y = Math.round($imageContainer.height() - $element.outerHeight() - cornerHeight);
@@ -416,6 +422,7 @@ function correctingPosition($elements = null) {
         }
 
     });
+
     return $changedElements;
 }
 
