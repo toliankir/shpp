@@ -358,7 +358,9 @@ function addMessages(messages) {
         }
 
         $newElement.attr(propOldValue, $newElement[0].outerHTML);
+
         $imageContainer.append($newElement);
+        $newElement.width($newElement.width());
     });
 }
 
