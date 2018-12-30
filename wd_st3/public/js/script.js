@@ -80,7 +80,7 @@ $(() => {
         }
 
         //If double clicked on massage. Open input form.
-        if ($clickedElement.is(draggableSelector)) {
+        //if ($clickedElement.is(draggableSelector)) {
             const $newInput = createInput($draggedElement);
 
             //If after adding element to DOM it is position is incorrect
@@ -92,7 +92,7 @@ $(() => {
                 .focus();
             setCornerPosition($draggedElement, $newInput.attr(propOldX), $newInput.attr(propOldY));
             correctingPosition($draggedElement);
-        }
+      //  }
         putMessageToBase([$draggedElement]);
     });
 
@@ -196,7 +196,9 @@ function addDraggableItem(x, y) {
     const $newElement = $('<div></div>')
         .attr(propChanged, false)
         .addClass(draggableClass);
+
     $imageContainer.append($newElement);
+
 
     const uniqId = Math.abs(hashCode(Date.now() + x + y));
 
