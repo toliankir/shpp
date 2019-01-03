@@ -236,6 +236,13 @@ function putMessageToBase(elements) {
         if ($el.attr(propChanged) === 'false') {
             return false;
         }
+
+        const input = $el.find(inputSelector);
+
+        if (input.attr(propValue) === '' && input.attr(propOldValue) === '') {
+            return false;
+        }
+
         const $req_elem = {
             id: $el.attr('id'),
             body: $el.html(),
