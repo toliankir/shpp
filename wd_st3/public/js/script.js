@@ -59,6 +59,14 @@ $(() => {
      */
     $(document).on('mouseup', () => {
         if (draggable) {
+            if ($draggedElement.has(inputSelector)) {
+                const $currentInput = $draggedElement.find(inputSelector);
+                const currentX = Math.round($draggedElement.position().left + $draggedElement.outerWidth() - cornerRight);
+                const currentY = Math.round($draggedElement.position().top + $draggedElement.outerHeight() + cornerHeight);
+                $currentInput
+                    .attr(propOldX, currentX)
+                    .attr(propOldY, currentY);
+            }
             putMessageToBase([$draggedElement]);
         }
         draggable = false;
@@ -75,26 +83,22 @@ $(() => {
         if ($clickedElement.is(imageContainerSelector)) {
             $draggedElement = addDraggableItem(el.offsetX, el.offsetY);
             setCornerPosition($draggedElement, el.offsetX, el.offsetY);
-            correctingPosition($draggedElement);
-            $draggedElement.attr(propChanged, true);
         }
 
         $draggedElement.width('auto');
-
-        //If double clicked on massage. Open input form.
-        //if ($clickedElement.is(draggableSelector)) {
         const $newInput = createInput($draggedElement);
+        $newInput.attr(propOldValue, $draggedElement[0].innerHTML);
 
-        //If after adding element to DOM it is position is incorrect
+        //Show input in massage
         $draggedElement
-            .attr(propChanged, true)
+            .attr(propChanged, '')
+            .attr(propChanged, $draggedElement[0].outerHTML)
             .text('')
             .append($newInput)
             .find($('input'))
             .focus();
         setCornerPosition($draggedElement, $newInput.attr(propOldX), $newInput.attr(propOldY));
         correctingPosition($draggedElement);
-        //  }
         putMessageToBase([$draggedElement]);
     });
 
@@ -112,9 +116,12 @@ $(() => {
         prevY = ev.clientY;
 
         //If position change, element mast be save in base
-        if (xPos !== parseInt($draggedElement.css('left'))
-            || yPos !== parseInt($draggedElement.css('top'))) {
-            $draggedElement.attr(propChanged, true);
+        if ((xPos !== parseInt($draggedElement.css('left'))
+            || yPos !== parseInt($draggedElement.css('top'))) && (
+            $draggedElement.attr(propChanged) === 'false')) {
+            $draggedElement
+                .attr(propChanged, '')
+                .attr(propChanged, $draggedElement[0].outerHTML);
         }
         if (xPos + Math.ceil($draggedElement.outerWidth()) >= Math.ceil($imageContainer.width())) {
             xPos = $imageContainer.width() - Math.ceil($draggedElement.outerWidth());
@@ -142,17 +149,24 @@ $(() => {
             if (messageRemove($draggedElement)) {
                 return;
             }
+
             changeMessageContent($draggedElement, $inputDragged.val());
             $draggedElement.width($draggedElement.width());
         }
 
         if (el.keyCode === ESC_KEY) {
+            if (messageRemove($draggedElement)) {
+                return;
+            }
+
             changeMessageContent($draggedElement, $inputDragged.attr(propOldValue));
         }
 
         //Saving typed text in attribute for saving on server
         $inputDragged.attr(propValue, $inputDragged.val());
-        $draggedElement.attr(propChanged, true);
+        $draggedElement
+            .attr(propChanged, '')
+            .attr(propChanged, $draggedElement[0].outerHTML);
 
         //Don't saving message on server if user typing, waiting for he is end.
         clearTimeout(timeOutKeyup);
@@ -189,7 +203,6 @@ function createInput($element) {
         .attr(propOldX, oldX)
         .attr(propOldY, oldY)
         .attr(propValue, $element.text())
-        .attr(propOldValue, $element.text());
 }
 
 /**
@@ -249,7 +262,6 @@ function putMessageToBase(elements) {
             x: Math.round($el.position().left),
             y: Math.round($el.position().top)
         };
-        $el.attr(propChanged, false);
         req.push($req_elem);
         return true;
     });
@@ -285,22 +297,30 @@ function putMessageToBase(elements) {
  */
 function restoreState(elements) {
     elements.forEach(($el) => {
-        const oldState = $el.attr(propOldValue);
+        const oldState = $el.attr(propChanged);
         if (!oldState) {
             $el.remove();
             return;
         }
-        const $oldState = $(oldState).attr(propOldValue, oldState);
+
+        const $oldState = $(oldState).attr(propChanged, 'false');
+
         const id = $oldState.attr('id');
         const currentX = $el.position().left;
         const currentY = $el.position().top;
         const targetX = parseInt($oldState.css('left'));
         const targetY = parseInt($oldState.css('top'));
-
         $oldState.css({left: currentX, top: currentY});
+
         $el.replaceWith($oldState[0].outerHTML);
 
-        $('#' + id).animate({left: targetX, top: targetY}, animationDuration);
+        const $elementInDOM = $('#' + id);
+        const $input = $elementInDOM.find(inputSelector);
+        $input
+            .attr(propValue, $input.attr(propOldValue))
+            .val($input.attr(propOldValue));
+
+        $elementInDOM.animate({left: targetX, top: targetY}, animationDuration);
     });
 }
 
@@ -311,8 +331,7 @@ function restoreState(elements) {
 function setActualState(elements) {
     elements.forEach(($el) => {
         $el
-            .attr(propOldValue, '')
-            .attr(propOldValue, $el[0].outerHTML);
+            .attr(propChanged, 'false');
     });
 }
 
@@ -364,7 +383,7 @@ function addMessages(messages) {
             $newElementInput.val($newElementInput.attr(propValue));
         }
 
-        $newElement.attr(propOldValue, $newElement[0].outerHTML);
+        // $newElement.attr(propOldValue, $newElement[0].outerHTML);
 
         $imageContainer.append($newElement);
         $newElement.width($newElement.width());
@@ -425,7 +444,8 @@ function correctingPosition($elements = null) {
 
         if ($element.position().left !== x || $element.position().top !== y) {
             $element
-                .attr(propChanged, true)
+                .attr(propChanged, '')
+                .attr(propChanged, $element[0].outerHTML)
                 .css({left: x, top: y});
             $changedElements.push($element);
         }
@@ -442,10 +462,16 @@ function correctingPosition($elements = null) {
  */
 function messageRemove($draggedElement) {
     const inputDragged = $draggedElement.find($(inputSelector));
+    if (!inputDragged.attr(propOldValue) && !inputDragged.attr(propValue)) {
+        $draggedElement.remove();
+        return true;
+    }
+
     if (!inputDragged.val()) {
         $draggedElement
             .html($draggedElement.attr('id'))
-            .attr(propChanged, true);
+            .attr(propChanged, '')
+            .attr(propChanged, $draggedElement[0].outerHTML);
         putMessageToBase([$draggedElement]);
         $draggedElement.remove();
         return true;
