@@ -155,6 +155,12 @@ $(() => {
         }
 
         if (el.keyCode === ESC_KEY) {
+            if (!$inputDragged.attr(propOldValue)) {
+                $draggedElement.remove();
+                messageRemove($draggedElement);
+                return;
+            }
+
             if (messageRemove($draggedElement)) {
                 return;
             }
@@ -462,10 +468,6 @@ function correctingPosition($elements = null) {
  */
 function messageRemove($draggedElement) {
     const inputDragged = $draggedElement.find($(inputSelector));
-    if (!inputDragged.attr(propOldValue) && !inputDragged.attr(propValue)) {
-        $draggedElement.remove();
-        return true;
-    }
 
     if (!inputDragged.val()) {
         $draggedElement
