@@ -28,7 +28,7 @@ let requestTimeout;
 let $ajaxXHR;
 let firstEntry = true;
 
-$(document).ready(() => {
+$(() => {
 
     $ajaxXHR = $.ajax({
         url: apiURL,
@@ -36,55 +36,50 @@ $(document).ready(() => {
         type: 'GET',
         data: {
             id: lastId
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
-            showLog(data);
-            if (data.statusCode === 202) {
-                imagePreload(smiles);
-                $loadingContainer.hide();
-                $chatContainer.show();
-                $chatLogout.show();
-                $sendContainer.show();
-                getMessages();
-                return;
+        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        if (data.statusCode === 202) {
+                    imagePreload(smiles);
+                    $loadingContainer.hide();
+                    $chatContainer.show();
+                    $chatLogout.show();
+                    $sendContainer.show();
+                    getMessages();
+                    return;
+                }
+        $loadingContainer.hide();
+        $loginContainer.show();
+    });
+
+    $chatLogout.on('click', () => {
+        $.ajax({
+            url: apiURL,
+            type: 'POST',
+            data: {
+                logout: 'logout'
             }
-            $loadingContainer.hide();
-            $loginContainer.show();
-        }
-    });
-});
-
-$chatLogout.on('click', () => {
-    $.ajax({
-        url: apiURL,
-        dataType: 'json',
-        type: 'POST',
-        data: {
-            logout: 'logout'
-        },
-        error: (jqXHR) => {
+        }).fail((jqXHR) => {
             errorCode(jqXHR);
-        },
-        success: (data) => {
-            showLog(data);
+        }).done(() => {
             logout();
-        }
+        });
     });
+
+    $loginForm.submit((evt) => {
+        evt.preventDefault();
+        firstEntry = false;
+        login($userName.val(), $userPassword.val());
+    });
+
+    $sendForm.submit((evt) => {
+        evt.preventDefault();
+        sendMessage($message.val());
+    });
+
 });
 
-$loginForm.submit((evt) => {
-    evt.preventDefault();
-    firstEntry = false;
-    login($userName.val(), $userPassword.val());
-});
-
-$sendForm.submit((evt) => {
-    evt.preventDefault();
-    sendMessage($message.val());
-});
 
 function login(login, password) {
     $.ajax({
@@ -94,18 +89,15 @@ function login(login, password) {
         data: {
             user: login,
             password: password
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
-            showLog(data);
-            if (data.statusCode !== 202) {
-                $errorResponse.text(data.statusText);
-                return;
-            }
-            showChat();
         }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        if (data.statusCode !== 202) {
+            $errorResponse.text(data.statusText);
+            return;
+        }
+        showChat();
     });
 }
 
@@ -114,19 +106,15 @@ function sendMessage(message) {
     clearTimeout(requestTimeout);
     $.ajax({
         url: apiURL,
-        dataType: 'json',
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
         data: {
             message: message
         },
         type: 'POST',
-        success: (data) => {
-            showLog(data);
-            getMessages();
-            $message.val('');
-        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done(() => {
+        getMessages();
+        $message.val('');
     });
 }
 
@@ -135,6 +123,7 @@ function errorCode(jqXHR) {
     if (jqXHR.statusText === 'SendMessageAbort') {
         return;
     }
+    $loadingContainer.hide();
     $errorResponse.text('Service temporarily unavailable');
     logout();
 }
@@ -146,16 +135,14 @@ function getMessages() {
         type: 'GET',
         data: {
             id: lastId
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
+        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
             messagesAdd(data.body);
-            showLog(data);
             requestTimeout = setTimeout(getMessages, 1000);
         }
-    });
+    );
 }
 
 function messagesAdd(messagesArray) {
@@ -170,7 +157,9 @@ function messagesAdd(messagesArray) {
 
     if (messagesArray.length > 0) {
         const chatMassagesHeight = $chatDataList.height() - $chatData.height();
-        $chatData.animate({scrollTop: chatMassagesHeight}, 200);
+        $chatData.animate({
+            scrollTop: chatMassagesHeight
+        }, 200);
     }
 }
 
@@ -202,11 +191,4 @@ function imagePreload(imagesArray) {
     imagesArray.forEach((value) => {
         $('<img src="' + value + '">').hide().appendTo('body');
     });
-}
-
-function showLog(data) {
-    if (data.massageCount === 0) {
-        return;
-    }
-    console.log(`${timestampToDate(data.timestamp)}: ${data.statusCode} - ${data.statusText}`);
 }

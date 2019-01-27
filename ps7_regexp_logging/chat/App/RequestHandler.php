@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 use Exception;
 
@@ -17,22 +17,34 @@ class RequestHandler
         $this->period = $period;
     }
 
+    /**
+     * @param $user
+     * @param $password
+     */
     public function login($user, $password)
     {
         if (isset($_SESSION['user'])) {
             ResponseCreator::responseCreate(401, 'User already login.');
             return;
         }
-        try {
-            if ($this->service->login($user, $password) === self::UNDEFINED_USER) {
-                $this->loginCheck($user);
-                $this->passwordCheck($password);
-                $this->service->addUser($user, $password);
-            }
-        } catch (Exception $err) {
-            sleep(1);
-            ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+
+        if (!$this->loginCheck($user)) {
+            ResponseCreator::responseCreate("Login '$user' syntax error. Minimum 3 letters or numbers.", 403);
             return;
+        }
+
+        if (!$this->passwordCheck($password)) {
+            ResponseCreator::responseCreate("Password '$password' syntax error. Minimum length: 3", 403);
+            return;
+        }
+
+        if (!$this->userExist($user, $password)) {
+            try {
+                $this->service->addUser($user, $password);
+            } catch (Exception $err) {
+                ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+                return;
+            }
         }
 
         try {
@@ -42,28 +54,34 @@ class RequestHandler
             return;
         }
 
+        if (!$userId) {
+            ResponseCreator::responseCreate(401, 'Incorrect username or password.');
+            return;
+        }
+
         $_SESSION['user'] = $user;
         $_SESSION['id'] = $userId;
 
-        $respMsg = 'User login.';
-        $moreData = [
+        ResponseCreator::responseCreate(202, 'User login.', '', [
             'userId' => $userId,
             'login' => $user
-        ];
-        ResponseCreator::responseCreate(202, $respMsg, '', $moreData);
-
+        ]);
 
     }
 
     public function logout()
     {
-        $respMsg = 'User ' . $_SESSION['user'] . ' logout';
         session_destroy();
-        ResponseCreator::responseCreate(401, $respMsg);
+        ResponseCreator::responseCreate(401, 'User ' . $_SESSION['user'] . ' logout');
     }
 
     public function postMessage($message)
     {
+        if (!$this->messageCheck($message)) {
+            ResponseCreator::responseCreate('User ' . $_SESSION['user'] . ' post empty message.', 200);
+            return;
+        }
+
         try {
             $this->messageCheck($message);
         } catch (Exception $err) {
@@ -74,69 +92,71 @@ class RequestHandler
 
         try {
             $this->service->sendMessage($_SESSION['id'], $message);
-            $respMsg = 'User ' . $_SESSION['user'] . ' post message.';
-            ResponseCreator::responseCreate(200, $respMsg);
         } catch (Exception $err) {
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+            return;
         }
-
+        ResponseCreator::responseCreate(200, 'User ' . $_SESSION['user'] . ' post message.');
     }
 
     public function getMessages($id)
     {
         $timestamp = $this->getActualTimestamp();
-        $chatMessages = $this->service->getMessages($id, $timestamp);
 
-        $respMsg = 'User get messages ' . count($chatMessages) . '.';
-        $moreData = array('id' => $id,
-            'massageCount' => count($chatMessages),
-            'queryTimestamp' => $timestamp);
-        ResponseCreator::responseCreate(202, $respMsg, $chatMessages, $moreData);
+        try {
+            $chatMessages = $this->service->getMessages($id, $timestamp);
+        } catch (Exception $err) {
+            ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+            return;
+        }
+
+        ResponseCreator::responseCreate(202
+            , 'User get messages ' . count($chatMessages) . '.'
+            , $chatMessages
+            , [
+                'id' => $id,
+                'timePeriod' => $this->period,
+                'massageCount' => count($chatMessages),
+                'queryTimestamp' => $timestamp
+            ]);
     }
 
     private function getActualTimestamp()
     {
-        $nowTimestamp = Date('U');
-
-        return $nowTimestamp - $this->period;
+        return date('U') - $this->period;
     }
 
     public function noLoginUser()
     {
-        $respMsg = 'User must to login.';
-        ResponseCreator::responseCreate(403, $respMsg);
+        ResponseCreator::responseCreate(403, 'User must to login.');
     }
 
-    /**
-     * @param $login
-     * @throws Exception
-     */
     private function loginCheck($login)
     {
-        if (preg_match("/^[0-9a-zA-Z.,_@]{3,128}$/", $login) === 0) {
-            throw new Exception('Login \'' . $login . '\' syntax error. Minimum 3 letters or numbers.', 403);
-        }
+        return preg_match("/^[0-9a-zA-Z.,_@]{3,128}$/", $login) !== 0;
     }
 
-    /**
-     * @param $password
-     * @throws Exception
-     */
     private function passwordCheck($password)
     {
-        if (preg_match("/^.{3,128}$/", $password) === 0) {
-            throw new Exception('Password \'' . $password . '\' syntax error. Minimum length: 3', 403);
-        }
+        return strlen($password) > 3 && strlen($password) <= 128;
     }
 
-    /**
-     * @param $msg
-     * @throws Exception
-     */
     private function messageCheck($msg)
     {
-        if (strlen(trim($msg)) === 0) {
-            throw new Exception('User ' . $_SESSION['user'] . ' post empty message.', 200);
+        return strlen(trim($msg)) !== 0;
+    }
+
+    function userExist($user, $password)
+    {
+        try {
+            if ($this->service->login($user, $password) === self::UNDEFINED_USER) {
+                return false;
+            }
+        } catch (Exception $err) {
+            sleep(1);
+            ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+            exit();
         }
+        return true;
     }
 }

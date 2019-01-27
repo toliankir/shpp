@@ -1,7 +1,7 @@
 <?php
-namespace app;
+namespace App;
 
-use app\Log\LogWriter;
+use App\Log\LogWriter;
 
 class ResponseCreator
 {
@@ -9,7 +9,7 @@ class ResponseCreator
     {
         $log = new LogWriter();
 
-        $outArray = array('timestamp' => Date('U'),
+        $outArray = array('timestamp' => date('U'),
             'statusCode' => $code,
             'statusText' => $text,
             'body' => $body
