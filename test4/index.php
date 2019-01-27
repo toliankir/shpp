@@ -7,8 +7,9 @@
 </head>
 <body>
 <?php
-$a = preg_match("/^[0-9a-zA-Z.,_@]{3,}$/",'abc',$ar);
-echo $a;
+echo strtotime(date("Y-m-d H:i:s"));
+echo '<br>';
+echo date('U');
 ?>
 </body>
 </html>

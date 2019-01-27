@@ -4,12 +4,9 @@ let cornerHeight = 0;
 let cornerRight = 0;
 let cornerBottom = 0;
 let timeOutResize = null;
-let timeOutKeyup = null;
-
 
 const animationDuration = 250;
 const delayResize = 250;
-const delayKeyPress = 500;
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
 
@@ -20,6 +17,7 @@ const imageContainerSelector = '.' + imageContainerClass;
 const cornerSelector = '.draggable::after';
 const inputSelector = 'input:text';
 const inputTag = '<input type="text">';
+
 const apiUrl = 'api/';
 
 const propValue = 'data-value';
@@ -41,12 +39,16 @@ $(() => {
      * Drag element
      */
     $imageContainer.on('mousedown', draggableSelector, (el) => {
-        if (!$(el.target).is('div' + draggableSelector)) {
+        const $targetElement = $(el.target);
+
+        if (!$targetElement.is(draggableSelector)) {
             return;
         }
-
+        if ($targetElement.has(inputSelector).length !== 0) {
+            return;
+        }
         $(draggableSelector).css({zIndex: 1});
-        $draggedElement = $(el.target);
+        $draggedElement = $targetElement;
         $draggedElement.css({zIndex: 2});
         draggable = true;
 
@@ -71,9 +73,13 @@ $(() => {
         }
         draggable = false;
     });
-
     $imageContainer.on('dblclick', (el) => {
         const $clickedElement = $(el.target);
+
+        //If message already in edi mode.
+        if ($clickedElement.has(inputSelector).length !== 0) {
+            return;
+        }
 
         if ($clickedElement.is(inputSelector)) {
             $draggedElement = $clickedElement.closest(draggableSelector);
@@ -93,13 +99,13 @@ $(() => {
         $draggedElement
             .attr(propChanged, '')
             .attr(propChanged, $draggedElement[0].outerHTML)
+            .css('cursor', 'not-allowed')
             .text('')
             .append($newInput)
             .find($('input'))
             .focus();
         setCornerPosition($draggedElement, $newInput.attr(propOldX), $newInput.attr(propOldY));
         correctingPosition($draggedElement);
-        putMessageToBase([$draggedElement]);
     });
 
 
@@ -145,40 +151,26 @@ $(() => {
         }
         const $inputDragged = $draggedElement.find($(inputSelector));
 
+        if (el.keyCode === ESC_KEY) {
+            if (!$inputDragged.attr(propOldValue)) {
+                $draggedElement.remove();
+            }
+            $draggedElement.css('cursor', 'move');
+            changeMessageContent($draggedElement, $inputDragged.attr(propOldValue));
+        }
+
         if (el.keyCode === ENTER_KEY) {
             if (messageRemove($draggedElement)) {
                 return;
             }
-
             changeMessageContent($draggedElement, $inputDragged.val());
             $draggedElement.width($draggedElement.width());
-        }
-
-        if (el.keyCode === ESC_KEY) {
-            if (!$inputDragged.attr(propOldValue)) {
-                $draggedElement.remove();
-                messageRemove($draggedElement);
-                return;
-            }
-
-            if (messageRemove($draggedElement)) {
-                return;
-            }
-
-            changeMessageContent($draggedElement, $inputDragged.attr(propOldValue));
-        }
-
-        //Saving typed text in attribute for saving on server
-        $inputDragged.attr(propValue, $inputDragged.val());
-        $draggedElement
-            .attr(propChanged, '')
-            .attr(propChanged, $draggedElement[0].outerHTML);
-
-        //Don't saving message on server if user typing, waiting for he is end.
-        clearTimeout(timeOutKeyup);
-        timeOutKeyup = setTimeout(() => {
+            $draggedElement
+                .css('cursor', 'move')
+                .attr(propChanged, '')
+                .attr(propChanged, $draggedElement[0].outerHTML);
             putMessageToBase([$draggedElement]);
-        }, delayKeyPress);
+        }
     });
 
     /**
@@ -224,7 +216,6 @@ function addDraggableItem(x, y) {
 
     $imageContainer.append($newElement);
 
-
     const uniqId = Math.abs(hashCode(Date.now() + x + y));
 
     $newElement.attr('id', uniqId);
@@ -255,18 +246,12 @@ function putMessageToBase(elements) {
         if ($el.attr(propChanged) === 'false') {
             return false;
         }
-
-        const input = $el.find(inputSelector);
-
-        if (input.attr(propValue) === '' && input.attr(propOldValue) === '') {
-            return false;
-        }
-
+        const elementPosition = $el.position();
         const $req_elem = {
             id: $el.attr('id'),
             body: $el.html(),
-            x: Math.round($el.position().left),
-            y: Math.round($el.position().top)
+            x: Math.round(elementPosition.left),
+            y: Math.round(elementPosition.top)
         };
         req.push($req_elem);
         return true;
@@ -388,8 +373,6 @@ function addMessages(messages) {
             const $newElementInput = $newElement.find(inputSelector);
             $newElementInput.val($newElementInput.attr(propValue));
         }
-
-        // $newElement.attr(propOldValue, $newElement[0].outerHTML);
 
         $imageContainer.append($newElement);
         $newElement.width($newElement.width());
