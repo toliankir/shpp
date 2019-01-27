@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 use Exception;
 
@@ -23,14 +23,14 @@ class RequestHandler
             ResponseCreator::responseCreate(401, 'User already login.');
             return;
         }
+
         try {
-            if ($this->service->login($user, $password) === self::UNDEFINED_USER) {
+            if (!$this->userExist($user, $password)) {
                 $this->loginCheck($user);
                 $this->passwordCheck($password);
                 $this->service->addUser($user, $password);
             }
         } catch (Exception $err) {
-            sleep(1);
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
             return;
         }
@@ -60,6 +60,9 @@ class RequestHandler
         ResponseCreator::responseCreate(401, $respMsg);
     }
 
+    /**
+     * @param $message
+     */
     public function postMessage($message)
     {
         try {
@@ -72,12 +75,11 @@ class RequestHandler
 
         try {
             $this->service->sendMessage($_SESSION['id'], $message);
-            $respMsg = 'User ' . $_SESSION['user'] . ' post message.';
-            ResponseCreator::responseCreate(200, $respMsg);
         } catch (Exception $err) {
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
         }
-
+        $respMsg = 'User post message: \'' . $message . '\'.';
+        ResponseCreator::responseCreate(200, $respMsg);
     }
 
     public function getMessages($id)
@@ -94,7 +96,7 @@ class RequestHandler
 
     private function getActualTimestamp()
     {
-        $nowTimestamp = Date('U');
+        $nowTimestamp = date('U');
 
         return $nowTimestamp - $this->period;
     }
@@ -112,7 +114,7 @@ class RequestHandler
     private function loginCheck($login)
     {
         if (preg_match("/^[0-9a-zA-Z.,_@]{3,128}$/", $login) === 0) {
-            throw new Exception('Login \'' . $login . '\' syntax error. Minimum 3 letters or numbers.', 403);
+            throw new Exception("Login '$login' syntax error. Minimum 3 letters or numbers.", 403);
         }
     }
 
@@ -123,7 +125,7 @@ class RequestHandler
     private function passwordCheck($password)
     {
         if (preg_match("/^.{3,128}$/", $password) === 0) {
-            throw new Exception('Password \'' . $password . '\' syntax error. Minimum length: 3', 403);
+            throw new Exception("Password '$password' syntax error. Minimum length: 3", 403);
         }
     }
 
@@ -136,5 +138,10 @@ class RequestHandler
         if (strlen(trim($msg)) === 0) {
             throw new Exception('User ' . $_SESSION['user'] . ' post empty message.', 200);
         }
+    }
+
+    private function userExist($login, $password)
+    {
+        return $this->service->login($login, $password) !== self::UNDEFINED_USER;
     }
 }

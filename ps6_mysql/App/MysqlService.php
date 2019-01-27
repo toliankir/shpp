@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace App;
 
 use Exception;
 use PDO;
@@ -8,9 +8,7 @@ use PDOException;
 
 class MysqlService implements IDataService
 {
-
     const UNDEFINED_USER = -1;
-    const CRYPT_SALT = 'shpp';
     private $config;
     private $pdo;
 
@@ -20,6 +18,7 @@ class MysqlService implements IDataService
      */
     function __construct()
     {
+
         $this->config = require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'mysqlConfig.php';
 
         $dsn = 'mysql:host=' . $this->config['dbHost'] .
@@ -58,12 +57,12 @@ class MysqlService implements IDataService
             return $this::UNDEFINED_USER;
         }
 
-        $cryptPassword = crypt($password, self::CRYPT_SALT);
+        $cryptPassword = crypt($password, $this->config['crypt_salt']);
         if (hash_equals($userData['password'], $cryptPassword)) {
             return $userData['id'];
         }
 
-        throw new Exception('incorrect username or password', 401);
+        throw new Exception('i ncorrect username or password', 401);
     }
 
     /**
@@ -76,7 +75,7 @@ class MysqlService implements IDataService
         try {
             $stmt = $this->pdo->prepare('INSERT INTO users_table (login, password) VALUES (:login, :password)');
             $stmt->bindParam(':login', $user);
-            $cryptPassword = crypt($password, self::CRYPT_SALT);
+            $cryptPassword = crypt($password, $this->config['crypt_salt']);
             $stmt->bindParam(':password', $cryptPassword);
             $stmt->execute();
         } catch (PDOException $err) {

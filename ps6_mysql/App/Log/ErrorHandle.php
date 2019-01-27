@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Log;
+namespace App\Log;
 
 class ErrorHandle
 {
@@ -27,11 +27,14 @@ class ErrorHandle
 
     public function writeToLog($code, $msg)
     {
+        $user = 'no user';
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
+        }
 
-        $rule = $this->rule;
+        if (($this->rule)($code)) {
 
-        if ($rule($code)) {
-            $msg = Date('d/m/Y H:i:s') . '    ' . $code . ': ' . $msg . "\n";
+            $msg = date('Y/m/d H:i:s') . '    ' . $code . ': ' . $user . ': ' . $msg . "\n";
             file_put_contents($this->file, $msg, FILE_APPEND);
         }
 

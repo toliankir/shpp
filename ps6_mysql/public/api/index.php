@@ -2,17 +2,17 @@
 session_start();
 if (!headers_sent()) {
     header('Access-Control-Allow-Origin: *');
-//    header('Access-Control-Allow-Credentials: true');
 }
 
-$config = require dirname(__DIR__,2).DIRECTORY_SEPARATOR .'config' .DIRECTORY_SEPARATOR. 'dirConfig.php';
-define('ROOT_PATH', $config['rootPath']);
+define('ROOT_PATH', dirname(__DIR__, 2));
 
 spl_autoload_register(function ($className) {
-    require ROOT_PATH . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+    require ROOT_PATH . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
 });
 
-use \app\{MysqlService, RequestHandler, ResponseCreator};
+use \App\{
+    MysqlService, RequestHandler, ResponseCreator
+};
 
 try {
     $requestHandler = new RequestHandler(new MysqlService(), 3600);

@@ -61,11 +61,6 @@ class JsonHandler
 
         array_splice($this->jsonData, $messageIndex, 1);
 
-        if (count($this->jsonData) === 0) {
-            file_put_contents($this->jsonFile, '', LOCK_EX);
-            return $deletedMessage;
-        }
-
         return $deletedMessage;
     }
 
@@ -113,6 +108,11 @@ class JsonHandler
             !is_writable($this->jsonFile)) {
             throw new Exception('Json database access error.');
         }
+
+        if (count($this->jsonData) === 0) {
+            return file_put_contents($this->jsonFile, '', LOCK_EX);
+        }
+
         return file_put_contents($this->jsonFile, json_encode($this->jsonData, JSON_PRETTY_PRINT), LOCK_EX);
     }
 }
