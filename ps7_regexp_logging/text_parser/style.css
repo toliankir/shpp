@@ -15,6 +15,10 @@ label {
     top: -1px;
 }
 
+#regexp:focus, #regexp_flags:focus {
+    outline: 0;
+}
+
 .error {
     background-color: red;
 }
