@@ -205,6 +205,7 @@ function imagePreload(imagesArray) {
 }
 
 function showLog(data) {
+    return;
     if (data.massageCount === 0) {
         return;
     }

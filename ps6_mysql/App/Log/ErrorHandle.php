@@ -27,14 +27,8 @@ class ErrorHandle
 
     public function writeToLog($code, $msg)
     {
-        $user = 'no user';
-        if (isset($_SESSION['user'])) {
-            $user = $_SESSION['user'];
-        }
-
         if (($this->rule)($code)) {
-
-            $msg = date('Y/m/d H:i:s') . '    ' . $code . ': ' . $user . ': ' . $msg . "\n";
+            $msg = date('Y/m/d H:i:s') . '    ' . $code . ': ' . $msg . "\n";
             file_put_contents($this->file, $msg, FILE_APPEND);
         }
 

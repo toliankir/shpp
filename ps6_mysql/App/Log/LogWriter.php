@@ -9,24 +9,18 @@ class LogWriter
 
     function __construct($errorHandle = null)
     {
-        $this->config = require ROOT_PATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'logConfig.php';
 
+        $this->config = require ROOT_PATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'logConfig.php';
         if ($errorHandle === null) {
             $this->setDefaultLogs();
+            return;
         }
 
-        if ($errorHandle !== null) {
-            $this->firstRule = $errorHandle;
-        }
+        $this->firstRule = $errorHandle;
     }
 
     public function addErrorHandle($errorHandle)
     {
-        if ($this->firstRule === null) {
-            $this->firstRule = $errorHandle;
-            return;
-        }
-
         $rule = $this->firstRule;
 
         while ($rule->getNextHandle() !== null) {
@@ -43,7 +37,7 @@ class LogWriter
 
     private function setDefaultLogs()
     {
-        $this->addErrorHandle(new ErrorHandle($this->config['errorLog'], function ($code) {
+        $this->__construct(new ErrorHandle($this->config['errorLog'], function ($code) {
             if ($code >= 500) {
                 return true;
             }

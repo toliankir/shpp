@@ -14,13 +14,10 @@ class ResponseCreator
             'statusText' => $text,
             'body' => $body
         );
-
         if ($moreData) {
             $outArray = array_merge($outArray, $moreData);
         }
-
         $log->addToLog($code, $text);
-
         echo json_encode($outArray);
     }
 }

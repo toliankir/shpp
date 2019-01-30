@@ -2,8 +2,8 @@
 session_start();
 if (!headers_sent()) {
     header('Access-Control-Allow-Origin: *');
+//    header('Access-Control-Allow-Credentials: true');
 }
-
 define('ROOT_PATH', dirname(__DIR__, 2));
 
 spl_autoload_register(function ($className) {
@@ -47,7 +47,7 @@ if (isset($_POST['message'])) {
 
 //Get messages
 if (isset($_GET['id'])) {
-    $requestHandler->getMessages($_GET['id']);
+        $requestHandler->getMessages($_GET['id']);
     exit();
 }
 

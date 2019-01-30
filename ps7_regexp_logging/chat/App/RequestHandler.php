@@ -153,7 +153,6 @@ class RequestHandler
                 return false;
             }
         } catch (Exception $err) {
-            sleep(1);
             ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
             exit();
         }

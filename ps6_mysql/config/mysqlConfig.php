@@ -7,6 +7,6 @@ return [
     'charSet' => 'utf8',
     'mysqlUser' => 'shpp',
     'mysqlPassword' => '0000',
-    'crypt_salt' => 'shpp'
+    'cryptSalt' => 'shpp'
 ];
 

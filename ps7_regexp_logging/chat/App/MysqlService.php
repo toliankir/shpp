@@ -62,7 +62,7 @@ class MysqlService implements IDataService
             return $userData['id'];
         }
 
-        return false;//throw new Exception('incorrect username or password', 401);
+        return false;
     }
 
     /**
