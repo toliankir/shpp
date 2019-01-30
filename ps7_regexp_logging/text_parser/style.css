@@ -7,31 +7,37 @@ label {
 }
 
 #regexp {
-    height:18px;
-    padding: 0 15px 0 5px;
+    border: 0;
+    width: 150px;
+    height: 18px;
+    padding: 0;
+    position: relative;
+    top: -1px;
 }
-#regexp.error {
+
+.error {
     background-color: red;
+}
+
+#regexp_flags {
+    position: relative;
+    top: -1px;
+    border: 0;
+    height: 18px;
+    padding: 0;
+}
+
+#regexp_flags {
+    width: 30px;
+    position: relative;
 }
 
 #regexp-wrapper {
     position: relative;
-}
-
-#regexp-wrapper:before {
-    position: absolute;
-    z-index: 2;
-    left: 2px;
-    top: 3px;
-    content: '/';
-}
-
-#regexp-wrapper:after {
-    position: relative;
-    z-index: 2;
-    left: -20px;
-    top: 0;
-    content: '/g';
+    display: inline-block;
+    border: 1px solid grey;
+    height: 18px;
+    padding: 0;
 }
 
 textarea {
