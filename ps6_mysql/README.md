@@ -1,5 +1,5 @@
 **REQUIREMENT**
-1
+
 Any http server with PHP ver.7 support. For example XAMPP. 
 
 https://www.apachefriends.org/ru/index.html
