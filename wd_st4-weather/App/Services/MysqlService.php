@@ -23,13 +23,13 @@ class MysqlService implements IDataService
             ';dbname=' . $config['dbName'] .
             ';charset=' . $config['charSet'] . ';';
         $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
         try {
             $this->pdo = new PDO($dsn, $config['mysqlUser'], $config['mysqlPassword'], $options);
         } catch (PDOException $err) {
-            throw new Exception($err->getMessage(), 500);
+            throw new Exception('Mysql database connection error.', 500);
         }
     }
 
@@ -52,12 +52,24 @@ class MysqlService implements IDataService
 
     public function setPeriod($from, $to)
     {
-
+        $this->period = [];
         $stmt = $this->pdo->prepare('SELECT f.*, UNIX_TIMESTAMP(f.timestamp) AS timestamp, c.name AS city_id 
-FROM forecast f LEFT JOIN cities c ON f.city_id = c.id WHERE UNIX_TIMESTAMP(f.timestamp) >= :from AND UNIX_TIMESTAMP(f.timestamp) >= :to');
+FROM forecast f LEFT JOIN cities c ON f.city_id = c.id WHERE UNIX_TIMESTAMP(f.timestamp) >= :from AND UNIX_TIMESTAMP(f.timestamp) <= :to ');
         $stmt->bindParam(':from', $from);
         $stmt->bindParam(':to', $to);
         $stmt->execute();
         $this->period = $stmt->fetchAll();
+    }
+
+    public function dataExist(){
+        return count($this->period) > 0;
+    }
+
+
+    public function getLastDate()
+    {
+        $stmt = $this->pdo->prepare('SELECT UNIX_TIMESTAMP(timestamp) AS timestamp FROM forecast ORDER BY timestamp DESC LIMIT 1');
+        $stmt->execute();
+        return $stmt->fetch()['timestamp'];
     }
 }

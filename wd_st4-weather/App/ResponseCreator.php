@@ -6,6 +6,7 @@ class ResponseCreator
 {
     public static function responseCreate($status, $code, $body = [], $ext = null)
     {
+
         $result = [
             'timestamp' => date('U'),
             'code' => $code,

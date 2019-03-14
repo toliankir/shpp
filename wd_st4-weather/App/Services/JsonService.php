@@ -43,7 +43,7 @@ class JsonService implements IDataService
 
     public function getWeatherDataPeriod()
     {
-        $this->period;
+        return $this->period;
     }
 
     public function getCityName($id = null)
@@ -54,17 +54,21 @@ class JsonService implements IDataService
         return false;
     }
 
-    function test()
-    {
-        var_dump($this->json);
-    }
-
     public function setPeriod($from, $to)
     {
+        $this->period = [];
         foreach ($this->json['list'] as $key => $value) {
             if ($value['dt'] >= $from && $value['dt'] <= $to) {
                 $this->period[] = $value;
             }
         }
+    }
+
+    public function dataExist(){
+        return count($this->period) > 0;
+    }
+
+    public function getLastDate() {
+        return end($this->json['list'])['dt'];
     }
 }

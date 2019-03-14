@@ -33,6 +33,7 @@ nav a {
     text-decoration: none;
     text-transform: uppercase;
     float: left;
+    cursor: pointer;
 }
 
 nav a.active {
@@ -73,6 +74,10 @@ nav a.active {
     padding: 0 5%;
 }
 
+.now svg {
+    fill: white;
+}
+
 .current-temperature {
     font-size: 400%;
 }
@@ -104,5 +109,7 @@ nav a.active {
 
 .forecast-icon svg {
     width: 35px;
+    fill: white;
     transform: translateY(31%);
 }
+

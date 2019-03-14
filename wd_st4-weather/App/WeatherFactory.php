@@ -31,7 +31,7 @@ class WeatherFactory
        return [
            'city' => $this->service->getCityName(),
            'period' => $adapter->getPeriod(),
-           'sum' => $adapter->sumData()
+//           'sum' => $adapter->sumData()
        ];
     }
 }

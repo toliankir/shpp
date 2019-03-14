@@ -6,27 +6,15 @@ use Exception;
 
 class ExternalService implements IDataService
 {
-    private $apiLink, $cityApi;
+    private $config, $apiLink, $cityApi;
 
     public function __construct()
     {
-        $config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'ExternalConfig.php';
-        $this->apiLink = $config['api'] . '/' . $config['cityId'] . '?apikey=' . $config['apiKey'] . $config['parameters'];
-        $this->cityApi = $config['cityApi'] . '/' . $config['cityId'] . '?apikey=' . $config['apiKey'];
+        $this->config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'ExternalConfig.php';
+//        $this->apiLink = $config['api'] . '/' . $config['cityId'] . '?apikey=' . $config['apiKey'] . $config['parameters'];
+//        $this->cityApi = $config['cityApi'] . '/' . $config['cityId'] . '?apikey=' . $config['apiKey'];
     }
 
-//    public function test()
-//    {
-//        return $this->readData($this->apiLink);
-//    }
-
-//    private function readData($url)
-//    {
-//        if ($this->checkUrl($url)) {
-//            return json_decode(file_get_contents($url, true), true);
-//        }
-//        return false;
-//    }
     /**
      * @param $url
      * @return bool
@@ -48,11 +36,12 @@ class ExternalService implements IDataService
      */
     public function getCityName($id = null)
     {
-        if ($this->checkUrl($this->cityApi)) {
-            $jsonData = json_decode(file_get_contents($this->cityApi, true), true);
+        $api = $this->config['apiCity'] . '/' . $this->config['cityId'] . '?apikey=' . $this->config['apiKey'];
+        if ($this->checkUrl($api)) {
+            $jsonData = json_decode(file_get_contents($api, true), true);
             return $jsonData['LocalizedName'];
         } else {
-            throw new Exception(get_headers($this->cityApi)[0], 500);
+            throw new Exception(get_headers($api)[0], 500);
         }
     }
 
@@ -62,13 +51,28 @@ class ExternalService implements IDataService
      */
     public function getWeatherDataPeriod()
     {
-        if ($this->checkUrl($this->apiLink)) {
-            $jsonData = json_decode(file_get_contents($this->apiLink, true), true);
+        $api = $this->config['api12Hour'] . '/' . $this->config['cityId'] . '?apikey=' . $this->config['apiKey'] . $this->config['parameters'];
+        if ($this->checkUrl($api)) {
+            $jsonData = json_decode(file_get_contents($api, true), true);
             return $jsonData;
         } else {
-            throw new Exception(get_headers($this->cityApi)[0], 500);
+            throw new Exception(get_headers($api)[0], 500);
         }
 
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    public function getWeatherDay(){
+        $api = $this->config['apiDaily'] . '/' . $this->config['cityId'] . '?apikey=' . $this->config['apiKey'] . $this->config['parameters'];
+        if ($this->checkUrl($api)) {
+            $jsonData = json_decode(file_get_contents($api, true), true);
+            return $jsonData;
+        } else {
+            throw new Exception(get_headers($api)[0], 500);
+        }
     }
 
     public function setPeriod($from, $to)

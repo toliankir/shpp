@@ -71,4 +71,5 @@ class JsonAdapter implements IAdapter
             'temperature' => $this->kelvinToCelsius($sumData['main']['temp'])
         ];
     }
+
 }
