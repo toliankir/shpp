@@ -1,0 +1,108 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+body {
+    background-color: #394165;
+    color: #fff;
+}
+
+header {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #1a4f95;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px 0;
+}
+
+nav {
+    background-color: #1a4f95;
+    overflow: hidden;
+}
+
+nav a {
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    width: 33%;
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    float: left;
+}
+
+nav a.active {
+    border-bottom: 2px solid #fff;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 550px;
+}
+
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.all-50 {
+    display: block;
+    float: left;
+    width: 50%;
+}
+
+.weather-icon {
+    width: 100%;
+    padding: 0 15%;
+}
+
+.now {
+    text-align: center;
+    background-color: #3469af;
+}
+
+.now .date {
+    font-size: 200%;
+    margin-top: 10%;
+    padding: 0 5%;
+}
+
+.current-temperature {
+    font-size: 400%;
+}
+
+.hourly-forecast {
+    border-bottom: 2px solid #30395a;
+    line-height: 3;
+}
+
+.forecast-date {
+    float: left;
+    width: 60%;
+}
+
+.forecast-weather {
+    width: 40%;
+    float: left;
+    text-align: right;
+}
+
+.forecast-temperature, .forecast-icon {
+    font-weight: 800;
+    display: inline-block;
+}
+
+.forecast-icon {
+    max-width: 40px;
+}
+
+.forecast-icon svg {
+    width: 35px;
+    transform: translateY(31%);
+}
