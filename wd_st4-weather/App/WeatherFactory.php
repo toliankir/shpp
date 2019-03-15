@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Adapters\ExternalAdapter;
 use App\Adapters\JsonAdapter;
 use App\Adapters\MysqlAdapter;
 
@@ -14,24 +15,25 @@ class WeatherFactory
         $this->service = $service;
     }
 
-    public function getWeather(){
+    public function getWeather()
+    {
         $adapter = null;
-        $serviceClassName = explode('\\',get_class($this->service));
+        $serviceClassName = explode('\\', get_class($this->service));
 
-       switch (end($serviceClassName)) {
-           case 'MysqlService':
-               $adapter = new MysqlAdapter($this->service->getWeatherDataPeriod());
-               break;
-           case 'JsonService':
-               $adapter = new JsonAdapter($this->service->getWeatherDataPeriod());
-               break;
-           case 'ExternalService':
-               break;
-       }
-       return [
-           'city' => $this->service->getCityName(),
-           'period' => $adapter->getPeriod(),
-//           'sum' => $adapter->sumData()
-       ];
+        switch (end($serviceClassName)) {
+            case 'MysqlService':
+                $adapter = new MysqlAdapter($this->service->getWeatherDataPeriod());
+                break;
+            case 'JsonService':
+                $adapter = new JsonAdapter($this->service->getWeatherDataPeriod());
+                break;
+            case 'ExternalService':
+                $adapter = new ExternalAdapter($this->service->getWeatherDataPeriod());
+                break;
+        }
+        return [
+            'city' => $this->service->getCityName(),
+            'period' => $adapter->getPeriod(),
+        ];
     }
 }

@@ -6,5 +6,5 @@ namespace App\Adapters;
 interface IAdapter
 {
     public function getPeriod();
-    public function sumData();
+//    public function sumData();
 }

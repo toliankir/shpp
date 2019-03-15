@@ -2,6 +2,9 @@ const $allMenuItems = $('nav a');
 const $forecast = $('.forecast');
 const $nowWeather = $('.now');
 
+const $mainContainer = $('.container');
+const $error = $('.error');
+
 const apiUrl = 'api/';
 const startService = 'json';
 
@@ -16,11 +19,10 @@ $(document).ready(() => {
         el.preventDefault();
         const $item = $(el.target);
         const service = $item.attr(serviceAttributeName);
-        // $item.addClass('active');
         addMenuItemActiveClass(service);
         setWeather(service);
-
     });
+
     addMenuItemActiveClass(startService);
     setWeather(startService);
 });
@@ -35,7 +37,20 @@ function resetMenuActiveClass() {
 }
 
 function setWeather(service) {
+    $error.hide();
+    $mainContainer.show();
+
     $.getJSON(`${apiUrl}?service=${service}`, (data) => {
+        if (data.code >= 300) {
+            console.error(data.statusText);
+            $error.show();
+            $mainContainer.hide();
+            return;
+        }
+        if (data.code > 200) {
+            console.warn(data.statusText);
+        }
+
         $forecast.html('');
         const weather = data.body.period;
         let nowWeather = null;
@@ -46,8 +61,7 @@ function setWeather(service) {
                 nowWeather = weatherForHour;
             }
             const $weatherItem = $('<div class="hourly-forecast clearfix"></div>')
-                .append(`<div class="forecast-date">${date.getHours().toString().padStart(2, '0')}:${
-                    date.getMinutes().toString().padStart(2, '0')}</div>`)
+                .append(`<div class="forecast-date">${date.getHours().toString().padStart(2, '0')}:00</div>`)
                 .append($('<div class="forecast-weather"></div>')
                     .append(`<div class="forecast-temperature">${weatherForHour.temperature} &deg;</div>`)
                     .append(`<div class="forecast-icon"><img class="svg-image" src="img/icons/${getImageFilename(weatherForHour.imageType)}"></div>`));
@@ -56,7 +70,7 @@ function setWeather(service) {
 
         if (nowWeather !== null) {
             const date = new Date(nowWeather.timestamp * 1000);
-            $($nowWeather.find($('.date'))[0]).text(`${date.getDate().toString().padStart(2, '0')}/${date.getMonth().toString().padStart(2, '0')}`);
+            $($nowWeather.find($('.date'))[0]).text(`${data.body.city} ${date.getDate().toString().padStart(2, '0')}/${date.getMonth().toString().padStart(2, '0')}`);
             $($nowWeather.find($('.current-temperature'))[0])
                 .html(nowWeather.temperature + '&deg;');
             $($nowWeather.find($('.weather-icon'))[0])

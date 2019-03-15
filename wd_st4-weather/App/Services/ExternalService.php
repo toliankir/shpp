@@ -6,77 +6,98 @@ use Exception;
 
 class ExternalService implements IDataService
 {
-    private $config, $apiLink, $cityApi;
+    private $api = [], $weatherData = [], $period = [];
 
     public function __construct()
     {
-        $this->config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'ExternalConfig.php';
-//        $this->apiLink = $config['api'] . '/' . $config['cityId'] . '?apikey=' . $config['apiKey'] . $config['parameters'];
-//        $this->cityApi = $config['cityApi'] . '/' . $config['cityId'] . '?apikey=' . $config['apiKey'];
+        $config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'ExternalConfig.php';
+        $this->api = $this->getApi($config);
+        $this->weatherData = $this->getWeatherData();
     }
 
-    /**
-     * @param $url
-     * @return bool
-     *
-     */
-    private function checkUrl($url)
+    private function getApi($config)
     {
-        $headers = get_headers($url);
-        if (in_array('HTTP/1.1 200 OK', $headers)) {
-            return true;
+        $api = $config['api'];
+        $generatedApi = [];
+        foreach ($api as $key => $value) {
+            $generatedApi[$key] = $config['host']
+                . str_replace('%CITY_ID%', $config['cityId'],
+                    str_replace('%API_KEY%', $config['apiKey'], $value));
         }
-        return false;
+        return $generatedApi;
     }
 
     /**
-     * @param null $id
-     * @return
+     * @param $headers
      * @throws Exception
      */
+    private function checkHeaders($headers)
+    {
+        if (!in_array('HTTP/1.1 200 OK', $headers)) {
+            throw new Exception('Api access error: ' . $headers[0], 500);
+        }
+    }
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    private function getWeatherData()
+    {
+        $histData = json_decode(@file_get_contents($this->api['apiHist'], true), true);
+        $this->checkHeaders($http_response_header);
+        $actualData = json_decode(file_get_contents($this->api['api12Hour'], true), true);
+        $this->checkHeaders($http_response_header);
+        return array_merge(array_reverse($histData), $actualData);
+////        $file = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'ext.json';
+//        return json_decode(file_get_contents($file, true), true);
+    }
+
     public function getCityName($id = null)
     {
-        $api = $this->config['apiCity'] . '/' . $this->config['cityId'] . '?apikey=' . $this->config['apiKey'];
-        if ($this->checkUrl($api)) {
-            $jsonData = json_decode(file_get_contents($api, true), true);
-            return $jsonData['LocalizedName'];
-        } else {
-            throw new Exception(get_headers($api)[0], 500);
-        }
+//        $jsonData = json_decode(file_get_contents($this->api['apiCity'], true), true);
+//        return $jsonData['LocalizedName'];
+        return 'test Kirovograd';
     }
 
-    /**
-     * @return mixed
-     * @throws Exception
-     */
     public function getWeatherDataPeriod()
     {
-        $api = $this->config['api12Hour'] . '/' . $this->config['cityId'] . '?apikey=' . $this->config['apiKey'] . $this->config['parameters'];
-        if ($this->checkUrl($api)) {
-            $jsonData = json_decode(file_get_contents($api, true), true);
-            return $jsonData;
-        } else {
-            throw new Exception(get_headers($api)[0], 500);
-        }
-
+        return $this->period;
     }
 
     /**
-     * @return mixed
+     * @param $from
+     * @param $to
      * @throws Exception
      */
-    public function getWeatherDay(){
-        $api = $this->config['apiDaily'] . '/' . $this->config['cityId'] . '?apikey=' . $this->config['apiKey'] . $this->config['parameters'];
-        if ($this->checkUrl($api)) {
-            $jsonData = json_decode(file_get_contents($api, true), true);
-            return $jsonData;
-        } else {
-            throw new Exception(get_headers($api)[0], 500);
+    public function setPeriod($from, $to)
+    {
+        $this->period = [];
+        foreach ($this->weatherData as $weatherItem) {
+            $date = 0;
+            if (key_exists('EpochDateTime', $weatherItem)) {
+                $date = $weatherItem['EpochDateTime'];
+            }
+            if (key_exists('EpochTime', $weatherItem)) {
+                $date = $weatherItem['EpochTime'];
+            }
+            if ($date === 0) {
+                throw new Exception('Incorrect data in response', 500);
+            }
+            if ($date >= $from && $date <= $to) {
+                $this->period[] = $weatherItem;
+            }
         }
     }
 
-    public function setPeriod($from, $to)
+    public function dataExist()
     {
-        // TODO: Implement setPeriod() method.
+        return count($this->period) > 0;
+    }
+
+    public function getLastDate()
+    {
+        return end($this->weatherData)['EpochDateTime'];
     }
 }

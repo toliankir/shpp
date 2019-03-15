@@ -40,6 +40,11 @@ nav a.active {
     border-bottom: 2px solid #fff;
 }
 
+.error {
+    text-align: center;
+    display: none;
+}
+
 .container {
     width: 100%;
     margin: 0 auto;

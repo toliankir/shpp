@@ -37,8 +37,9 @@ try {
     die();
 }
 
+
 $dayBeginTimestamp = mktime(0, 0, 0);
-$service->setPeriod($dayBeginTimestamp, $dayBeginTimestamp + DAY_IN_SECONDS);
+$service->setPeriod($dayBeginTimestamp-60, $dayBeginTimestamp + DAY_IN_SECONDS -60);
 
 $statusCode = 200;
 $statusText = 'Ok';
@@ -52,21 +53,11 @@ if (!$service->dataExist()) {
     $statusText = 'Database don\'t have requesing inforamtion. Last actual weather for ' . Date('d-m-Y', $lastDateDayBegin) . '.';
 }
 
+//
 $weatherFactory = new WeatherFactory($service);
-//$service->setPeriod(1493010000,1493024400);
+//
 ResponseCreator::responseCreate($statusText, $statusCode, $weatherFactory->getWeather());
 
 
-//$service = new ExternalService();
-//var_dump($service->test());
-//$service->setPeriod(1493010000,1493024400);
-//
-//var_dump($service->getCityName());
-
-//$data = $service->getWeatherDataPeriod(1493010000,1493024400); // Mysql
-//$data = $service->getWeatherDataPeriod(1487278800,1487300400);
-//$adapter = new JsonAdapter($data);
-//var_dump($adapter->sumData());
-//var_dump($adapter->getPeriod());
 
 
