@@ -97,6 +97,8 @@ function imgToSvg() {
 
 function getImageFilename(weatherType) {
     switch (weatherType) {
+        case 'FLASH':
+            return '001-flash.svg';
         case 'SUN':
             return '002-sun.svg';
         case 'SKY':

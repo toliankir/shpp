@@ -38,13 +38,12 @@ try {
     die();
 }
 date_default_timezone_set('UTC');
-if (!isset($_GET[''])) {
-    $timeOffset = 0;
+$timeOffset = 0;
+if (isset($_GET[''])) {
+    $timeOffset = $_GET['UTCOffset'] * 60;
 }
 
-$timeOffset = $_GET['UTCOffset'] * 60;
 $dayBeginTimestamp = mktime(0, 0, 0);
-
 $service->setPeriod($dayBeginTimestamp + $timeOffset, $dayBeginTimestamp + DAY_IN_SECONDS + $timeOffset);
 
 $statusCode = 200;

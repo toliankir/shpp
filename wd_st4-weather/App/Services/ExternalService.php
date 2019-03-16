@@ -58,6 +58,7 @@ class ExternalService implements IDataService
     {
         $jsonData = json_decode(file_get_contents($this->api['apiCity'], true), true);
         return $jsonData['LocalizedName'];
+//        return 'Test City';
     }
 
     public function getWeatherDataPeriod()
