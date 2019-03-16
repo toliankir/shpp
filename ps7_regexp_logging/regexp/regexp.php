@@ -1,16 +1,13 @@
 <?php
 header('Content-type: application/json');
-
-$pattern = $_POST['regexp'];
-$str = $_POST['str'];
 $response = [
-    'status' => false,
-    'pattern' => $pattern,
-    'string' => $str
+    'status' => false
 ];
 
-if (preg_match($pattern, $str) === 1) {
-    $response['status'] = true;
+if (isset($_POST['regexp'], $_POST['str'])) {
+    if (preg_match($_POST['regexp'], $_POST['str']) === 1) {
+        $response['status'] = true;
+    }
 }
 
 echo json_encode($response);
