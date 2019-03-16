@@ -15,6 +15,10 @@ class WeatherFactory
         $this->service = $service;
     }
 
+    /**
+     * Selects adapter for used service and return response with default structure.
+     * @return array
+     */
     public function getWeather()
     {
         $adapter = null;

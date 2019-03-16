@@ -19,6 +19,7 @@ class JsonService implements IDataService
     }
 
     /**
+     * Read file with weather information.
      * @param $file
      * @return mixed
      * @throws Exception
@@ -35,18 +36,31 @@ class JsonService implements IDataService
         return $json;
     }
 
+    /**
+     * Checks file for existing and readable.
+     * @param $file
+     * @return bool
+     */
     private function checkFile($file)
     {
         return (file_exists($file) && is_readable($file));
     }
 
 
+    /**
+     * Return weather for settled period.
+     * @return array
+     */
     public function getWeatherDataPeriod()
     {
         return $this->period;
     }
 
-    public function getCityName($id = null)
+    /**
+     * Return city name.
+     * @return bool
+     */
+    public function getCityName()
     {
         if ($this->json['city']['name']) {
             return $this->json['city']['name'];
@@ -54,6 +68,11 @@ class JsonService implements IDataService
         return false;
     }
 
+    /**
+     * Set period for actual weather.
+     * @param $from
+     * @param $to
+     */
     public function setPeriod($from, $to)
     {
         $this->period = [];
@@ -64,10 +83,18 @@ class JsonService implements IDataService
         }
     }
 
+    /**
+     * Return true if file contain weather for requested period.
+     * @return bool
+     */
     public function dataExist(){
         return count($this->period) > 0;
     }
 
+    /**
+     * Return last date from file with weather data.
+     * @return mixed
+     */
     public function getLastDate() {
         return end($this->json['list'])['dt'];
     }

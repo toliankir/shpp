@@ -11,6 +11,11 @@ class MysqlAdapter implements IAdapter
         $this->weatherData = $data;
     }
 
+    /**
+     * Calculates image type for settled weather.
+     * @param $period
+     * @return string
+     */
     private function getImageType($period)
     {
         if ($period['rain_possibility'] > 0.3) {
@@ -25,6 +30,10 @@ class MysqlAdapter implements IAdapter
         return 'SUN';
     }
 
+    /**
+     * Converts service response to default weather response structure.
+     * @return array
+     */
     public function getPeriod()
     {
         $result = [];
@@ -36,30 +45,4 @@ class MysqlAdapter implements IAdapter
         }
         return $result;
     }
-//
-//    public function sumData()
-//    {
-//        $sumData = [
-//            'temperature' => 0,
-//            'rain_possibility' => 0,
-//            'clouds' => 0
-//        ];
-//
-//        foreach ($this->weatherData as $value) {
-//            $sumData['temperature'] += $value['temperature'];
-//            $sumData['rain_possibility'] += $value['rain_possibility'];
-//            $sumData['clouds'] += $value['clouds'];
-//        }
-//
-//        foreach ($sumData as $key => $value) {
-//            $sumData[$key] = $value / count($this->weatherData);
-//        }
-//
-//        return [
-//            'timestamp' => intval(($this->weatherData[0]['timestamp'] + $this->weatherData[count($this->weatherData) - 1]['timestamp']) / 2),
-//            'imageType' => $this->getImageType($sumData),
-//            'temperature' => $sumData['temperature']
-//        ];
-//    }
-
 }

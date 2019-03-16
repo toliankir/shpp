@@ -16,6 +16,11 @@ class ExternalAdapter implements IAdapter
         $this->weatherData = $data;
     }
 
+    /**
+     * Calculates image type for settled weather.
+     * @param $period
+     * @return string
+     */
     private function getImageType($period)
     {
         if (in_array($period['WeatherIcon'], self::FLASH_ICONS_ID)) {
@@ -34,6 +39,10 @@ class ExternalAdapter implements IAdapter
         return 'SUN';
     }
 
+    /**
+     * Converts service response to default weather response structure.
+     * @return array
+     */
     public function getPeriod()
     {
         $result = [];

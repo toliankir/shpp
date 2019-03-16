@@ -15,6 +15,11 @@ class ExternalService implements IDataService
         $this->weatherData = $this->getWeatherData();
     }
 
+    /**
+     * Return compiled api urls array.
+     * @param $config Config array.
+     * @return array
+     */
     private function getApi($config)
     {
         $api = $config['api'];
@@ -28,6 +33,7 @@ class ExternalService implements IDataService
     }
 
     /**
+     * If http get response have error header run Exception.
      * @param $headers
      * @throws Exception
      */
@@ -40,6 +46,7 @@ class ExternalService implements IDataService
 
 
     /**
+     * Get all weather information from remote service.
      * @return array
      * @throws Exception
      */
@@ -54,19 +61,28 @@ class ExternalService implements IDataService
 //        return json_decode(file_get_contents($file, true), true);
     }
 
-    public function getCityName($id = null)
+    /**
+     * Return location name, id parameter don't needed.
+     * @return mixed
+     */
+    public function getCityName()
     {
         $jsonData = json_decode(file_get_contents($this->api['apiCity'], true), true);
         return $jsonData['LocalizedName'];
 //        return 'Test City';
     }
 
+    /**
+     * Return weather for settled period.
+     * @return array
+     */
     public function getWeatherDataPeriod()
     {
         return $this->period;
     }
 
     /**
+     * Set period for actual weather.
      * @param $from
      * @param $to
      * @throws Exception
@@ -91,11 +107,19 @@ class ExternalService implements IDataService
         }
     }
 
+    /**
+     * Return true if http response contain weather for requested period.
+     * @return bool
+     */
     public function dataExist()
     {
         return count($this->period) > 0;
     }
 
+    /**
+     * Return last date from external weather response.
+     * @return mixed
+     */
     public function getLastDate()
     {
         return end($this->weatherData)['EpochDateTime'];

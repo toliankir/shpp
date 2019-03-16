@@ -28,19 +28,31 @@ $(document).ready(() => {
     setWeather(startService);
 });
 
+/**
+ * Add active class to settled menu element.
+ * @param service
+ */
 function addMenuItemActiveClass(service) {
     $(`nav [${serviceAttributeName}=${service}]`).addClass(menuActiveClass);
 }
 
+/**
+ * Removes all active class from all menu elements.
+ */
 function resetMenuActiveClass() {
     $allMenuItems.removeClass(menuActiveClass);
 }
 
+/**
+ * Fill page by weather information from service response.
+ * @param service
+ */
 function setWeather(service) {
     $error.hide();
     $mainContainer.show();
 
     $.getJSON(`${apiUrl}?service=${service}&UTCOffset=${(new Date).getTimezoneOffset()}`, (data) => {
+        //Log status code to console if response not 200 Ok.
         if (data.code >= 300) {
             console.error(data.statusText);
             $error.show();
@@ -84,6 +96,9 @@ function setWeather(service) {
         });
 }
 
+/**
+ * Replaces svg image DOM object by it's path.
+ */
 function imgToSvg() {
     $('img.svg-image').each((index, el) => {
         const $img = $(el);
@@ -95,6 +110,11 @@ function imgToSvg() {
     });
 }
 
+/**
+ * Return weather icon filename from response image type.
+ * @param weatherType
+ * @returns {string}
+ */
 function getImageFilename(weatherType) {
     switch (weatherType) {
         case 'FLASH':

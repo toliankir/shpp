@@ -8,15 +8,16 @@ use PDOException;
 
 class MysqlService implements IDataService
 {
-    private $pdo, $period = [];
+    private $pdo, $period = [], $cityId;
 
     /**
-     * MysqlService constructor.
+     * MysqlService constructor. Create PDO object of MySql connection.
      * @throws Exception
      */
     public function __construct()
     {
         $config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'MysqlConfig.php';
+        $this->cityId = $config['cityId'];
 
         $dsn = 'mysql:host=' . $config['dbHost'] .
             ';port=' . $config['dbPort'] .
@@ -33,10 +34,14 @@ class MysqlService implements IDataService
         }
     }
 
-    public function getCityName($id = 1)
+    /**
+     * Return city name.
+     * @return bool
+     */
+    public function getCityName()
     {
         $stmt = $this->pdo->prepare('SELECT name FROM cities WHERE id=:id');
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $this->cityId);
         $stmt->execute();
         $result = $stmt->fetch();
         if (isset($result['name'])) {
@@ -45,27 +50,44 @@ class MysqlService implements IDataService
         return false;
     }
 
+    /**
+     * Return weather for settled period.
+     * @return array
+     */
     public function getWeatherDataPeriod()
     {
         return $this->period;
     }
 
+    /** Retrieves weather information from MySql database for settled period.
+     * @param $from
+     * @param $to
+     */
     public function setPeriod($from, $to)
     {
         $this->period = [];
         $stmt = $this->pdo->prepare('SELECT f.*, UNIX_TIMESTAMP(f.timestamp) AS timestamp, c.name AS city_id 
-FROM forecast f LEFT JOIN cities c ON f.city_id = c.id WHERE UNIX_TIMESTAMP(f.timestamp) >= :from AND UNIX_TIMESTAMP(f.timestamp) < :to ');
+FROM forecast f LEFT JOIN cities c ON f.city_id = c.id WHERE f.city_id=:city AND UNIX_TIMESTAMP(f.timestamp) >= :from AND UNIX_TIMESTAMP(f.timestamp) < :to ');
+        $stmt->bindParam(':city', $this->cityId);
         $stmt->bindParam(':from', $from);
         $stmt->bindParam(':to', $to);
         $stmt->execute();
         $this->period = $stmt->fetchAll();
     }
 
-    public function dataExist(){
+    /**
+     * Return true if database contain weather for requested period.
+     * @return bool
+     */
+    public function dataExist()
+    {
         return count($this->period) > 0;
     }
 
-
+    /**
+     * Return last date from database with weather data.
+     * @return mixed
+     */
     public function getLastDate()
     {
         $stmt = $this->pdo->prepare('SELECT UNIX_TIMESTAMP(timestamp) AS timestamp FROM forecast ORDER BY timestamp DESC LIMIT 1');
