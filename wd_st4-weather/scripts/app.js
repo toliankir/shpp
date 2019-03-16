@@ -12,6 +12,7 @@ const menuActiveClass = 'active';
 const serviceAttributeName = 'data-service';
 
 $(document).ready(() => {
+
     resetMenuActiveClass();
 
     $allMenuItems.on('click', (el) => {
@@ -29,7 +30,6 @@ $(document).ready(() => {
 
 function addMenuItemActiveClass(service) {
     $(`nav [${serviceAttributeName}=${service}]`).addClass(menuActiveClass);
-
 }
 
 function resetMenuActiveClass() {
@@ -40,8 +40,7 @@ function setWeather(service) {
     $error.hide();
     $mainContainer.show();
 
-    $.getJSON(`${apiUrl}?service=${service}`, (data) => {
-        console.log(data);
+    $.getJSON(`${apiUrl}?service=${service}&UTCOffset=${(new Date).getTimezoneOffset()}`, (data) => {
         if (data.code >= 300) {
             console.error(data.statusText);
             $error.show();
