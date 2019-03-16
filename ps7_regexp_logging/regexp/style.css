@@ -10,7 +10,10 @@ span {
     width: 100px;
     font-weight: bold;
 }
-
+span.sample {
+    font-weight: normal;
+    width: 150px;
+}
 .error {
     color: red;
 }

@@ -3,7 +3,7 @@ const regExp = new Map([
     ['email', /^[^ @]+@[^ @]+\.[^ @]+$/],
     ['url', /^([a-zA-Z]+:[\/]{2}?).*$/],
     ['date', /^(([0-2][0-9]|3[0-1])\/(0[13578]|1[02])|((([0-2][0-9]|30)\/(0[469]|11)))|([0-2][0-9]\/02))\/[0-9]{4}$/],
-    ['time', /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/]
+    ['time', /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/]
 ]);
 
 const okClass = 'ok';
@@ -39,22 +39,37 @@ function testJs(el, regExp) {
 
 async function testPhp(el, regExp) {
     const phpIndicator = document.getElementById(`php-${el.target.id}`);
+    console.log(`${regExp.toString()}`);
+    // const response = await fetch('regexp.php', {
+    //     method: 'POST',
+    //     headers: new Headers({
+    //         'Content-Type': 'application/x-www-form-urlencoded'
+    //     }),
+    //     body: JSON.stringify({
+    //         str:el.target.value,
+    //         regexp: regExp.toString()
+    //     })
+    // });
+    //
+    // const jsonData = await response.json();
 
-    const response = await fetch('regexp.php', {
-        method: 'POST',
-        headers: new Headers({
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }),
-        body: `str=${el.target.value}&regexp=${regExp}`
-    });
+    $.ajax({
+        url: 'regexp.php',
+        type: 'POST',
+        data: {
+            str: el.target.value,
+            regexp: regExp.toString()
+        },
+        dataType: 'json'
+    })
+        .done((jsonData) => {
+            if (jsonData.status) {
+                    phpIndicator.innerText = phpOkMsg;
+                    phpIndicator.className = okClass;
+                    return;
+                }
+                phpIndicator.innerText = phpErrorMsg;
+                phpIndicator.className = errorClass;
+        });
 
-    const jsonData = await response.json();
-
-    if (jsonData.status) {
-        phpIndicator.innerText = phpOkMsg;
-        phpIndicator.className = okClass;
-        return;
-    }
-    phpIndicator.innerText = phpErrorMsg;
-    phpIndicator.className = errorClass;
 }
