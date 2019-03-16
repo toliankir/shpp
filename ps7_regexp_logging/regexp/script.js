@@ -37,21 +37,8 @@ function testJs(el, regExp) {
     jsIndicator.className = errorClass;
 }
 
-async function testPhp(el, regExp) {
+function testPhp(el, regExp) {
     const phpIndicator = document.getElementById(`php-${el.target.id}`);
-    console.log(`${regExp.toString()}`);
-    // const response = await fetch('regexp.php', {
-    //     method: 'POST',
-    //     headers: new Headers({
-    //         'Content-Type': 'application/x-www-form-urlencoded'
-    //     }),
-    //     body: JSON.stringify({
-    //         str:el.target.value,
-    //         regexp: regExp.toString()
-    //     })
-    // });
-    //
-    // const jsonData = await response.json();
 
     $.ajax({
         url: 'regexp.php',
@@ -71,5 +58,4 @@ async function testPhp(el, regExp) {
                 phpIndicator.innerText = phpErrorMsg;
                 phpIndicator.className = errorClass;
         });
-
 }

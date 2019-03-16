@@ -1,4 +1,6 @@
 <?php
+header('Content-type: application/json');
+
 $pattern = $_POST['regexp'];
 $str = $_POST['str'];
 $response = [
