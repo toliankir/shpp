@@ -39,7 +39,7 @@ try {
 }
 date_default_timezone_set('UTC');
 $timeOffset = 0;
-if (isset($_GET[''])) {
+if (isset($_GET['UTCOffset'])) {
     $timeOffset = $_GET['UTCOffset'] * 60;
 }
 
