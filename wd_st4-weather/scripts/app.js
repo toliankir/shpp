@@ -41,6 +41,7 @@ function setWeather(service) {
     $mainContainer.show();
 
     $.getJSON(`${apiUrl}?service=${service}`, (data) => {
+        console.log(data);
         if (data.code >= 300) {
             console.error(data.statusText);
             $error.show();
@@ -77,7 +78,11 @@ function setWeather(service) {
                 .html(`<img class="svg-image" src="img/icons/${getImageFilename(nowWeather.imageType)}">`);
         }
         imgToSvg();
-    });
+    })
+        .fail(() => {
+            $mainContainer.hide();
+            $error.show();
+        });
 }
 
 function imgToSvg() {

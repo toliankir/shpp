@@ -54,7 +54,7 @@ class MysqlService implements IDataService
     {
         $this->period = [];
         $stmt = $this->pdo->prepare('SELECT f.*, UNIX_TIMESTAMP(f.timestamp) AS timestamp, c.name AS city_id 
-FROM forecast f LEFT JOIN cities c ON f.city_id = c.id WHERE UNIX_TIMESTAMP(f.timestamp) >= :from AND UNIX_TIMESTAMP(f.timestamp) <= :to ');
+FROM forecast f LEFT JOIN cities c ON f.city_id = c.id WHERE UNIX_TIMESTAMP(f.timestamp) >= :from AND UNIX_TIMESTAMP(f.timestamp) < :to ');
         $stmt->bindParam(':from', $from);
         $stmt->bindParam(':to', $to);
         $stmt->execute();

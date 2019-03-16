@@ -22,7 +22,7 @@ class ExternalAdapter implements IAdapter
                 $date = $value['EpochDateTime'];
             }
             if (key_exists('EpochTime', $value)) {
-                $date = $value['EpochTime'] - self::SECONDS_IN_MINUTE ;
+                $date = $value['EpochTime'];
             }
 
             $temperature = 0;

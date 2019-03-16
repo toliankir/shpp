@@ -6,7 +6,7 @@ use Exception;
 
 class ExternalService implements IDataService
 {
-    private $api = [], $weatherData = [], $period = [];
+    private $api = [], $weatherData = [], $period = [], $dump;
 
     public function __construct()
     {
@@ -50,15 +50,14 @@ class ExternalService implements IDataService
         $actualData = json_decode(file_get_contents($this->api['api12Hour'], true), true);
         $this->checkHeaders($http_response_header);
         return array_merge(array_reverse($histData), $actualData);
-////        $file = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'ext.json';
+//        $file = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'ext.json';
 //        return json_decode(file_get_contents($file, true), true);
     }
 
     public function getCityName($id = null)
     {
-//        $jsonData = json_decode(file_get_contents($this->api['apiCity'], true), true);
-//        return $jsonData['LocalizedName'];
-        return 'test Kirovograd';
+        $jsonData = json_decode(file_get_contents($this->api['apiCity'], true), true);
+        return $jsonData['LocalizedName'];
     }
 
     public function getWeatherDataPeriod()
@@ -85,7 +84,7 @@ class ExternalService implements IDataService
             if ($date === 0) {
                 throw new Exception('Incorrect data in response', 500);
             }
-            if ($date >= $from && $date <= $to) {
+            if ($date >= $from && $date < $to) {
                 $this->period[] = $weatherItem;
             }
         }

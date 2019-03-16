@@ -1,5 +1,7 @@
 <?php
 const DAY_IN_SECONDS = 24 * 60 * 60 - 1;
+$config = require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'Config.php';
+
 
 spl_autoload_register(function ($className) {
     $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
@@ -7,17 +9,18 @@ spl_autoload_register(function ($className) {
         require dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
     }
     return false;
-
 });
 
-use App\Adapters\JsonAdapter;
+use App\Adapters\
+{
+    JsonAdapter, MysqlAdapter, ExternalAdapter
+};
+use App\Services\
+{
+    JsonService, MysqlService, ExternalService
+};
 use App\ResponseCreator;
-use App\Services\ExternalService;
-use \App\Services\JsonService;
-use \App\Services\MysqlService;
-use \App\Adapters\MysqlAdapter;
 use App\WeatherFactory;
-
 
 if (!isset($_GET['service'])) {
     ResponseCreator::responseCreate('Wrong request', 400);
@@ -36,10 +39,11 @@ try {
     ResponseCreator::responseCreate($e->getMessage(), $e->getCode());
     die();
 }
-
-
+date_default_timezone_set('UTC');
+$timeOffset = $config['UTC'] * 60 * 60;
 $dayBeginTimestamp = mktime(0, 0, 0);
-$service->setPeriod($dayBeginTimestamp-60, $dayBeginTimestamp + DAY_IN_SECONDS -60);
+
+$service->setPeriod($dayBeginTimestamp - $timeOffset, $dayBeginTimestamp + DAY_IN_SECONDS - $timeOffset);
 
 $statusCode = 200;
 $statusText = 'Ok';
@@ -48,14 +52,12 @@ if (!$service->dataExist()) {
     $lastDate = $service->getLastDate();
     $lastDateDayBegin = mktime(0, 0, 0, Date('m', $lastDate), Date('d', $lastDate),
         Date('Y', $lastDate));
-    $service->setPeriod($lastDateDayBegin, $lastDateDayBegin + DAY_IN_SECONDS);
+    $service->setPeriod($lastDateDayBegin - $timeOffset, $lastDateDayBegin + DAY_IN_SECONDS - $timeOffset);
     $statusCode = 203;
-    $statusText = 'Database don\'t have requesing inforamtion. Last actual weather for ' . Date('d-m-Y', $lastDateDayBegin) . '.';
+    $statusText = 'Database don\'t have requesting information. Last actual weather for ' . Date('d-m-Y', $lastDateDayBegin) . '.';
 }
 
-//
 $weatherFactory = new WeatherFactory($service);
-//
 ResponseCreator::responseCreate($statusText, $statusCode, $weatherFactory->getWeather());
 
 

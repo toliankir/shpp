@@ -58,7 +58,7 @@ class JsonService implements IDataService
     {
         $this->period = [];
         foreach ($this->json['list'] as $key => $value) {
-            if ($value['dt'] >= $from && $value['dt'] <= $to) {
+            if ($value['dt'] >= $from && $value['dt'] < $to) {
                 $this->period[] = $value;
             }
         }
