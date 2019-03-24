@@ -8,9 +8,14 @@ class ExternalService implements IDataService
 {
     private $api = [], $weatherData = [], $period = [], $dump;
 
-    public function __construct()
+    /**
+     * ExternalService constructor.
+     * @param $configFile
+     * @throws Exception
+     */
+    public function __construct($configFile)
     {
-        $config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'ExternalConfig.php';
+        $config = require_once $configFile;
         $this->api = $this->getApi($config);
         $this->weatherData = $this->getWeatherData();
     }
@@ -69,7 +74,6 @@ class ExternalService implements IDataService
     {
         $jsonData = json_decode(file_get_contents($this->api['apiCity'], true), true);
         return $jsonData['LocalizedName'];
-//        return 'Test City';
     }
 
     /**
@@ -113,7 +117,7 @@ class ExternalService implements IDataService
      */
     public function dataExist()
     {
-        return count($this->period) > 0;
+        return !empty($this->period);
     }
 
     /**

@@ -5,6 +5,10 @@ namespace App\Adapters;
 class JsonAdapter implements IAdapter
 {
     private $weatherData;
+    const FULLY_CLOUDS = 66;
+    const CLOUDS = 33;
+    const RAIN = 0.3;
+    const DIFF_KELVIN_CELSIUS = 273.15;
 
     public function __construct($data)
     {
@@ -18,14 +22,14 @@ class JsonAdapter implements IAdapter
      */
     private function getImageType($period)
     {
-        if ((isset ($period['rain']['3h']) && $period['rain']['3h'] > 0.3)
-            || (isset ($period['snow']['3h']) && $period['snow']['3h'] > 0.3)) {
+        if ((isset ($period['rain']['3h']) && $period['rain']['3h'] > self::RAIN)
+            || (isset ($period['snow']['3h']) && $period['snow']['3h'] > self::RAIN)) {
             return 'RAIN';
         }
-        if ($period['clouds']['all'] > 66) {
+        if ($period['clouds']['all'] > self::FULLY_CLOUDS) {
             return 'SKY';
         }
-        if ($period['clouds']['all'] > 33) {
+        if ($period['clouds']['all'] > self::CLOUDS) {
             return 'SKYSUN';
         }
         return 'SUN';
@@ -38,7 +42,7 @@ class JsonAdapter implements IAdapter
      */
     private function kelvinToCelsius($kt)
     {
-        return intval($kt - 273.15);
+        return intval($kt - self::DIFF_KELVIN_CELSIUS);
     }
 
     /**

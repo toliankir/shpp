@@ -9,6 +9,8 @@ class ExternalAdapter implements IAdapter
     const SECONDS_IN_MINUTE = 60;
     const RAIN_ICONS_ID = [12, 13, 14, 15, 16, 17, 18, 25, 26, 27, 39, 40, 43, 44];
     const FLASH_ICONS_ID = [41, 42];
+    const FULLY_CLOUDS = 66;
+    const CLOUDS = 33;
 
 
     public function __construct($data)
@@ -30,10 +32,10 @@ class ExternalAdapter implements IAdapter
             return 'RAIN';
         }
         if ($period['CloudCover'])
-            if ($period['CloudCover'] > 66) {
+            if ($period['CloudCover'] > self::FULLY_CLOUDS) {
                 return 'SKY';
             }
-        if ($period['CloudCover'] > 33) {
+        if ($period['CloudCover'] > self::CLOUDS) {
             return 'SKYSUN';
         }
         return 'SUN';

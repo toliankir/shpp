@@ -4,18 +4,17 @@ const DAY_IN_SECONDS = 24 * 60 * 60 - 1;
 spl_autoload_register(function ($className) {
     $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
     if (file_exists($file)) {
-        require dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+        require $file;
     }
     return false;
 });
 
-use App\Adapters\
-{
+use App\Adapters\{
     JsonAdapter, MysqlAdapter, ExternalAdapter
 };
-use App\Services\
-{
-    JsonService, MysqlService, ExternalService
+use App\ConfigFactory;
+use App\Services\{
+    IDataService, JsonService, MysqlService, ExternalService
 };
 use App\ResponseCreator;
 use App\WeatherFactory;
@@ -24,6 +23,13 @@ if (!isset($_GET['service'])) {
     ResponseCreator::responseCreate('Wrong request', 400);
     die();
 }
+
+$config = ConfigFactory::getConfig($_GET['service']);
+if ($config  === false || !file_exists($config)) {
+    ResponseCreator::responseCreate('Config file access error', 503);
+    die();
+}
+
 $serviceClass = '\\App\\Services\\' . ucfirst($_GET['service']) . 'Service';
 if (!class_exists($serviceClass)) {
     ResponseCreator::responseCreate('Wrong service name', 405);
@@ -32,11 +38,17 @@ if (!class_exists($serviceClass)) {
 
 $service = null;
 try {
-    $service = new $serviceClass;
+    $service = new $serviceClass($config);
 } catch (Exception $e) {
     ResponseCreator::responseCreate($e->getMessage(), $e->getCode());
     die();
 }
+
+if (!($service instanceof IDataService)) {
+    ResponseCreator::responseCreate('Wrong service class type', 405);
+    die();
+}
+
 date_default_timezone_set('UTC');
 $timeOffset = 0;
 if (isset($_GET['UTCOffset'])) {

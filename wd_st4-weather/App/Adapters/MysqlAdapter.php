@@ -5,6 +5,9 @@ namespace App\Adapters;
 class MysqlAdapter implements IAdapter
 {
     private $weatherData;
+    const FULLY_CLOUDS = 0.66;
+    const CLOUDS = 0.33;
+    const RAIN = 0.3;
 
     public function __construct($data)
     {
@@ -18,13 +21,13 @@ class MysqlAdapter implements IAdapter
      */
     private function getImageType($period)
     {
-        if ($period['rain_possibility'] > 0.3) {
+        if ($period['rain_possibility'] > self::RAIN) {
             return 'RAIN';
         }
-        if ($period['clouds'] > 0.6) {
+        if ($period['clouds'] > self::FULLY_CLOUDS) {
             return 'SKY';
         }
-        if ($period['clouds'] > 0.3) {
+        if ($period['clouds'] > self::CLOUDS) {
             return 'SKYSUN';
         }
         return 'SUN';

@@ -10,12 +10,13 @@ class JsonService implements IDataService
 
     /**
      * JsonService constructor.
+     * @param $configFile
      * @throws Exception
      */
-    public function __construct()
+    public function __construct($configFile)
     {
-        $config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'JsonConfig.php';
-        $this->json = $this->readData(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . $config['dataFile']);
+        $config = require_once $configFile;
+        $this->json = $this->readData(dirname(__DIR__, 2) . $config['dataFile']);
     }
 
     /**
@@ -62,10 +63,7 @@ class JsonService implements IDataService
      */
     public function getCityName()
     {
-        if ($this->json['city']['name']) {
-            return $this->json['city']['name'];
-        }
-        return false;
+        return $this->json['city']['name'] ?? false;
     }
 
     /**
@@ -87,15 +85,17 @@ class JsonService implements IDataService
      * Return true if file contain weather for requested period.
      * @return bool
      */
-    public function dataExist(){
-        return count($this->period) > 0;
+    public function dataExist()
+    {
+        return !empty($this->period);
     }
 
     /**
      * Return last date from file with weather data.
      * @return mixed
      */
-    public function getLastDate() {
+    public function getLastDate()
+    {
         return end($this->json['list'])['dt'];
     }
 }

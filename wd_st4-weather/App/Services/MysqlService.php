@@ -12,11 +12,12 @@ class MysqlService implements IDataService
 
     /**
      * MysqlService constructor. Create PDO object of MySql connection.
+     * @param $configFile
      * @throws Exception
      */
-    public function __construct()
+    public function __construct($configFile)
     {
-        $config = require_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'MysqlConfig.php';
+        $config = require_once $configFile;
         $this->cityId = $config['cityId'];
 
         $dsn = 'mysql:host=' . $config['dbHost'] .
@@ -44,10 +45,7 @@ class MysqlService implements IDataService
         $stmt->bindParam(':id', $this->cityId);
         $stmt->execute();
         $result = $stmt->fetch();
-        if (isset($result['name'])) {
-            return $result['name'];
-        }
-        return false;
+        return $result['name'] ?? false;
     }
 
     /**
@@ -81,7 +79,7 @@ FROM forecast f LEFT JOIN cities c ON f.city_id = c.id WHERE f.city_id=:city AND
      */
     public function dataExist()
     {
-        return count($this->period) > 0;
+        return !empty($this->period);
     }
 
     /**

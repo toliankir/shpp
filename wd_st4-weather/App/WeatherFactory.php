@@ -5,12 +5,13 @@ namespace App;
 use App\Adapters\ExternalAdapter;
 use App\Adapters\JsonAdapter;
 use App\Adapters\MysqlAdapter;
+use App\Services\IDataService;
 
 class WeatherFactory
 {
     private $service;
 
-    public function __construct($service)
+    public function __construct(IDataService $service)
     {
         $this->service = $service;
     }
