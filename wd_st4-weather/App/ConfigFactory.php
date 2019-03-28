@@ -10,17 +10,24 @@ class ConfigFactory
     {
         $configDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR;
 
+        $configFile = null;
         switch (ucfirst($service)) {
             case 'Mysql':
-                return $configDir . 'MysqlConfig.php';
+                $configFile = $configDir . 'MysqlConfig.php';
+                break;
             case 'Json':
-                return $configDir . 'JsonConfig.php';
+                $configFile = $configDir . 'JsonConfig.php';
+                break;
             case 'External':
-                return $configDir . 'ExternalConfig.php';
+                $configFile = $configDir . 'ExternalConfig.php';
+                break;
             default:
                 return false;
         }
-
+        if (!file_exists($configDir)) {
+            return false;
+        }
+        return require $configFile;
 
     }
 }

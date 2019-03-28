@@ -6,16 +6,15 @@ use Exception;
 
 class ExternalService implements IDataService
 {
-    private $api = [], $weatherData = [], $period = [], $dump;
+    private $api = [], $weatherData = [], $period = [];
 
     /**
      * ExternalService constructor.
-     * @param $configFile
+     * @param $config
      * @throws Exception
      */
-    public function __construct($configFile)
+    public function __construct($config)
     {
-        $config = require_once $configFile;
         $this->api = $this->getApi($config);
         $this->weatherData = $this->getWeatherData();
     }

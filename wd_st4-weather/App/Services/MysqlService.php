@@ -12,12 +12,11 @@ class MysqlService implements IDataService
 
     /**
      * MysqlService constructor. Create PDO object of MySql connection.
-     * @param $configFile
+     * @param $config
      * @throws Exception
      */
-    public function __construct($configFile)
+    public function __construct($config)
     {
-        $config = require_once $configFile;
         $this->cityId = $config['cityId'];
 
         $dsn = 'mysql:host=' . $config['dbHost'] .

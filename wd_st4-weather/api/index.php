@@ -25,7 +25,7 @@ if (!isset($_GET['service'])) {
 }
 
 $config = ConfigFactory::getConfig($_GET['service']);
-if ($config  === false || !file_exists($config)) {
+if (!$config) {
     ResponseCreator::responseCreate('Config file access error', 503);
     die();
 }

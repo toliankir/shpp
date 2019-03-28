@@ -10,13 +10,12 @@ class JsonService implements IDataService
 
     /**
      * JsonService constructor.
-     * @param $configFile
+     * @param $config
      * @throws Exception
      */
-    public function __construct($configFile)
+    public function __construct($config)
     {
-        $config = require_once $configFile;
-        $this->json = $this->readData(dirname(__DIR__, 2) . $config['dataFile']);
+        $this->json = $this->readData($config['dataFile']);
     }
 
     /**
