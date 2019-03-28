@@ -5,10 +5,14 @@ if (!headers_sent()) {
 //    header('Access-Control-Allow-Credentials: true');
 }
 define('ROOT_PATH', dirname(__DIR__, 2));
-
 spl_autoload_register(function ($className) {
-    require ROOT_PATH . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+    $file = ROOT_PATH . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+    if (file_exists($file)) {
+        require $file;
+    }
+    return false;
 });
+
 
 use \App\{
     MysqlService, RequestHandler, ResponseCreator
