@@ -1,10 +1,19 @@
-const regExp = new Map([
-    ['ip', /^(([0-9]{1,2}|[0-1][0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(([0-9]{1,2}|[0-1][0-9]{2}|2[0-4][0-9]|25[0-5])$)/],
-    ['email', /^[^ @]+@[^ @]+\.[^ @]+$/],
-    ['url', /^([a-zA-Z]+:[\/]{2}?).*$/],
-    ['date', /^(([0-2][0-9]|3[0-1])\/(0[13578]|1[02])|((([0-2][0-9]|30)\/(0[469]|11)))|([0-2][0-9]\/02))\/[0-9]{4}$/],
-    ['time', /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/]
-]);
+const regExp = {};
+Object.defineProperty(regExp, 'ip', {
+    value: /^(([0-9]{1,2}|[0-1][0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(([0-9]{1,2}|[0-1][0-9]{2}|2[0-4][0-9]|25[0-5])$)/
+});
+Object.defineProperty(regExp, 'email', {
+    value: /^[^ @]+@[^ @]+\.[^ @\d]{2,}$/
+});
+Object.defineProperty(regExp, 'url', {
+    value: /^(\w+:[\/]{2})[^ @]+\.[^ @\d]{2,}$/
+});
+Object.defineProperty(regExp, 'date', {
+    value: /^(([0-2][0-9]|3[0-1])\/(0[13578]|1[02])|((([0-2][0-9]|30)\/(0[469]|11)))|([0-2][0-9]\/02))\/[0-9]{4}$/
+});
+Object.defineProperty(regExp, 'time', {
+    value: /^([0-1]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/
+});
 
 const okClass = 'ok';
 const errorClass = 'error';
@@ -15,15 +24,14 @@ const phpErrorMsg = 'PHP: Error';
 
 document.addEventListener('input', (el) => {
     const elementId = el.target.id;
-    if (regExp.has(elementId)) {
-        const regExpById = regExp.get(elementId);
-        testRegExp(el, regExpById);
+    if (elementId in regExp) {
+        testRegExp(el, elementId);
     }
 });
 
-function testRegExp(el, regExp) {
-    testJs(el, regExp);
-    testPhp(el, regExp);
+function testRegExp(el, regExpId) {
+    testJs(el, regExp[regExpId]);
+    testPhp(el, regExpId);
 }
 
 function testJs(el, regExp) {
@@ -45,17 +53,17 @@ function testPhp(el, regExp) {
         type: 'POST',
         data: {
             str: el.target.value,
-            regexp: regExp.toString()
+            regexp: regExp
         },
         dataType: 'json'
     })
         .done((jsonData) => {
             if (jsonData.status) {
-                    phpIndicator.innerText = phpOkMsg;
-                    phpIndicator.className = okClass;
-                    return;
-                }
-                phpIndicator.innerText = phpErrorMsg;
-                phpIndicator.className = errorClass;
+                phpIndicator.innerText = phpOkMsg;
+                phpIndicator.className = okClass;
+                return;
+            }
+            phpIndicator.innerText = phpErrorMsg;
+            phpIndicator.className = errorClass;
         });
 }
