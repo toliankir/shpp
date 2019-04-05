@@ -2,7 +2,7 @@
 
 namespace App\Log;
 
-class ErrorHandle
+class EventHandler
 {
     private $file;
     private $rule;
@@ -15,12 +15,12 @@ class ErrorHandle
         $this->next = $nextHandle;
     }
 
-    public function setNextHandle($nextHandle)
+    public function setNextHandler($nextHandle)
     {
         $this->next = $nextHandle;
     }
 
-    public function getNextHandle()
+    public function getNextHandler()
     {
         return $this->next;
     }
@@ -28,7 +28,11 @@ class ErrorHandle
     public function writeToLog($code, $msg)
     {
         if (($this->rule)($code)) {
-            $msg = date('Y/m/d H:i:s') . '    ' . $code . ': ' . $msg . "\n";
+            $msg = date('Y/m/d H:i:s') . '    '
+                . $_SERVER['REMOTE_ADDR'] . ' '
+                . $_SESSION['id'] . ' '
+                . $code . ': '
+                . $msg . "\n";
             file_put_contents($this->file, $msg, FILE_APPEND);
         }
 

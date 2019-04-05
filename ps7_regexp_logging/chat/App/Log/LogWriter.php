@@ -19,15 +19,15 @@ class LogWriter
         $this->firstRule = $errorHandle;
     }
 
-    public function addErrorHandle($errorHandle)
+    public function addErrorHandler($errorHandle)
     {
         $rule = $this->firstRule;
 
-        while ($rule->getNextHandle() !== null) {
-            $rule = $rule->getNextHandle();
+        while ($rule->getNextHandler() !== null) {
+            $rule = $rule->getNextHandler();
         }
 
-        $rule->setNextHandle($errorHandle);
+        $rule->setNextHandler($errorHandle);
     }
 
     public function addToLog($code, $msg)
@@ -37,14 +37,14 @@ class LogWriter
 
     private function setDefaultLogs()
     {
-        $this->__construct(new ErrorHandle($this->config['errorLog'], function ($code) {
+        $this->__construct(new EventHandler($this->config['errorLog'], function ($code) {
             if ($code >= 500) {
                 return true;
             }
             return false;
         }));
 
-        $this->addErrorHandle(new ErrorHandle($this->config['eventLog'], function ($code) {
+        $this->addErrorHandler(new EventHandler($this->config['eventLog'], function ($code) {
             if ($code < 500 && $code !== 202) {
                 return true;
             }
