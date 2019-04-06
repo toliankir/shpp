@@ -24,7 +24,7 @@ class RequestHandler
     public function login($user, $password)
     {
         if (isset($_SESSION['user'])) {
-            ResponseCreator::responseCreate(401, 'User already login.');
+            ResponseCreator::responseCreate(401, 'User already login.',__CLASS__.' '.__METHOD__);
             return;
         }
 
@@ -66,7 +66,6 @@ class RequestHandler
             'userId' => $userId,
             'login' => $user
         ]);
-
     }
 
     public function getUserInfo()

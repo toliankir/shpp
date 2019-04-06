@@ -19,7 +19,7 @@ class LogWriter
         $this->firstRule = $errorHandle;
     }
 
-    public function addErrorHandler($errorHandle)
+    public function addEventHandler($errorHandle)
     {
         $rule = $this->firstRule;
 
@@ -37,15 +37,15 @@ class LogWriter
 
     private function setDefaultLogs()
     {
-        $this->__construct(new EventHandler($this->config['errorLog'], function ($code) {
+        $this->firstRule = new EventHandler($this->config['errorLog'], function ($code, $msg=null) {
             if ($code >= 500) {
                 return true;
             }
             return false;
-        }));
+        });
 
-        $this->addErrorHandler(new EventHandler($this->config['eventLog'], function ($code) {
-            if ($code < 500 && $code !== 200) {
+        $this->addEventHandler(new EventHandler($this->config['eventLog'], function ($code, $msg=null) {
+            if ($code < 500 && $msg !== 'User get messages 0.') {
                 return true;
             }
             return false;

@@ -1,11 +1,12 @@
 <?php
+
 namespace App;
 
 use App\Log\LogWriter;
 
 class ResponseCreator
 {
-    public static function responseCreate($code=403, $text='unregistered user', $body='', $moreData=null)
+    public static function responseCreate($code = 403, $text = 'unregistered user', $body = '', $moreData = null)
     {
         $log = new LogWriter();
 

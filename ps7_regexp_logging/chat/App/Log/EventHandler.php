@@ -27,11 +27,15 @@ class EventHandler
 
     public function writeToLog($code, $msg)
     {
-        if (($this->rule)($code)) {
+        $backtrace = debug_backtrace();
+        $lastBacktrace = end($backtrace);
+
+        if (($this->rule)($code, $msg)) {
             $msg = date('Y/m/d H:i:s') . '    '
                 . $_SERVER['REMOTE_ADDR'] . '   '
                 . ($_SESSION['id'] ?? '') . '   '
-                . $code . ': ' . $msg . "\n";
+                . $lastBacktrace['class'] . '->' . $lastBacktrace['function'] . ':' . $lastBacktrace['line'] . ' '
+                . $code . ':' . $msg . "\n";
             file_put_contents($this->file, $msg, FILE_APPEND);
         }
 
