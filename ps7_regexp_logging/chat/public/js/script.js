@@ -27,9 +27,12 @@ let lastId = -1;
 let requestTimeout;
 let $ajaxXHR;
 let firstEntry = true;
+let user = {
+    login: null,
+    id: null
+};
 
 $(document).ready(() => {
-
     $ajaxXHR = $.ajax({
         url: apiURL,
         dataType: 'json',
@@ -40,16 +43,15 @@ $(document).ready(() => {
     }).fail((jqXHR) => {
         errorCode(jqXHR);
     }).done((data) => {
-        showResponseLog({
-            ...data,
-            action: 'Check user state:'
-        });
+        showResponseLog(data, 'Check user state');
         if (data.statusCode === 200 || data.statusCode === 202) {
             imagePreload(smiles);
             $loadingContainer.hide();
             $chatContainer.show();
             $chatLogout.show();
             $sendContainer.show();
+            messagesAdd(data.body);
+            getUserInfo();
             getMessages();
             return;
         }
@@ -71,7 +73,9 @@ $(document).ready(() => {
         }).fail((jqXHR) => {
             errorCode(jqXHR);
         }).done((data) => {
-            showResponseLog(data);
+            showResponseLog(data, 'Logout');
+            user.id = null;
+            user.login = null;
             logout();
         });
     });
@@ -100,10 +104,9 @@ function login(login, password) {
     }).fail((jqXHR) => {
         errorCode(jqXHR);
     }).done((data) => {
-        showResponseLog({
-            ...data,
-            action: 'User login'
-        });
+        user.login = data.login;
+        user.id = data.userId;
+        showResponseLog(data, `User '${login}' try to login`);
         if (data.statusCode !== 200 && data.statusCode !== 202) {
             $errorResponse.text(data.statusText);
             return;
@@ -125,7 +128,7 @@ function sendMessage(message) {
     }).fail((jqXHR) => {
         errorCode(jqXHR);
     }).done((data) => {
-        showResponseLog(data);
+        showResponseLog(data, 'Send message');
         getMessages();
         $message.val('');
     });
@@ -137,6 +140,28 @@ function errorCode(jqXHR) {
     }
     $errorResponse.text('Service temporarily unavailable');
     logout();
+}
+
+function getUserInfo() {
+    $ajaxXHR = $.ajax({
+        url: apiURL,
+        dataType: 'json',
+        type: 'GET',
+        data: {
+            userInfo: ''
+        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        showResponseLog(data, 'Request user data');
+        if (data.statusCode !== 200) {
+            $errorResponse.text(data.statusText);
+            return;
+        }
+        user.id = data.body.id;
+        user.login = data.body.login;
+    });
+
 }
 
 function getMessages() {
@@ -151,7 +176,7 @@ function getMessages() {
         errorCode(jqXHR);
     }).done((data) => {
         messagesAdd(data.body);
-        showResponseLog(data);
+        showResponseLog(data, 'Request new messages');
         requestTimeout = setTimeout(getMessages, 1000);
     });
 }
@@ -202,11 +227,11 @@ function imagePreload(imagesArray) {
     });
 }
 
-function showResponseLog(data) {
+function showResponseLog(data, responseText = '') {
     if (data.massageCount === 0) {
         return;
     }
-    const logString = `${timestampToDate(data.timestamp)} ${data.action} ${data.statusCode} - ${data.statusText}`;
+    const logString = `${timestampToDate(data.timestamp)} ${(user.login !== null && user.id !== null) ? `#${user.id} ${user.login}: ` : ''}Request -> ${responseText} / Response <- ${data.statusCode}:${data.statusText}`;
 
     if (data.statusCode < 400) {
         console.log(logString);
@@ -217,8 +242,4 @@ function showResponseLog(data) {
         return;
     }
     console.error(logString);
-}
-
-function showRequestLog(data) {
-    console.log();
 }

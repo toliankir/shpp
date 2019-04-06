@@ -26,7 +26,6 @@ try {
 }
 
 
-
 //Login part
 if (isset($_POST['user'], $_POST['password'])) {
     $requestHandler->login($_POST['user'], $_POST['password']);
@@ -42,6 +41,12 @@ if (!isset($_SESSION['user'])) {
 //Logout
 if (isset($_POST['logout'])) {
     $requestHandler->logout();
+    exit();
+}
+
+//Get user data
+if (isset($_GET['userInfo'])) {
+    $requestHandler->getUserInfo();
     exit();
 }
 

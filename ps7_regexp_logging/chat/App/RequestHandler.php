@@ -69,6 +69,17 @@ class RequestHandler
 
     }
 
+    public function getUserInfo()
+    {
+        if (!isset($_SESSION['user'], $_SESSION['id'])) {
+            ResponseCreator::responseCreate(200, 'User must to login', '');
+        }
+        ResponseCreator::responseCreate(200, 'User info for user: ' . $_SESSION['user'], [
+            'login' => $_SESSION['user'],
+            'id' => $_SESSION['id']
+        ]);
+    }
+
     public function logout()
     {
         session_destroy();
