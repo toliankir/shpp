@@ -36,54 +36,56 @@ $(document).ready(() => {
         type: 'GET',
         data: {
             id: lastId
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
-            showLog(data);
-            if (data.statusCode === 202) {
-                imagePreload(smiles);
-                $loadingContainer.hide();
-                $chatContainer.show();
-                $chatLogout.show();
-                $sendContainer.show();
-                getMessages();
-                return;
-            }
+        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        showResponseLog({
+            ...data,
+            action: 'Check user state:'
+        });
+        if (data.statusCode === 200 || data.statusCode === 202) {
+            imagePreload(smiles);
             $loadingContainer.hide();
-            $loginContainer.show();
+            $chatContainer.show();
+            $chatLogout.show();
+            $sendContainer.show();
+            getMessages();
+            return;
         }
+        if (data.statusCode >= 500) {
+            $errorResponse.text('Service temporarily unavailable');
+        }
+        $loadingContainer.hide();
+        $loginContainer.show();
     });
-});
 
-$chatLogout.on('click', () => {
-    $.ajax({
-        url: apiURL,
-        dataType: 'json',
-        type: 'POST',
-        data: {
-            logout: 'logout'
-        },
-        error: (jqXHR) => {
+    $chatLogout.on('click', () => {
+        $.ajax({
+            url: apiURL,
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                logout: 'logout'
+            }
+        }).fail((jqXHR) => {
             errorCode(jqXHR);
-        },
-        success: (data) => {
-            showLog(data);
+        }).done((data) => {
+            showResponseLog(data);
             logout();
-        }
+        });
     });
-});
 
-$loginForm.submit((evt) => {
-    evt.preventDefault();
-    firstEntry = false;
-    login($userName.val(), $userPassword.val());
-});
+    $loginForm.on('submit', ((evt) => {
+        evt.preventDefault();
+        firstEntry = false;
+        login($userName.val(), $userPassword.val());
+    }));
 
-$sendForm.submit((evt) => {
-    evt.preventDefault();
-    sendMessage($message.val());
+    $sendForm.on('submit', ((evt) => {
+        evt.preventDefault();
+        sendMessage($message.val());
+    }));
 });
 
 function login(login, password) {
@@ -94,18 +96,19 @@ function login(login, password) {
         data: {
             user: login,
             password: password
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
-            showLog(data);
-            if (data.statusCode !== 202) {
-                $errorResponse.text(data.statusText);
-                return;
-            }
-            showChat();
         }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        showResponseLog({
+            ...data,
+            action: 'User login'
+        });
+        if (data.statusCode !== 200 && data.statusCode !== 202) {
+            $errorResponse.text(data.statusText);
+            return;
+        }
+        showChat();
     });
 }
 
@@ -115,21 +118,18 @@ function sendMessage(message) {
     $.ajax({
         url: apiURL,
         dataType: 'json',
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
         data: {
             message: message
         },
         type: 'POST',
-        success: (data) => {
-            showLog(data);
-            getMessages();
-            $message.val('');
-        }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        showResponseLog(data);
+        getMessages();
+        $message.val('');
     });
 }
-
 
 function errorCode(jqXHR) {
     if (jqXHR.statusText === 'SendMessageAbort') {
@@ -146,15 +146,13 @@ function getMessages() {
         type: 'GET',
         data: {
             id: lastId
-        },
-        error: (jqXHR) => {
-            errorCode(jqXHR);
-        },
-        success: (data) => {
-            messagesAdd(data.body);
-            showLog(data);
-            requestTimeout = setTimeout(getMessages, 1000);
         }
+    }).fail((jqXHR) => {
+        errorCode(jqXHR);
+    }).done((data) => {
+        messagesAdd(data.body);
+        showResponseLog(data);
+        requestTimeout = setTimeout(getMessages, 1000);
     });
 }
 
@@ -204,9 +202,23 @@ function imagePreload(imagesArray) {
     });
 }
 
-function showLog(data) {
+function showResponseLog(data) {
     if (data.massageCount === 0) {
         return;
     }
-    console.log(`${timestampToDate(data.timestamp)}: ${data.statusCode} - ${data.statusText}`);
+    const logString = `${timestampToDate(data.timestamp)} ${data.action} ${data.statusCode} - ${data.statusText}`;
+
+    if (data.statusCode < 400) {
+        console.log(logString);
+        return;
+    }
+    if (data.statusCode < 500) {
+        console.warn(logString);
+        return;
+    }
+    console.error(logString);
+}
+
+function showRequestLog(data) {
+    console.log();
 }

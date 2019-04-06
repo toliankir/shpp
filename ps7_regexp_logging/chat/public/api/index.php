@@ -21,9 +21,11 @@ use \App\{
 try {
     $requestHandler = new RequestHandler(new MysqlService(), 3600);
 } catch (Exception $err) {
-    ResponseCreator::responseCreate($err->getCode(), $err->getMessage());
+    ResponseCreator::responseCreate($err->getCode(), 'MySql connection error.');
     exit();
 }
+
+
 
 //Login part
 if (isset($_POST['user'], $_POST['password'])) {
@@ -51,7 +53,7 @@ if (isset($_POST['message'])) {
 
 //Get messages
 if (isset($_GET['id'])) {
-        $requestHandler->getMessages($_GET['id']);
+    $requestHandler->getMessages($_GET['id']);
     exit();
 }
 

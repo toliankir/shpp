@@ -29,10 +29,9 @@ class EventHandler
     {
         if (($this->rule)($code)) {
             $msg = date('Y/m/d H:i:s') . '    '
-                . $_SERVER['REMOTE_ADDR'] . ' '
-                . $_SESSION['id'] . ' '
-                . $code . ': '
-                . $msg . "\n";
+                . $_SERVER['REMOTE_ADDR'] . '   '
+                . ($_SESSION['id'] ?? '') . '   '
+                . $code . ': ' . $msg . "\n";
             file_put_contents($this->file, $msg, FILE_APPEND);
         }
 

@@ -110,7 +110,7 @@ class RequestHandler
             return;
         }
 
-        ResponseCreator::responseCreate(202
+        ResponseCreator::responseCreate(200
             , 'User get messages ' . count($chatMessages) . '.'
             , $chatMessages
             , [
