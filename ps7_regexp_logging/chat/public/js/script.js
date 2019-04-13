@@ -33,6 +33,7 @@ let user = {
 };
 
 $(document).ready(() => {
+    const userActionLog = 'Check user state';
     $ajaxXHR = $.ajax({
         url: apiURL,
         dataType: 'json',
@@ -41,9 +42,9 @@ $(document).ready(() => {
             id: lastId
         }
     }).fail((jqXHR) => {
-        errorCode(jqXHR);
+        errorCode(jqXHR, userActionLog);
     }).done((data) => {
-        showResponseLog(data, 'Check user state');
+        showResponseLog(data, userActionLog);
         if (data.statusCode === 200 || data.statusCode === 202) {
             imagePreload(smiles);
             $loadingContainer.hide();
@@ -63,6 +64,7 @@ $(document).ready(() => {
     });
 
     $chatLogout.on('click', () => {
+        const userActionLog = 'Logout';
         $.ajax({
             url: apiURL,
             dataType: 'json',
@@ -71,9 +73,9 @@ $(document).ready(() => {
                 logout: 'logout'
             }
         }).fail((jqXHR) => {
-            errorCode(jqXHR);
+            errorCode(jqXHR, userActionLog);
         }).done((data) => {
-            showResponseLog(data, 'Logout');
+            showResponseLog(data, userActionLog);
             user.id = null;
             user.login = null;
             logout();
@@ -93,6 +95,7 @@ $(document).ready(() => {
 });
 
 function login(login, password) {
+    const userActionLog = `User '${login}' try to login`
     $.ajax({
         url: apiURL,
         type: 'POST',
@@ -102,11 +105,11 @@ function login(login, password) {
             password: password
         }
     }).fail((jqXHR) => {
-        errorCode(jqXHR);
+        errorCode(jqXHR, userActionLog);
     }).done((data) => {
         user.login = data.login;
         user.id = data.userId;
-        showResponseLog(data, `User '${login}' try to login`);
+        showResponseLog(data, userActionLog);
         if (data.statusCode !== 200 && data.statusCode !== 202) {
             $errorResponse.text(data.statusText);
             return;
@@ -118,6 +121,7 @@ function login(login, password) {
 function sendMessage(message) {
     $ajaxXHR.abort('SendMessageAbort');
     clearTimeout(requestTimeout);
+    const userActionLog = 'Send message';
     $.ajax({
         url: apiURL,
         dataType: 'json',
@@ -126,23 +130,28 @@ function sendMessage(message) {
         },
         type: 'POST',
     }).fail((jqXHR) => {
-        errorCode(jqXHR);
+        errorCode(jqXHR, userActionLog);
     }).done((data) => {
-        showResponseLog(data, 'Send message');
+        showResponseLog(data, userActionLog);
         getMessages();
         $message.val('');
     });
 }
 
-function errorCode(jqXHR) {
+function errorCode(jqXHR, logAction = '') {
     if (jqXHR.statusText === 'SendMessageAbort') {
         return;
     }
-    $errorResponse.text('Service temporarily unavailable');
+
+    const errorString = 'Service temporarily unavailable';
+    const logString = `${(user.login && user.id) ? `#${user.id} ${user.login}: ` : ''}Request -> ${logAction} / Response <- ${errorString}`;
+    console.error(logString);
+    $errorResponse.text(errorString);
     logout();
 }
 
 function getUserInfo() {
+    const userActionLog = 'Request user data';
     $ajaxXHR = $.ajax({
         url: apiURL,
         dataType: 'json',
@@ -151,9 +160,9 @@ function getUserInfo() {
             userInfo: ''
         }
     }).fail((jqXHR) => {
-        errorCode(jqXHR);
+        errorCode(jqXHR, userActionLog);
     }).done((data) => {
-        showResponseLog(data, 'Request user data');
+        showResponseLog(data, userActionLog);
         if (data.statusCode !== 200) {
             $errorResponse.text(data.statusText);
             return;
@@ -165,6 +174,7 @@ function getUserInfo() {
 }
 
 function getMessages() {
+    const userActionLog = 'Request new messages';
     $ajaxXHR = $.ajax({
         url: apiURL,
         dataType: 'json',
@@ -173,10 +183,10 @@ function getMessages() {
             id: lastId
         }
     }).fail((jqXHR) => {
-        errorCode(jqXHR);
+        errorCode(jqXHR, userActionLog);
     }).done((data) => {
         messagesAdd(data.body);
-        showResponseLog(data, 'Request new messages');
+        showResponseLog(data, userActionLog);
         requestTimeout = setTimeout(getMessages, 1000);
     });
 }
@@ -231,7 +241,7 @@ function showResponseLog(data, responseText = '') {
     if (data.massageCount === 0) {
         return;
     }
-    const logString = `${timestampToDate(data.timestamp)} ${(user.login !== null && user.id !== null) ? `#${user.id} ${user.login}: ` : ''}Request -> ${responseText} / Response <- ${data.statusCode}:${data.statusText}`;
+    const logString = `${timestampToDate(data.timestamp)} ${(user.login && user.id) ? `#${user.id} ${user.login}: ` : ''}Request -> ${responseText} / Response <- ${data.statusCode}:${data.statusText}`;
 
     if (data.statusCode < 400) {
         console.log(logString);

@@ -11,7 +11,7 @@ class RequestHandler
     private $service;
     private $period;
 
-    function __construct($service, $period = self::DEFAULT_TIME_PERIOD)
+    function __construct(IDataService $service, $period = self::DEFAULT_TIME_PERIOD)
     {
         $this->service = $service;
         $this->period = $period;

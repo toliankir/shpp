@@ -5,21 +5,13 @@ namespace App\Log;
 class LogWriter
 {
     private $firstRule;
-    private $config;
 
-    function __construct($errorHandle = null)
+    function __construct(EventHandler $eventHandler = null)
     {
-
-        $this->config = require ROOT_PATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'logConfig.php';
-        if ($errorHandle === null) {
-            $this->setDefaultLogs();
-            return;
-        }
-
-        $this->firstRule = $errorHandle;
+        $this->firstRule = $eventHandler;
     }
 
-    public function addEventHandler($errorHandle)
+    public function addEventHandler($eventHandler)
     {
         $rule = $this->firstRule;
 
@@ -27,29 +19,11 @@ class LogWriter
             $rule = $rule->getNextHandler();
         }
 
-        $rule->setNextHandler($errorHandle);
+        $rule->setNextHandler($eventHandler);
     }
 
     public function addToLog($code, $msg)
     {
-        ($this->firstRule)->writeToLog($code, $msg);
+        $this->firstRule->writeToLog($code, $msg);
     }
-
-    private function setDefaultLogs()
-    {
-        $this->firstRule = new EventHandler($this->config['errorLog'], function ($code, $msg=null) {
-            if ($code >= 500) {
-                return true;
-            }
-            return false;
-        });
-
-        $this->addEventHandler(new EventHandler($this->config['eventLog'], function ($code, $msg=null) {
-            if ($code < 500 && $msg !== 'User get messages 0.') {
-                return true;
-            }
-            return false;
-        }));
-    }
-
 }

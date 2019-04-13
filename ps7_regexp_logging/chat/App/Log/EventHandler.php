@@ -15,7 +15,7 @@ class EventHandler
         $this->next = $nextHandle;
     }
 
-    public function setNextHandler($nextHandle)
+    public function setNextHandler(EventHandler $nextHandle)
     {
         $this->next = $nextHandle;
     }
